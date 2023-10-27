@@ -1,0 +1,72 @@
+CRITICAL - 2023-10-27 03:32:11 --> The namespace delimiter is a backslash (\), not a slash (/). Route handler: "\App\Controllers\Login/LoginController::index"
+in SYSTEMPATH\Router\Router.php on line 479.
+ 1 SYSTEMPATH\Router\Router.php(479): CodeIgniter\Router\Exceptions\RouterException::forInvalidControllerName('\\App\\Controllers\\Login/LoginController::index')
+ 2 SYSTEMPATH\Router\Router.php(186): CodeIgniter\Router\Router->checkRoutes('/')
+ 3 SYSTEMPATH\CodeIgniter.php(823): CodeIgniter\Router\Router->handle('/')
+ 4 SYSTEMPATH\CodeIgniter.php(450): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+ 5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-10-27 03:39:36 --> The namespace delimiter is a backslash (\), not a slash (/). Route handler: "\App/Controller/Login\LoginController::index"
+in SYSTEMPATH\Router\Router.php on line 479.
+ 1 SYSTEMPATH\Router\Router.php(479): CodeIgniter\Router\Exceptions\RouterException::forInvalidControllerName('\\App/Controller/Login\\LoginController::index')
+ 2 SYSTEMPATH\Router\Router.php(186): CodeIgniter\Router\Router->checkRoutes('login')
+ 3 SYSTEMPATH\CodeIgniter.php(823): CodeIgniter\Router\Router->handle('login')
+ 4 SYSTEMPATH\CodeIgniter.php(450): CodeIgniter\CodeIgniter->tryToRouteIt(Object(CodeIgniter\Router\RouteCollection))
+ 5 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-10-27 03:44:21 --> Too few arguments to function CodeIgniter\Router\RouteCollection::get(), 1 passed in C:\laragon\www\soporte\app\Config\Routes.php on line 9 and at least 2 expected
+in SYSTEMPATH\Router\RouteCollection.php on line 1016.
+ 1 APPPATH\Config\Routes.php(9): CodeIgniter\Router\RouteCollection->get('LoginController::index')
+ 2 SYSTEMPATH\Router\RouteCollection.php(777): CodeIgniter\Router\RouteCollection->{closure}(Object(CodeIgniter\Router\RouteCollection))
+ 3 APPPATH\Config\Routes.php(10): CodeIgniter\Router\RouteCollection->group('/', [...], Object(Closure))
+ 4 SYSTEMPATH\Router\RouteCollection.php(344): require('C:\\laragon\\www\\soporte\\app\\Config\\Routes.php')
+ 5 SYSTEMPATH\CodeIgniter.php(810): CodeIgniter\Router\RouteCollection->loadRoutes()
+ 6 SYSTEMPATH\CodeIgniter.php(450): CodeIgniter\CodeIgniter->tryToRouteIt(null)
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-10-27 03:49:04 --> syntax error, unexpected string content "Lo"
+in APPPATH\Controllers\Login\LoginController.php on line 11.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(291): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\laragon\\www\\soporte\\app\\Controllers\\Login\\LoginController.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(269): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Login\\LoginController')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Login\\LoginController')
+ 4 SYSTEMPATH\CodeIgniter.php(900): class_exists('\\App\\Controllers\\Login\\LoginController', true)
+ 5 SYSTEMPATH\CodeIgniter.php(489): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-10-27 04:01:53 --> App\Controllers\Login\LoginController::index(): Return value must be of type string, none returned
+in APPPATH\Controllers\Login\LoginController.php on line 11.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\Login\LoginController->index()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login\LoginController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-10-27 04:27:35 --> syntax error, unexpected token "<"
+in APPPATH\Views\Login\login.php on line 4.
+ 1 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 2 SYSTEMPATH\Common.php(1190): CodeIgniter\View\View->render('Login/login', [], true)
+ 3 APPPATH\Controllers\Login\LoginController.php(19): view('Login/login')
+ 4 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\Login\LoginController->index()
+ 5 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login\LoginController))
+ 6 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-10-27 04:28:51 --> Undefined variable $validation
+in APPPATH\Views\Login\login.php on line 13.
+ 1 APPPATH\Views\Login\login.php(13): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $validation', 'C:\\laragon\\www\\soporte\\app\\Views\\Login\\login.php', 13)
+ 2 SYSTEMPATH\View\View.php(228): include('C:\\laragon\\www\\soporte\\app\\Views\\Login\\login.php')
+ 3 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1190): CodeIgniter\View\View->render('Login/login', [], true)
+ 5 APPPATH\Controllers\Login\LoginController.php(19): view('Login/login')
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\Login\LoginController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login\LoginController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-10-27 04:32:16 --> Undefined variable $validation
+in APPPATH\Views\Login\login.php on line 18.
+ 1 APPPATH\Views\Login\login.php(18): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $validation', 'C:\\laragon\\www\\soporte\\app\\Views\\Login\\login.php', 18)
+ 2 SYSTEMPATH\View\View.php(228): include('C:\\laragon\\www\\soporte\\app\\Views\\Login\\login.php')
+ 3 SYSTEMPATH\View\View.php(231): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1190): CodeIgniter\View\View->render('Login/login', [], true)
+ 5 APPPATH\Controllers\Login\LoginController.php(19): view('Login/login')
+ 6 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\Login\LoginController->index()
+ 7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login\LoginController))
+ 8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
