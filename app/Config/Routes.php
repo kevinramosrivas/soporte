@@ -15,12 +15,11 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->group('/', ['namespace' => 'App\Controllers\Login'], function ($routes) {
     $routes->get('', 'LoginController::index');
-    $routes->post('login', 'LoginController::login');
 
 });
 $routes->group('login', ['namespace' => 'App\Controllers\Login'], function ($routes) {
     $routes->get('', 'LoginController::index');
-    $routes->post('login', 'LoginController::login');
+    $routes->get('login', 'LoginController::login');
 });
 
 

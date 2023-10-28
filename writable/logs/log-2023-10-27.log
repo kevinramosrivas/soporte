@@ -70,3 +70,131 @@ in APPPATH\Views\Login\login.php on line 18.
  7 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login\LoginController))
  8 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
  9 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+ERROR - 2023-10-27 16:54:27 --> mysqli_sql_exception: Referencing column 'id_user' and referenced column 'id' in foreign key constraint 'prestamos_lab_id_user_foreign' are incompatible. in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-27-163628_PrestamosLab.php(46): CodeIgniter\Database\Forge->createTable('prestamos_lab')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosLab->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-27 16:55:19 --> mysqli_sql_exception: Referencing column 'id_user' and referenced column 'id' in foreign key constraint 'prestamos_lab_id_user_foreign' are incompatible. in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-27-163628_PrestamosLab.php(46): CodeIgniter\Database\Forge->createTable('prestamos_lab')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosLab->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-27 16:57:27 --> mysqli_sql_exception: Referencing column 'id_user' and referenced column 'id' in foreign key constraint 'prestamos_lab_id_user_foreign' are incompatible. in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-27-163628_PrestamosLab.php(47): CodeIgniter\Database\Forge->createTable('prestamos_lab')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosLab->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-27 17:01:03 --> mysqli_sql_exception: Referencing column 'id_user' and referenced column 'id' in foreign key constraint 'prestamos_lab_id_user_foreign' are incompatible. in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-27-163628_PrestamosLab.php(47): CodeIgniter\Database\Forge->createTable('prestamos_lab')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosLab->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-27 17:03:19 --> mysqli_sql_exception: Referencing column 'id_user' and referenced column 'id' in foreign key constraint 'prestamos_lab_id_user_foreign' are incompatible. in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-27-163628_PrestamosLab.php(47): CodeIgniter\Database\Forge->createTable('prestamos_lab')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosLab->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-27 17:05:07 --> mysqli_sql_exception: Referencing column 'id_user' and referenced column 'id' in foreign key constraint 'prestamos_lab_id_user_foreign' are incompatible. in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-27-163628_PrestamosLab.php(47): CodeIgniter\Database\Forge->createTable('prestamos_lab')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosLab->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-27 17:07:12 --> mysqli_sql_exception: Incorrect table definition; there can be only one auto column and it must be defined as a key in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `u...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `u...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `u...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `u...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-27-160927_User.php(44): CodeIgniter\Database\Forge->createTable('user')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\User->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-27 17:07:58 --> mysqli_sql_exception: Incorrect table definition; there can be only one auto column and it must be defined as a key in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `u...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `u...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `u...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `u...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-27-160927_User.php(43): CodeIgniter\Database\Forge->createTable('user')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\User->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+CRITICAL - 2023-10-27 22:09:10 --> Call to protected method App\Entities\User::updateSetUpdatedAt() from scope App\Controllers\Login\LoginController
+in APPPATH\Controllers\Login\LoginController.php on line 32.
+ 1 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\Login\LoginController->login()
+ 2 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login\LoginController))
+ 3 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2023-10-27 22:20:00 --> There is no data to update.
+in SYSTEMPATH\BaseModel.php on line 1726.
+ 1 SYSTEMPATH\BaseModel.php(1726): CodeIgniter\Database\Exceptions\DataException::forEmptyDataset('update')
+ 2 SYSTEMPATH\BaseModel.php(916): CodeIgniter\BaseModel->transformDataToArray(null, 'update')
+ 3 SYSTEMPATH\Model.php(776): CodeIgniter\BaseModel->update(Object(App\Entities\User), null)
+ 4 APPPATH\Controllers\Login\LoginController.php(32): CodeIgniter\Model->update(Object(App\Entities\User))
+ 5 SYSTEMPATH\CodeIgniter.php(942): App\Controllers\Login\LoginController->login()
+ 6 SYSTEMPATH\CodeIgniter.php(502): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Login\LoginController))
+ 7 SYSTEMPATH\CodeIgniter.php(361): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(79): CodeIgniter\CodeIgniter->run()
