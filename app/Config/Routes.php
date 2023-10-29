@@ -19,7 +19,7 @@ $routes->group('/', ['namespace' => 'App\Controllers\Login'], function ($routes)
 });
 $routes->group('login', ['namespace' => 'App\Controllers\Login'], function ($routes) {
     $routes->get('', 'LoginController::index');
-    $routes->get('login', 'LoginController::login');
+    $routes->post('login', 'LoginController::login');
 });
 
 

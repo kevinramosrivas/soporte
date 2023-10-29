@@ -29,7 +29,7 @@ class LoginController extends BaseController
         ];
         $user = new User($data);
         $model = model('UserModel');
-        $model->save($user);
+        $model->insert($user);
     }
 }
 
