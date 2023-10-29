@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class PrestamosLab extends Migration
+class PrestamosObj extends Migration
 {
     public function up()
     {
@@ -15,19 +15,11 @@ class PrestamosLab extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'num_lab' => [
+            'id_thing' => [
                 'type' => 'INT',
-                'constraint' => 5,
+                'constraint' => 10,
             ],
-            'num_doc' => [
-                'type' => 'INT',
-                'constraint' => 20,
-            ],
-            'type_doc' => [
-                'type' => 'VARCHAR',
-                'constraint' => '100',
-            ],
-            'type_event' => [
+            'loaned_to' => [
                 'type' => 'VARCHAR',
                 'constraint' => '100',
             ],
@@ -35,20 +27,31 @@ class PrestamosLab extends Migration
                 'type' => 'INT',
                 'constraint' => 10,
                 null => false,
-
+            ],
+            'returned_by' => [
+                'type' => 'INT',
+                'constraint' => 10,
+                null => true,
+            ],
+            'returned_at' => [
+                'type' => 'DATETIME',
+                'null' => true,
             ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
             ],
+
         ]);
         $this->forge->addKey('id_prestamo', true);
         $this->forge->addForeignKey('registrar_id', 'user', 'id_user');
-        $this->forge->createTable('prestamos_lab');
+        $this->forge->addForeignKey('returned_by', 'user', 'id_user');
+        $this->forge->addForeignKey('id_thing', 'thing', 'id_thing');
+        $this->forge->createTable('prestamos_obj');
     }
 
     public function down()
     {
-        $this->forge->dropTable('prestamos_lab');
+        $this->forge->dropTable('prestamos_obj');
     }
 }

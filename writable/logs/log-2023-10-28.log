@@ -1,0 +1,140 @@
+ERROR - 2023-10-28 12:05:39 --> Error connecting to the database: mysqli_sql_exception: Unknown database 'soporte' in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:185
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(185): mysqli->real_connect('localhost', 'root', '', 'soporte', 3306, '', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#3 C:\laragon\www\soporte\system\Database\BaseConnection.php(1410): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#4 C:\laragon\www\soporte\system\Database\BaseConnection.php(1429): CodeIgniter\Database\BaseConnection->listTables()
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(764): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(168): CodeIgniter\Database\MigrationRunner->ensureTable()
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+
+Next CodeIgniter\Database\Exceptions\DatabaseException: Unknown database 'soporte' in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:229
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\BaseConnection.php(392): CodeIgniter\Database\MySQLi\Connection->connect(false)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(575): CodeIgniter\Database\BaseConnection->initialize()
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(1410): CodeIgniter\Database\BaseConnection->query('SHOW TABLES FRO...')
+#3 C:\laragon\www\soporte\system\Database\BaseConnection.php(1429): CodeIgniter\Database\BaseConnection->listTables()
+#4 C:\laragon\www\soporte\system\Database\MigrationRunner.php(764): CodeIgniter\Database\BaseConnection->tableExists('migrations')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(168): CodeIgniter\Database\MigrationRunner->ensureTable()
+#6 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#7 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#8 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#9 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#10 {main}
+ERROR - 2023-10-28 17:11:28 --> mysqli_sql_exception: Failed to open the referenced table 'thing' in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-28-175357_PrestamosObj.php(54): CodeIgniter\Database\Forge->createTable('prestamos_obj')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosObj->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-28 17:12:35 --> mysqli_sql_exception: Failed to open the referenced table 'thing' in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-28-175357_PrestamosObj.php(54): CodeIgniter\Database\Forge->createTable('prestamos_obj')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosObj->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-28 17:13:39 --> mysqli_sql_exception: Failed to open the referenced table 'thing' in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-28-175357_PrestamosObj.php(54): CodeIgniter\Database\Forge->createTable('prestamos_obj')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosObj->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-28 17:16:04 --> mysqli_sql_exception: Failed to open the referenced table 'thing' in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-28-175357_PrestamosObj.php(50): CodeIgniter\Database\Forge->createTable('prestamos_obj')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosObj->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-28 17:16:21 --> mysqli_sql_exception: Failed to open the referenced table 'thing' in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-28-175357_PrestamosObj.php(50): CodeIgniter\Database\Forge->createTable('prestamos_obj')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosObj->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-28 17:18:49 --> mysqli_sql_exception: Failed to open the referenced table 'thing' in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `p...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `p...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `p...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `p...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-28-175357_PrestamosObj.php(50): CodeIgniter\Database\Forge->createTable('prestamos_obj')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\PrestamosObj->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-28 17:24:21 --> mysqli_sql_exception: Table 'inventory_obsolote' already exists in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `i...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `i...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `i...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `i...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-28-213039_InventoryObsolote.php(42): CodeIgniter\Database\Forge->createTable('inventory_obsol...')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\InventoryObsolote->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
+ERROR - 2023-10-28 17:24:58 --> mysqli_sql_exception: Table 'inventory_obsolote' already exists in C:\laragon\www\soporte\system\Database\MySQLi\Connection.php:306
+Stack trace:
+#0 C:\laragon\www\soporte\system\Database\MySQLi\Connection.php(306): mysqli->query('CREATE TABLE `i...', 0)
+#1 C:\laragon\www\soporte\system\Database\BaseConnection.php(693): CodeIgniter\Database\MySQLi\Connection->execute('CREATE TABLE `i...')
+#2 C:\laragon\www\soporte\system\Database\BaseConnection.php(607): CodeIgniter\Database\BaseConnection->simpleQuery('CREATE TABLE `i...')
+#3 C:\laragon\www\soporte\system\Database\Forge.php(546): CodeIgniter\Database\BaseConnection->query('CREATE TABLE `i...')
+#4 C:\laragon\www\soporte\app\Database\Migrations\2023-10-28-213039_InventoryObsolote.php(42): CodeIgniter\Database\Forge->createTable('inventory_obsol...')
+#5 C:\laragon\www\soporte\system\Database\MigrationRunner.php(873): App\Database\Migrations\InventoryObsolote->up()
+#6 C:\laragon\www\soporte\system\Database\MigrationRunner.php(188): CodeIgniter\Database\MigrationRunner->migrate('up', Object(stdClass))
+#7 C:\laragon\www\soporte\system\Commands\Database\Migrate.php(84): CodeIgniter\Database\MigrationRunner->latest(NULL)
+#8 C:\laragon\www\soporte\system\CLI\Commands.php(65): CodeIgniter\Commands\Database\Migrate->run(Array)
+#9 C:\laragon\www\soporte\system\CLI\Console.php(46): CodeIgniter\CLI\Commands->run('migrate', Array)
+#10 C:\laragon\www\soporte\spark(102): CodeIgniter\CLI\Console->run()
+#11 {main}
