@@ -14,12 +14,17 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 $routes->group('/', ['namespace' => 'App\Controllers\Login'], function ($routes) {
+    //si es que la sesion esta iniciada, redirigir a la pagina principal
     $routes->get('', 'LoginController::index');
+    $routes->get('logout', 'LoginController::logout');
+    $routes->get('home', 'LoginController::home');
 
 });
 $routes->group('login', ['namespace' => 'App\Controllers\Login'], function ($routes) {
     $routes->get('', 'LoginController::index');
     $routes->post('login', 'LoginController::login');
+    $routes->get('register', 'LoginController::register');
 });
+
 
 

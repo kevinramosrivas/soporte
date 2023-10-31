@@ -1,6 +1,6 @@
 <?=$this->extend('Layouts/main')?>
 <?=$this->section('css')?>
-<link rel="stylesheet" href="<?php echo base_url('assets/css/login.css')?>">
+<link rel="stylesheet" href="<?=base_url('assets/css/login.css')?>">
 <?=$this->endSection()?>
 
 <?=$this->section('content')?>
@@ -15,7 +15,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
-                    <input type="text" name="password" id="password" class="form-control" placeholder="unmsm1234">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="unmsm1234">
                 </div>
                 <div class="mb-3 text-center">
                     <button type="submit" class="btn btn-primary btn-login">Ingresar</button>
