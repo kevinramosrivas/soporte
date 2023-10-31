@@ -1,6 +1,6 @@
 <?=$this->extend('Layouts/main')?>
 <?=$this->section('css')?>
-<link rel="stylesheet" href="<?=base_url('assets/css/login.css')?>">
+<link rel="stylesheet" href="<?php echo base_url('assets/css/login.css')?>">
 <?=$this->endSection()?>
 
 <?=$this->section('content')?>
