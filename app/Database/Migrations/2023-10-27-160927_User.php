@@ -25,6 +25,7 @@ class User extends Migration
             'email' => [
                 'type' => 'VARCHAR',
                 'constraint' => '100',
+                'unique' => true,
             ],
             'password' => [
                 'type' => 'VARCHAR',
@@ -37,7 +38,12 @@ class User extends Migration
             'updated_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
+            ],
+            'active' => [
+                'type' => 'BOOLEAN',
+                'default' => true,
             ]
+
         ]);
         $this->forge->addKey('id_user', true);
         $this->forge->createTable('user');

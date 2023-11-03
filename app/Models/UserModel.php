@@ -23,5 +23,13 @@ class UserModel extends Model
         }
         return null;
     }
+    public function getUserByEmail($email)
+    {
+        $user = $this->where('email', $email)->first();
+        if($user != null){
+            return $user;
+        }
+        return null;
+    }
 
 }

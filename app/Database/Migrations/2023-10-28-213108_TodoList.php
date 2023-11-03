@@ -32,10 +32,20 @@ class TodoList extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-            'assigned_to' => [
+            'completed' => [
+                'type' => 'BOOLEAN',
+                'null' => true,
+            ],
+            'completed_by' => [
                 'type' => 'INT',
                 'constraint' => 10,
-                null => true,
+                'null' => true,
+                // por defecto null
+                'default' => null,
+            ],
+            'deadline' => [
+                'type' => 'DATETIME',
+                'null' => true,
             ],
             'registrar_id' => [
                 'type' => 'INT',
@@ -45,7 +55,7 @@ class TodoList extends Migration
         ]);
         $this->forge->addKey('id_todo', true);
         $this->forge->addForeignKey('registrar_id', 'user', 'id_user');
-        $this->forge->addForeignKey('assigned_to', 'user', 'id_user');
+        $this->forge->addForeignKey('completed_by', 'user', 'id_user');
         $this->forge->createTable('todo_list');
     }
 

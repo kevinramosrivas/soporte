@@ -27,4 +27,18 @@ $routes->group('login', ['namespace' => 'App\Controllers\Login'], function ($rou
 });
 
 
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
+    $routes->get('home', 'AdminController::index');
+    $routes->get('registerEntryLab', 'AdminController::registerEntryLab');
+    $routes->get('registerExitLab', 'AdminController::registerExitLab');
+    $routes->get('viewRegisterEntryLab', 'AdminController::viewRegisterEntryLab');
+    $routes->get('users', 'AdminController::users');
+    $routes->post('logout', 'AdminController::logout');
+    $routes->post('registerUser', 'AdminController::registerNewUser');
+    $routes->post('deleteUser', 'AdminController::deleteUser');
+});
+
+
+
+
 

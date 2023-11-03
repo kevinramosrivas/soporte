@@ -1,0 +1,12 @@
+/* aumnetar el pading entre los items del navbar*/
+.navbar-nav .nav-item {
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+@media (max-width: 767.98px) {
+    .navbar-nav .nav-item {
+        padding-top : 0.25rem;
+        padding-bottom: 0.25rem;
+    }
+}

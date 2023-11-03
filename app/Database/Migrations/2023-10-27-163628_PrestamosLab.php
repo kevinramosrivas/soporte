@@ -27,9 +27,17 @@ class PrestamosLab extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '100',
             ],
-            'type_event' => [
-                'type' => 'VARCHAR',
-                'constraint' => '100',
+            'hour_entry' => [
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
+            'hour_exit' => [
+                'type' => 'DATETIME',
+                'null' => true,
+            ],
+            'interval_num' => [
+                'type' => 'INT',
+                'constraint' => 10,
             ],
             'registrar_id' => [
                 'type' => 'INT',

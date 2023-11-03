@@ -22,7 +22,7 @@ class LoginController extends BaseController
     public function login()
     {
         //recuperar la informacion del formulario
-        $email = $this->request->getPost('username');
+        $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
         //consulatar con el modelo
         $userModel = model('UserModel');
@@ -37,8 +37,11 @@ class LoginController extends BaseController
                 'email' => $user['email'],
                 'isLoggedIn' => true
             ]);
-            //redireccionar al dashboard
-            return redirect()->to(site_url('dashboard'));
+            if ($user['type'] == 'admin') {
+                return redirect()->to(site_url('admin/home'));
+            } else if ($user['type'] == 'user') {
+                return redirect()->to(site_url('user/home'));
+            }
         }else{
             //redireccionar al login
             return redirect()->to(site_url('login'));
@@ -55,7 +58,7 @@ class LoginController extends BaseController
         ];
         $user = new User($data);
         $model = model('UserModel');
-        $model->save($user);
+        $model->insert($user);
     }
 }
 
