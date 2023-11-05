@@ -17,7 +17,7 @@ class User extends Entity
     }
     protected function setUsername(string $username)
     {
-        $this->attributes['username'] = strtolower($username);
+        $this->attributes['username'] = strtoupper($username);
     }
     protected function setCreatedAt()
     {

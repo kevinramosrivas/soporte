@@ -82,8 +82,30 @@ class AdminController extends BaseController
             $id_user = $this->request->getPost('id_user');
             $model = model('UserModel');
             $model->delete($id_user);
-            return redirect()->to(site_url('admin/home'));
+            return redirect()->to(site_url('admin/users'));
         } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function editUser()
+    {
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'admin') {
+            $data = [
+                'id_user' => $this->request->getPost('id_user'),
+                'type' => $this->request->getPost('type'),
+                'username' => $this->request->getPost('username'),
+                'email' => $this->request->getPost('email'),
+                'password' => $this->request->getPost('password'),
+            ];
+            if($data['password'] == ''){
+                unset($data['password']);
+            }
+            $user = new User($data);
+            $model = model('UserModel');    
+            $model->update($data['id_user'], $user);
+            return redirect()->to(site_url('admin/users'));
+        }else{
             return redirect()->to(site_url('login'));
         }
     }
