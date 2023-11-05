@@ -31,5 +31,13 @@ class UserModel extends Model
         }
         return null;
     }
+    public function searchUser($search)
+    {
+        $user = $this->query("SELECT * FROM user WHERE username LIKE '%$search%' OR email LIKE '%$search%'")->getResultArray();
+        if($user != null){
+            return $user;
+        }
+        return null;
+    }
 
 }

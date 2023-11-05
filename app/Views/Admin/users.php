@@ -14,7 +14,7 @@
         <div class="col-6 d-flex justify-content-center">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNewUser">
-            Crear usuario
+            Crear usuario <i class="bi bi-person-plus-fill"></i>
             </button>
 
             <!-- Modal -->
@@ -61,6 +61,14 @@
                 </div>
             </div>
             </div>
+        </div>
+        <div class="col-6">
+            <form action="<?= base_url('admin/searchUser') ?>" method="post">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar usuario" aria-label="Recipient's username" aria-describedby="button-addon2" name="search" required>
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                </div>  
+            </form>
         </div>
     </div>
     <div class="row">

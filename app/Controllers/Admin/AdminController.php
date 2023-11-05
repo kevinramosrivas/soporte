@@ -9,7 +9,18 @@ class AdminController extends BaseController
     {
         $session = session();
         if ($session->isLoggedIn && $session->type == 'admin') {
-            return view('Admin/home');
+            //recolectar el numero de usuarios
+            $model = model('UserModel');
+            $users = $model->findAll();
+            // contar el numero de usuarios de tipo admin y user
+            $users = count($users);
+            $data = [
+                'users' => $users,
+            ];
+            $data = [
+                'users' => $users,
+            ];
+            return view('Admin/home', $data);
         } else {
             return redirect()->to(site_url('login'));
         }
@@ -70,7 +81,7 @@ class AdminController extends BaseController
             $user = new User($data);
             $model = model('UserModel');
             $model->insert($user);
-            return redirect()->to(site_url('admin/home'));
+            return redirect()->to(site_url('admin/users'));
         } else {
             return redirect()->to(site_url('login'));
         }
@@ -106,6 +117,21 @@ class AdminController extends BaseController
             $model->update($data['id_user'], $user);
             return redirect()->to(site_url('admin/users'));
         }else{
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function searchUser()
+    {
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'admin') {
+            $search = $this->request->getPost('search');
+            $model = model('UserModel');
+            $user = $model->searchUser($search);
+            $data = [
+                'users' => $user,
+            ];
+            return view('Admin/users', $data);
+        } else {
             return redirect()->to(site_url('login'));
         }
     }
