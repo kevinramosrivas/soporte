@@ -35,18 +35,22 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="name" id="name_id">Nombre y Apellido</label>
-                            <input type="text" name="username" id="name" class="form-control" required>
+                            <label for="id_username_create" id="name_id" class="form-label">Nombre y Apellido</label>
+                            <input type="text" name="username" id="id_username_create" class="form-control" required autocomplete="on">
                         </div>
                         <div class="mb-3">
-                            <label for="email" id="email_id">Correo</label>
-                            <input type="email" name="email" id="email" class="form-control" required>
+                            <label for="id_email_create" id="email_id" class="form-label">Correo</label>
+                            <div class="input-group">
+                                <input type="email" name="email" id="id_email_create" class="form-control" required autocomplete="on">
+                                <!-- añadir el @unmsm.edu.pe -->
+                                <span class="input-group-text">@unmsm.edu.pe</span>
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="password" id="password_id">Contraseña</label>
+                            <label for="id_password_create" id="password_id">Contraseña</label>
                             <!-- hacer un input con un boton para revelar la contraseña -->
                             <div class="input-group">
-                                <input type="password" name="password" id="input_password" class="form-control" required>
+                                <input type="password" name="password" id="id_password_create" class="form-control" required autocomplete="on">
                                 <button class="btn btn-primary btn_toggle_input_password" type="button" id="button_password" data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar contraseña">
                                     <i class="bi bi-eye"></i>
                                 </button>
@@ -147,25 +151,25 @@
                                             <form action="<?=base_url('admin/editUser')?>" method="post" id="formEditUser_<?= $user['id_user'] ?>" class="edit_user_form">
                                                 <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
                                                 <div class="mb-3">
-                                                    <label for="type_user" class="form-label">Tipo de usuario</label>
-                                                    <select name="type" id="type_user" class="form-select" required>
+                                                    <label for="type_user_<?= $user['id_user']?>" class="form-label">Tipo de usuario</label>
+                                                    <select name="type" id="type_user_<?= $user['id_user']?>" class="form-select" required>
                                                         <option value="admin" <?php if ($user['type'] == 'admin') : ?> selected <?php endif; ?>>Administrador</option>
                                                         <option value="user" <?php if ($user['type'] == 'user') : ?> selected <?php endif; ?>>Bolsista</option>
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="name" id="name_id" class="form-label">Nombre y Apellido</label>
-                                                    <input type="text" name="username" id="name" class="form-control" value="<?= $user['username'] ?>" required>
+                                                    <label for="name_id_<?= $user['id_user']?>" class="form-label">Nombre y Apellido</label>
+                                                    <input type="text" name="username" id="name_id_<?= $user['id_user']?>" class="form-control" value="<?= $user['username'] ?>" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="email" id="email_id" class="form-label">Correo</label>
-                                                    <input type="email" name="email" id="email" class="form-control" value="<?= $user['email'] ?>" required>
+                                                    <label for="email_id_<?= $user['id_user']?>" class="form-label">Correo</label>
+                                                    <input type="email" name="email" id="email_id_<?= $user['id_user']?>" class="form-control" value="<?= $user['email'] ?>" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="password" id="password_id" class="form-label">Nueva Contraseña</label>
+                                                    <label for="input_password_<?= $user['id_user']?>">Contraseña</label>
                                                     <!-- hacer un input con un boton para revelar la contraseña -->
                                                     <div class="input-group">
-                                                        <input type="password" name="password" id="input_password<?= $user['id_user']?>" class="form-control">
+                                                        <input type="password" name="password" id="input_password_<?= $user['id_user']?>" class="form-control">
                                                         <button class="btn btn-primary btn_toggle_input_password" type="button" id="button_password<?= $user['id_user']?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar contraseña">
                                                             <i class="bi bi-eye"></i>
                                                         </button>

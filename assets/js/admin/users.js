@@ -1,6 +1,46 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Listo');
+    let formulario = document.getElementById('formNewUser');
+    formulario.addEventListener('submit', function(event) {
+        event.preventDefault();
+        //validar campos
+        let nombre = document.getElementById('id_username_create').value;
+        let email = document.getElementById('id_email_create').value;
+        let password = document.getElementById('id_password_create').value;
+        
+        if (nombre.length == 0 || email.length == 0 || password.length == 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Todos los campos son obligatorios'
+            });
+            return;
+        }
+        //validar que el correo sea del dominio @unmsm.edu.pe con una regex
+        let regex = new RegExp('^[a-zA-Z0-9._-]+@unmsm.edu.pe$');
+        if (!regex.test(email)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'El correo no es válido'
+            });
+            return;
+        }
+        //validar que el password tenga al menos 8 caracteres
+        if (password.length < 8) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La contraseña debe tener al menos 8 caracteres'
+            });
+            return;
+        }
+        //enviar formulario
+        this.submit();
+    }
+    );
+        
     // oidor de eventos para todos los botones de eliminar
     document.querySelectorAll('.delete_form').forEach(form => {
         form.addEventListener('submit', function(event) {
