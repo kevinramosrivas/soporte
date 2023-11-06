@@ -1,7 +1,9 @@
 <?php
 namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
+use App\Entities\PrestamosLab;
 use App\Entities\User;
+use App\Models\PrestamosLabModel;
 
 class AdminController extends BaseController
 {
@@ -30,6 +32,56 @@ class AdminController extends BaseController
         $session = session();
         if ($session->isLoggedIn && $session->type == 'admin') {
             return view('Admin/register_entry_lab');
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function registerNewEntryLab()
+    {
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'admin') {
+            $data = [
+                'num_lab' => $this->request->getPost('num_laboratorio'),
+                'type_doc' => $this->request->getPost('tipo_documento'),
+                'num_doc' => $this->request->getPost('numero_documento'),
+                'registrar_id' => $session->id_user,
+            ];
+            // validar los datos
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'num_lab' => 'required|integer|max_length[2]',
+                'type_doc' => 'required|integer|max_length[1]',
+                'num_doc' => 'required|exact_length[8]',
+            ]);
+            if (!$validation->run($data)) {
+                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                return redirect()->to(site_url('admin/registerEntryLab'));
+            }
+            // obtener el ultimo registro de prestamo
+            $model = model('PrestamosLabModel');
+            $prestamo = $model->where('num_doc', $data['num_doc'])->where('type_doc', $data['type_doc'])->orderBy('hour_entry', 'DESC')->first();
+            // verificar si existe un registro y si es del mismo dia
+            if ($prestamo != null) {
+                $date = date('Y-m-d', strtotime($prestamo['hour_entry']));
+                $date_now = date('Y-m-d');
+                if ($date == $date_now) {
+                    if(date('H:i:s', strtotime($prestamo['hour_entry'])) == date('H:i:s', strtotime($prestamo['hour_exit']))){
+                        // retornar error
+                        $session->setFlashdata('error_num_doc', 'El usuario ya se encuentra registrado, por favor registre su salida');
+                        return redirect()->to(site_url('admin/registerEntryLab'));
+                    }
+                    $data['interval_num'] = $prestamo['interval_num'] + 1;
+                } else {
+                    $data['interval_num'] = 1;
+                }
+            } else {
+                $data['interval_num'] = 1;
+            }
+            $prestamo = new PrestamosLab($data);
+            $model->insert($prestamo);
+            // retornar mensaje de exito
+            $session->setFlashdata('success', 'El usuario se registro correctamente');
+            return redirect()->to(site_url('admin/registerEntryLab'));
         } else {
             return redirect()->to(site_url('login'));
         }

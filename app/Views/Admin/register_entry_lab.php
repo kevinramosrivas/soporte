@@ -7,9 +7,41 @@
 <?=$this->include('Layouts/navbar_admin')?>
 <div class="container">
     <div class="row">
+        <div class="col-12">
+            <h1 class="text-center">Registro de ingreso a laboratorio</h1>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
+            <!-- modal -->
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#modalLectorQRBarcodes">
+            Abrir lector <i class="bi bi-upc-scan"></i>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="modalLectorQRBarcodes" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Lector</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="reader">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
         <div class="col-12 col-md-6 container-form">
             <h3 class="text-center" id="div_bienvenida"></h3>
-            <form action="" id="form_register_student">
+            <form action="<?=site_url('admin/registerNewEntryLab')?>" method="post" id="form_register_entry_lab">
                 <div class="mb-3">
                     <label for="num_laboratorio">Número de laboratorio</label>
                     <select name="num_laboratorio" id="num_laboratorio" class="form-select">
@@ -37,39 +69,26 @@
                 <div class="mb-3">
                     <label for="numero_documento" id="documento_id">Número de documento</label>
                     <input type="text" name="numero_documento" id="numero_documento" class="form-control" required>
+                    <!-- si existen errores mostrarlos -->
                 </div>
+                <?php if (isset(session()->error_num_doc)): ?>
+                    <div class="mb-3">
+                        <div class="alert alert-danger" role="alert">
+                            <?=session()->error_num_doc?>
+                        </div>
+                    </div>
+                <?php endif;?>
+                <?php if (isset(session()->success)): ?>
+                    <div class="mb-3">
+                        <div class="alert alert-success" role="alert">
+                            <?=session()->success?>
+                        </div>
+                    </div>
+                <?php endif;?>
                 <div class="mb-3 text-center">
                     <input type="submit" class="btn btn-primary" value="Registrar">
                 </div>
             </form>
-        </div>
-        <div class="col-12 col-md-6">
-            <!-- modal -->
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Launch demo modal
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="reader">
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-                </div>
-            </div>
-            </div>
         </div>
     </div>
 </div>

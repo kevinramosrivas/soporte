@@ -38,6 +38,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->post('userDelete', 'AdminController::deleteUser');
     $routes->post('editUser', 'AdminController::editUser');
     $routes->post('searchUser', 'AdminController::searchUser');
+    $routes->post('registerNewEntryLab', 'AdminController::registerNewEntryLab');
 });
 
 

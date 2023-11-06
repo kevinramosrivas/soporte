@@ -17,7 +17,7 @@ class PrestamosLab extends Migration
             ],
             'num_lab' => [
                 'type' => 'INT',
-                'constraint' => 5,
+                'constraint' => 10,
             ],
             'num_doc' => [
                 'type' => 'INT',
@@ -29,7 +29,7 @@ class PrestamosLab extends Migration
             ],
             'hour_entry' => [
                 'type' => 'DATETIME',
-                'null' => true,
+                'null' => false,
             ],
             'hour_exit' => [
                 'type' => 'DATETIME',
@@ -45,13 +45,10 @@ class PrestamosLab extends Migration
                 null => false,
 
             ],
-            'created_at' => [
-                'type' => 'DATETIME',
-                'null' => true,
-            ],
         ]);
         $this->forge->addKey('id_prestamo', true);
         $this->forge->addForeignKey('registrar_id', 'user', 'id_user');
+        $this->forge->addForeignKey('num_lab', 'laboratories', 'id_lab');
         $this->forge->createTable('prestamos_lab');
     }
 
