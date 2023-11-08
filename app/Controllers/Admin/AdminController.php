@@ -7,6 +7,13 @@ use App\Models\PrestamosLabModel;
 
 class AdminController extends BaseController
 {
+    /**
+     * Método que muestra la página principal del panel de administración.
+     * Si el usuario ha iniciado sesión y es un administrador, se muestra el número de usuarios registrados.
+     * Si no ha iniciado sesión o no es un administrador, se redirige a la página de inicio de sesión.
+     *
+     * @return mixed
+     */
     public function index()
     {
         $session = session();
@@ -16,9 +23,6 @@ class AdminController extends BaseController
             $users = $model->findAll();
             // contar el numero de usuarios de tipo admin y user
             $users = count($users);
-            $data = [
-                'users' => $users,
-            ];
             $data = [
                 'users' => $users,
             ];
@@ -38,6 +42,11 @@ class AdminController extends BaseController
     }
     public function registerNewEntryLab()
     {
+        /**
+         * Registra la entrada de un usuario en el laboratorio.
+         *
+         * @return \CodeIgniter\HTTP\RedirectResponse Redirige a la página de registro de entrada si hay un error o a la página de inicio de sesión si el usuario no está autenticado o no es un administrador.
+         */
         $session = session();
         if ($session->isLoggedIn && $session->type == 'admin') {
             $data = [
@@ -96,6 +105,13 @@ class AdminController extends BaseController
         }
     }
     public function registerNewExitLab(){
+        /**
+         * Este método se encarga de registrar la salida de un usuario del laboratorio.
+         * Verifica si el usuario está autenticado como administrador y si los datos ingresados son correctos.
+         * Si el usuario ya tiene un registro de entrada en el laboratorio, actualiza la hora de salida.
+         * Si el usuario no tiene un registro de entrada, muestra un mensaje de error.
+         * @return redirect
+         */
         $session = session();
         if ($session->isLoggedIn && $session->type == 'admin') {
             $data = [
@@ -142,7 +158,31 @@ class AdminController extends BaseController
     {
         $session = session();
         if ($session->isLoggedIn && $session->type == 'admin') {
-            return view('Admin/view_register_entry_lab');
+            // obtener todos los registros de entrada
+            $model = model('PrestamosLabModel');
+            $registerEntryLab = $model->getAllRegisterEntryLab();
+            $data = [
+                'registerEntryLab' => $registerEntryLab,
+            ];
+            // si la hora de entrada es igual a la hora de salida, el usuario no ha salido del laboratorio y se devuelve ese campo como null
+            // si el valor de type_doc es 1, se muestra DNI
+            // si el valor de type_doc es 2, se muestra Carnet de biblioteca
+            // si el valor de type_doc es 3, se muestra Carnet universitario
+            foreach ($registerEntryLab as $key => $value) {
+                if(date('H:i:s', strtotime($value['hour_entry'])) == date('H:i:s', strtotime($value['hour_exit']))){
+                    $data['registerEntryLab'][$key]['hour_exit'] = null;
+                }
+                if($value['type_doc'] == 1){
+                    $data['registerEntryLab'][$key]['type_doc'] = 'DNI';
+                }
+                elseif($value['type_doc'] == 2){
+                    $data['registerEntryLab'][$key]['type_doc'] = 'Carnet de biblioteca';
+                }
+                elseif($value['type_doc'] == 3){
+                    $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
+                }
+            }
+            return view('Admin/view_register_entry_lab', $data);
         } else {
             return redirect()->to(site_url('login'));
         }

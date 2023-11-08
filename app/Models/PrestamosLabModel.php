@@ -30,4 +30,15 @@ class PrestamosLabModel extends Model
         return null;
     }
 
+    public function getAllRegisterEntryLab()
+    {
+        // hacer un join con la tabla de usuarios para obtener el nombre del usuario que registro la entrada
+        $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user")->getResultArray();
+
+        if($registerEntryLab != null){
+            return $registerEntryLab;
+        }
+        return null;
+    }
+
 }

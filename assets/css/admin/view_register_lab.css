@@ -1,0 +1,17 @@
+html,body {
+    padding:0;
+    margin:0;
+
+}
+body{
+    height: 100vh;
+}
+.navbar{
+    background-color: #70191c;
+}
+.offcanvas-header{
+    color: #fff;
+}
+.offcanvas{
+    background-color: #54626c;
+}
