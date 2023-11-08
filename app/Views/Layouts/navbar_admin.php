@@ -21,7 +21,7 @@
                 </li>
                 <li class="nav-item">
                     <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="btn btn-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Laboratorios
                         </a>
 
@@ -38,7 +38,7 @@
                 <li class="nav-item">
                     <!-- boton de cerrar sesion  -->
                     <form action="<?=base_url("admin/logout")?>" method="post">
-                        <button type="submit" class="btn btn-danger">Cerrar sesion</button>
+                        <button type="submit" class="btn btn-danger text-center">Cerrar sesión</button>
                     </form>
                 </li>
             </ul>

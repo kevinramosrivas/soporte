@@ -95,6 +95,49 @@ class AdminController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
+    public function registerNewExitLab(){
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'admin') {
+            $data = [
+                'num_doc' => $this->request->getPost('num_doc'),
+                'registrar_id' => $session->id_user,
+            ];
+            // validar los datos
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'num_doc' => 'required|exact_length[8]',
+            ]);
+            if (!$validation->run($data)) {
+                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                return redirect()->to(site_url('admin/registerExitLab'));
+            }
+            // obtener el ultimo registro de prestamo que la hora
+            $model = model('PrestamosLabModel');
+            $prestamo = $model->where('num_doc', $data['num_doc'])->orderBy('hour_entry', 'DESC')->first();
+            // verificar si existe un registro y si es del mismo dia
+            if ($prestamo != null) {
+                $date = date('Y-m-d', strtotime($prestamo['hour_entry']));
+                $date_now = date('Y-m-d');
+                if ($date == $date_now && date('H:i:s', strtotime($prestamo['hour_entry'])) == date('H:i:s', strtotime($prestamo['hour_exit']))) {
+                    //actualizar la hora de salida del prestamo
+                    $prestamo['hour_exit'] = date('Y-m-d H:i:s');
+                    $model->update($prestamo['id_prestamo'], $prestamo);
+                    // retornar mensaje de exito
+                    $session->setFlashdata('success', 'El usuario se registro correctamente');
+                    return redirect()->to(site_url('admin/registerExitLab'));
+                }else{
+                    // retornar error
+                    $session->setFlashdata('error_num_doc', 'El usuario no se encuentra registrado, por favor registre su entrada');
+                    return redirect()->to(site_url('admin/registerExitLab'));
+                }
+            } else {
+                $session->setFlashdata('error_num_doc', 'La entrada del usuario no se encuentra registrada');
+                return redirect()->to(site_url('admin/registerExitLab'));
+            }
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
     public function viewRegisterEntryLab()
     {
         $session = session();

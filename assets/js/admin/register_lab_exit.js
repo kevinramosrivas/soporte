@@ -10,7 +10,7 @@ function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
     console.log(`Code matched = ${decodedText}`, decodedResult);
     // actualizar el valor del input con el valor del código QR
-    document.getElementById('numero_documento').value = decodedText;
+    document.getElementById('num_doc').value = decodedText;
     // cerrar el modal
     modal.hide();
     // detener el lector QR
@@ -30,12 +30,12 @@ let html5QrcodeScanner = new Html5QrcodeScanner(
     /* verbose= */ false
 );
 
-let form = document.getElementById('form_register_entry_lab');
+let form = document.getElementById('form_register_exit_lab');
 
 form.addEventListener('submit', function (event) {
     event.preventDefault();
-    let input_numero_documento = document.getElementById('numero_documento');
-    // validar que el input no esté vacío y que tenga 8 caracteres, además de que sea un número
+    let input_numero_documento = document.getElementById('num_doc');
+    // validar que el input no esté vacío ,que tenga 8 caracteres y que sea un número
     if (input_numero_documento.value.length == 0 || input_numero_documento.value.length != 8 || isNaN(input_numero_documento.value)) {
         Swal.fire({
             icon: 'error',
@@ -47,4 +47,3 @@ form.addEventListener('submit', function (event) {
     // enviar el formulario
     this.submit();
 });
-
