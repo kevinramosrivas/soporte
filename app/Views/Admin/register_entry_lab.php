@@ -43,7 +43,7 @@
             <h3 class="text-center" id="div_bienvenida"></h3>
             <form action="<?=site_url('admin/registerNewEntryLab')?>" method="post" id="form_register_entry_lab">
                 <div class="mb-3">
-                    <label for="num_laboratorio">Número de laboratorio</label>
+                    <label for="num_laboratorio" class="form-label">Número de laboratorio 💻</label>
                     <select name="num_laboratorio" id="num_laboratorio" class="form-select">
                         <option value="1">Laboratorio 1</option>
                         <option value="2">Laboratorio 2</option>
@@ -59,7 +59,7 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="tipo_documento">Tipo de documento</label>
+                    <label for="tipo_documento" class="form-label">Tipo de documento 🪪</label>
                     <select name="tipo_documento" id="tipo_documento" class="form-select" required>
                         <option value="1">DNI</option>
                         <option value="2">Carnet de biblioteca</option>
@@ -67,7 +67,7 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="numero_documento" id="documento_id">Número de documento</label>
+                    <label for="numero_documento" id="documento_id" class="form-label">Número de documento 🔢</label>
                     <input type="text" name="numero_documento" id="numero_documento" class="form-control" required>
                     <!-- si existen errores mostrarlos -->
                 </div>

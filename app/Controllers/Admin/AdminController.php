@@ -16,15 +16,32 @@ class AdminController extends BaseController
      */
     public function index()
     {
+        /**
+         * Verifica si el usuario ha iniciado sesión como administrador y muestra la vista de inicio del panel de administración.
+         * Recopila el número total de usuarios y el número de usuarios que están ocupando un laboratorio en el día de hoy.
+         * 
+         * @return mixed
+         */
         $session = session();
         if ($session->isLoggedIn && $session->type == 'admin') {
             //recolectar el numero de usuarios
-            $model = model('UserModel');
-            $users = $model->findAll();
+            $user_model = model('UserModel');
+            $users = $user_model->findAll();
+            // obtener el numero de usuarios ocupando un laboratorio
+            $prestamos_model = model('PrestamosLabModel');
+            $users_lab = $prestamos_model->findAll();
+            // que sean del dia de hoy
+            foreach ($users_lab as $key => $value) {
+                if($value['hour_entry'] !== $value['hour_exit'] && date('Y-m-d', strtotime($value['hour_entry'])) !== date('Y-m-d')){
+                    unset($users_lab[$key]);
+                }
+            }
+            $students_in_lab = count($users_lab);
             // contar el numero de usuarios de tipo admin y user
             $users = count($users);
             $data = [
                 'users' => $users,
+                'students_in_lab' => $students_in_lab,
             ];
             return view('Admin/home', $data);
         } else {

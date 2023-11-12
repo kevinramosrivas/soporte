@@ -6,23 +6,21 @@
 <?=$this->section('content')?>
 <?=$this->include('Layouts/navbar_admin')?>
 <!-- hacer una tabla con el registro de entrada de laboratorio , los campos son el numero de documento, el tipo de documento, el laboratior, hora y fecha de entrada, hora y fecha de salida, el nombre del usuario que registro la entrada -->
-<div class="container mt-5">
-    <div class="row">
+<div class="container">
+    <div class="row" id="row-title">
         <div class="col-12">
             <h1 class="text-center">Registro de entrada de laboratorio</h1>
         </div>
     </div>
-    <div class="row mt-3">
-        <h3 class="text">Filtrar por:</h3>
+    <div class="row">
+        <h3 class="text col-12">Filtrar por:</h3>
         <div class="col-12 col-md-6">
             <form action="<?=base_url('admin/viewRegisterEntryLab')?>" method="post" class="p-3">
                 <div class="input-group">
                     <select name="type_doc" id="type_doc" class="form-select">
-                        <option value="">Tipo de documento</option>
-                        <option value="CC">Cedula de ciudadania</option>
-                        <option value="TI">Tarjeta de identidad</option>
-                        <option value="CE">Cedula de extranjeria</option>
-                        <option value="PAS">Pasaporte</option>
+                        <option value="1">DNI</option>
+                        <option value="2">Carnet de biblioteca</option>
+                        <option value="3">Carnet universitario</option>
                     </select>
                     <select name="num_lab" id="num_lab" class="form-select">
                         <option value="">Laboratorio</option>
@@ -68,7 +66,8 @@
             </form>
         </div>
     </div>
-    <div class="row mt-3">
+    <!-- hacer que la tabla sea scrollable hacia abajo -->
+    <div class="row table-container">
         <div class="col-12 table-responsive">
             <table class="table table-hover table-striped">
                 <thead class="thead-dark">

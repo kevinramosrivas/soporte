@@ -43,7 +43,10 @@ class LoginController extends BaseController
                 return redirect()->to(site_url('user/home'));
             }
         }else{
-            //redireccionar al login
+            $session = session();
+            //añadir un mensaje de error
+            $session->setFlashdata('login_error', 'Usuario o contraseña incorrectos');
+            //redireccionar al login con el mensaje de error
             return redirect()->to(site_url('login'));
         }
     }

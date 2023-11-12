@@ -43,7 +43,7 @@
             <h3 class="text-center" id="div_bienvenida"></h3>
             <form action="<?=site_url('admin/registerNewExitLab')?>" method="post" id="form_register_exit_lab">
                 <div class="mb-3">
-                    <label for="num_doc" class="form-label">Número de documento</label>
+                    <label for="num_doc" class="form-label">Número de documento 🔢</label>
                     <input type="text" class="form-control" id="num_doc" name="num_doc" placeholder="Número de documento" required>
                     <div class="invalid-feedback" id="error_num_doc">
                     </div>
