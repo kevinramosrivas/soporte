@@ -4,6 +4,9 @@ use App\Controllers\BaseController;
 use App\Entities\PrestamosLab;
 use App\Entities\User;
 use App\Models\PrestamosLabModel;
+use App\Libraries\PDFGenerator; 
+
+
 
 class AdminController extends BaseController
 {
@@ -204,6 +207,105 @@ class AdminController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
+    public function searchEntryLabByDocLab(){
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'admin') {
+            $data = [
+                'type_doc' => $this->request->getPost('type_doc'),
+                'num_lab' => $this->request->getPost('num_lab'),
+            ];
+            // validar los datos
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'type_doc' => 'required|integer|max_length[1]',
+                'num_lab' => 'required|integer|max_length[2]',
+            ]);
+            if (!$validation->run($data)) {
+                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                return redirect()->to(site_url('admin/viewRegisterEntryLab'));
+            }
+            // obtener todos los registros de entrada
+            $model = model('PrestamosLabModel');
+            $registerEntryLab = $model->getByTypeDocLab($data['type_doc'], $data['num_lab']);
+            $data = [
+                'registerEntryLab' => $registerEntryLab,
+            ];
+            if($registerEntryLab != null){
+                foreach ($registerEntryLab as $key => $value) {
+                    if(date('H:i:s', strtotime($value['hour_entry'])) == date('H:i:s', strtotime($value['hour_exit']))){
+                        $data['registerEntryLab'][$key]['hour_exit'] = null;
+                    }
+                    if($value['type_doc'] == 1){
+                        $data['registerEntryLab'][$key]['type_doc'] = 'DNI';
+                    }
+                    elseif($value['type_doc'] == 2){
+                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet de biblioteca';
+                    }
+                    elseif($value['type_doc'] == 3){
+                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
+                    }
+                }
+                return view('Admin/view_register_entry_lab', $data);
+            }
+            else{
+                $session->setFlashdata('error', 'No se encontraron registros');
+                return redirect()->to(site_url('admin/viewRegisterEntryLab'));
+            }
+
+ 
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+            
+    }
+    public function searchEntryLabByDatetime(){
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'admin') {
+            $data = [
+                'hour_entry' => $this->request->getPost('hour_entry'),
+                'hour_exit' => $this->request->getPost('hour_exit'),
+            ];
+            // validar los datos
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'hour_entry' => 'required',
+                'hour_exit' => 'required',
+            ]);
+            if (!$validation->run($data)) {
+                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                return redirect()->to(site_url('admin/viewRegisterEntryLab'));
+            }
+            // obtener todos los registros de entrada
+            $model = model('PrestamosLabModel');
+            $registerEntryLab = $model->getByDatetime($data['hour_entry'], $data['hour_exit']);
+            $data = [
+                'registerEntryLab' => $registerEntryLab,
+            ];
+            if($registerEntryLab != null){
+                foreach ($registerEntryLab as $key => $value) {
+                    if(date('H:i:s', strtotime($value['hour_entry'])) == date('H:i:s', strtotime($value['hour_exit']))){
+                        $data['registerEntryLab'][$key]['hour_exit'] = null;
+                    }
+                    if($value['type_doc'] == 1){
+                        $data['registerEntryLab'][$key]['type_doc'] = 'DNI';
+                    }
+                    elseif($value['type_doc'] == 2){
+                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet de biblioteca';
+                    }
+                    elseif($value['type_doc'] == 3){
+                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
+                    }
+                }
+                return view('Admin/view_register_entry_lab', $data);
+            }
+            else{
+                $session->setFlashdata('error', 'No se encontraron registros');
+                return redirect()->to(site_url('admin/viewRegisterEntryLab'));
+            }
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
     public function users()
     {
         $session = session();
@@ -293,6 +395,8 @@ class AdminController extends BaseController
         $session->destroy();
         return redirect()->to(site_url('login'));
     }
+
+
 }
 
 ?>

@@ -18,7 +18,10 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="unmsm1234">
+                    <div class="input-group">
+                        <input type="password" name="password" id="password" class="form-control" placeholder="unmsm1234">
+                        <button type="button" class="btn btn-outline-secondary" id="btn-show-password"><i class="bi bi-eye"></i></button>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <!-- alerta de usuario si existe login_error -->
@@ -37,4 +40,8 @@
 <div class="footer text-center">
         <p>Made by Team soporte FISI © 2023 with ❤️</p>
 </div>
+<?=$this->endSection()?>
+
+<?=$this->section('js')?>
+    <script src="<?=base_url('assets/js/login/login.js')?>"></script>
 <?=$this->endSection()?>

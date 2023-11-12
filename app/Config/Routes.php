@@ -40,6 +40,8 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->post('searchUser', 'AdminController::searchUser');
     $routes->post('registerNewEntryLab', 'AdminController::registerNewEntryLab');
     $routes->post('registerNewExitLab', 'AdminController::registerNewExitLab');
+    $routes->post('searchEntryLabByDocLab', 'AdminController::searchEntryLabByDocLab');
+    $routes->post('searchEntryLabByDatetime', 'AdminController::searchEntryLabByDatetime');
 });
 
 

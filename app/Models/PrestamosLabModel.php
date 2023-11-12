@@ -40,5 +40,44 @@ class PrestamosLabModel extends Model
         }
         return null;
     }
+    public function getByTypeDocLab($type_doc, $num_lab)
+    {
+        if($type_doc == 0 && $num_lab == 0){
+            return $this->getAllRegisterEntryLab();
+        }
+        if($type_doc == 0){
+            $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user WHERE num_lab = $num_lab")->getResultArray();
+            if($registerEntryLab != null){
+                return $registerEntryLab;
+            }
+            return null;
+        }
+        if($num_lab == 0){
+            $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user WHERE type_doc = $type_doc")->getResultArray();
+            if($registerEntryLab != null){
+                return $registerEntryLab;
+            }
+            return null;
+        }
+        $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user WHERE type_doc = $type_doc AND num_lab = $num_lab")->getResultArray();   
+        if($registerEntryLab != null){
+            return $registerEntryLab;
+        }
+    }
+    public function getByDatetime($hour_entry, $hour_exit)
+    {
+        //convertir a formato de hora y fecha       
+        $hour_entry = date('Y-m-d H:i:s', strtotime($hour_entry));
+        $hour_exit = date('Y-m-d H:i:s', strtotime($hour_exit));
+        
+        if($hour_entry == null && $hour_exit == null){
+            return $this->getAllRegisterEntryLab();
+        }   
+        $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user WHERE hour_entry BETWEEN '$hour_entry' AND '$hour_exit'")->getResultArray();
+        if($registerEntryLab != null){
+            return $registerEntryLab;
+        }
+        return null;
+    }
 
 }
