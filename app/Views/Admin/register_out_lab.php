@@ -60,6 +60,11 @@
                             <?=session()->getFlashdata('success')?>
                         </div>
                     <?php endif;?>
+                    <?php if(session()->getFlashdata('alert_num_doc')):?>
+                        <div class="alert alert-warning" role="alert">
+                            <?=session()->getFlashdata('alert_num_doc')?>
+                        </div>
+                    <?php endif;?>
                 <div class="mb-3 d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary">Registrar salida</button>
                 </div>

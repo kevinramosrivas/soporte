@@ -161,7 +161,15 @@ class AdminController extends BaseController
                     // retornar mensaje de exito
                     $session->setFlashdata('success', 'El usuario se registro correctamente');
                     return redirect()->to(site_url('admin/registerExitLab'));
-                }else{
+                }else if($date != $date_now && date('H:i:s', strtotime($prestamo['hour_entry'])) == date('H:i:s', strtotime($prestamo['hour_exit']))){
+                    // retornar error
+                    $prestamo['hour_exit'] = date('Y-m-d H:i:s');
+                    $model->update($prestamo['id_prestamo'], $prestamo);
+                    // emviar mensaje de alerta
+                    $session->setFlashdata('alert_num_doc', 'El usuario no se encuentra registrado el dia de hoy, recuerde al usuario recoger su carnet al salir');
+                    return redirect()->to(site_url('admin/registerExitLab'));
+                }
+                else{
                     // retornar error
                     $session->setFlashdata('error_num_doc', 'El usuario no se encuentra registrado, por favor registre su entrada');
                     return redirect()->to(site_url('admin/registerExitLab'));
