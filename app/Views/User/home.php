@@ -4,7 +4,7 @@
 <?=$this->endSection()?>
 
 <?=$this->section('content')?>
-<?=$this->include('Layouts/navbar_admin')?>
+<?=$this->include('Layouts/navbar_user')?>
 <!-- dashboard -->
 <div class="container">
                         <!-- Page Heading -->
@@ -16,7 +16,7 @@
     <div class="row">
 
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
+        <div class="col-xl-3 col-md-6 mb-4 d-none">
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?=$users?></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                         </div>
                     </div>
                 </div>

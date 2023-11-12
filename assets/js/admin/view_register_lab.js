@@ -100,8 +100,8 @@ btnPrint.addEventListener('click', function() {
         }
     });
 
-    // descargar el pdf
-    doc.save('registro-laboratorio.pdf');
+    // descargar el pdf commbinando la fecha y hora actual
+    doc.save('LabRegister_' + new Date().toLocaleDateString() + '-' + new Date().toLocaleTimeString() + '.pdf');
         
 
 

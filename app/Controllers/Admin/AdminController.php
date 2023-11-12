@@ -3,8 +3,6 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Entities\PrestamosLab;
 use App\Entities\User;
-use App\Models\PrestamosLabModel;
-use App\Libraries\PDFGenerator; 
 
 
 

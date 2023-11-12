@@ -44,6 +44,15 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->post('searchEntryLabByDatetime', 'AdminController::searchEntryLabByDatetime');
 });
 
+$routes->group('user', ['namespace' => 'App\Controllers\User'], function ($routes) {
+    $routes->get('home', 'UserController::index');
+    $routes->post('logout', 'UserController::logout');
+    $routes->post('registerNewEntryLab', 'UserController::registerNewEntryLab');
+    $routes->post('registerNewExitLab', 'UserController::registerNewExitLab');
+    $routes->get('registerEntryLab', 'UserController::registerEntryLab');
+    $routes->get('registerExitLab', 'UserController::registerExitLab');
+});
+
 
 
 
