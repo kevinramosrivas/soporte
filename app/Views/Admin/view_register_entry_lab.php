@@ -84,6 +84,11 @@
                         <div class="alert alert-danger" role="alert">
                             <?=session()->getFlashdata('error')?>
                         </div>
+                    <?php if($registerEntryLab == null):?>
+                        <div class="alert alert-danger" role="alert">
+                            No hay registros
+                        </div>
+                    <?php endif;?>    
                     <!-- ver si es que hay datos en la variable de sesion -->
                     <?php else: ?>
                         <?php foreach ($registerEntryLab as $registerEntryLab) : ?>
