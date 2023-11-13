@@ -41,7 +41,7 @@
                         <div class="mb-3">
                             <label for="id_email_create" id="email_id" class="form-label">Correo</label>
                             <div class="input-group">
-                                <input type="email" name="email" id="id_email_create" class="form-control" required autocomplete="on">
+                                <input type="text" name="email" id="id_email_create" class="form-control" required autocomplete="on">
                                 <!-- añadir el @unmsm.edu.pe -->
                                 <span class="input-group-text">@unmsm.edu.pe</span>
                             </div>
@@ -56,6 +56,16 @@
                                 </button>
                             </div>
                         </div>
+                        <?php 
+                        //iniciar la sesion para mostrar los errores de validacion
+                        $sesion = session();
+                        if ($sesion->getFlashdata('error')) : ?>
+                        <div class="mb-3">
+                            <div class="alert alert-danger">
+                                <?= $sesion->getFlashdata('error') ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                     </form>
                 </div>
                 <div class="modal-footer">

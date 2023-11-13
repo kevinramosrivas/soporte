@@ -33,7 +33,7 @@ class AdminController extends BaseController
             $users_lab = $prestamos_model->findAll();
             // que sean del dia de hoy
             foreach ($users_lab as $key => $value) {
-                if($value['hour_entry'] !== $value['hour_exit'] && date('Y-m-d', strtotime($value['hour_entry'])) !== date('Y-m-d')){
+                if($value['hour_entry'] !== $value['hour_exit']){
                     unset($users_lab[$key]);
                 }
             }
@@ -340,6 +340,12 @@ class AdminController extends BaseController
             // obtener todos los usuarios
             $model = model('UserModel');
             $users = $model->findAll();
+            // solo mostrar los usuarios activos
+            foreach ($users as $key => $value) {
+                if($value['active'] == 0){
+                    unset($users[$key]);
+                }
+            }
             $data = [
                 'users' => $users,
             ];
@@ -361,6 +367,12 @@ class AdminController extends BaseController
             ];
             $user = new User($data);
             $model = model('UserModel');
+            //verificar si el usuario ya existe en la base de datos
+            $user_db = $model->getUserByEmail($data['email']);
+            if($user_db != null){
+                $session->setFlashdata('error', 'El usuario ya existe');
+                return redirect()->to(site_url('admin/users'));
+            }
             $model->insert($user);
             return redirect()->to(site_url('admin/users'));
         } else {
@@ -373,7 +385,7 @@ class AdminController extends BaseController
         if ($session->isLoggedIn && $session->type == 'admin') {
             $id_user = $this->request->getPost('id_user');
             $model = model('UserModel');
-            $model->delete($id_user);
+            $model->desactivateUser($id_user);
             return redirect()->to(site_url('admin/users'));
         } else {
             return redirect()->to(site_url('login'));

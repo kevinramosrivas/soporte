@@ -39,5 +39,14 @@ class UserModel extends Model
         }
         return null;
     }
+    public function desactivateUser($id)
+    {
+        $user = $this->where('id_user', $id)->first();
+        if($user != null){
+            $this->query("UPDATE user SET active = 0 WHERE id_user = '$id'");
+            return true;
+        }
+        return false;
+    }
 
 }
