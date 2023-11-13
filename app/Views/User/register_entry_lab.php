@@ -63,7 +63,7 @@
                     <select name="tipo_documento" id="tipo_documento" class="form-select" required>
                         <option value="1">DNI</option>
                         <option value="2">Carnet de biblioteca</option>
-                        <option value="3">Carnet universitario</option>
+                        <option value="3" selected>Carnet universitario</option>
                     </select>
                 </div>
                 <div class="mb-3">
