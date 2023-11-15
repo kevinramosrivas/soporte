@@ -205,10 +205,6 @@ class AdminController extends BaseController
                         $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
                     }
                 }
-                //Ordenar por fecha y hora de entrada de forma descendente
-                usort($data['registerEntryLab'], function($a, $b) {
-                    return $b['hour_entry'] <=> $a['hour_entry'];
-                });
                 return view('Admin/view_register_entry_lab', $data);
             }
             else{
