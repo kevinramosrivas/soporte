@@ -205,31 +205,16 @@ class AdminController extends BaseController
                         $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
                     }
                 }
+                //Ordenar por fecha y hora de entrada de forma descendente
+                usort($data['registerEntryLab'], function($a, $b) {
+                    return $b['hour_entry'] <=> $a['hour_entry'];
+                });
                 return view('Admin/view_register_entry_lab', $data);
             }
             else{
                 $session->setFlashdata('error', 'No se encontraron registros');
                 return view('Admin/view_register_entry_lab', $data);
             }
-            // si la hora de entrada es igual a la hora de salida, el usuario no ha salido del laboratorio y se devuelve ese campo como null
-            // si el valor de type_doc es 1, se muestra DNI
-            // si el valor de type_doc es 2, se muestra Carnet de biblioteca
-            // si el valor de type_doc es 3, se muestra Carnet universitario
-            // foreach ($registerEntryLab as $key => $value) {
-            //     if(date('H:i:s', strtotime($value['hour_entry'])) == date('H:i:s', strtotime($value['hour_exit']))){
-            //         $data['registerEntryLab'][$key]['hour_exit'] = null;
-            //     }
-            //     if($value['type_doc'] == 1){
-            //         $data['registerEntryLab'][$key]['type_doc'] = 'DNI';
-            //     }
-            //     elseif($value['type_doc'] == 2){
-            //         $data['registerEntryLab'][$key]['type_doc'] = 'Carnet de biblioteca';
-            //     }
-            //     elseif($value['type_doc'] == 3){
-            //         $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
-            //     }
-            // }
-            // return view('Admin/view_register_entry_lab', $data);
         } else {
             return redirect()->to(site_url('login'));
         }
