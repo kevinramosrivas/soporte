@@ -11,15 +11,15 @@
     <div class="row">
         <div class="col-12 col-form">
             <h2 class="text-center">Iniciar Sesión</h1>
-            <form action="<?=site_url('login/login')?>" method="post">
+            <form action="<?=site_url('login/login')?>" method="post" id="form-login">
                 <div class="mb-3">
                     <label for="email" class="form-label">Correo</label>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="bolsista1@unmsm.edu.pe">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="bolsista1@unmsm.edu.pe" required autocomplete="email">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
                     <div class="input-group">
-                        <input type="password" name="password" id="password" class="form-control" placeholder="unmsm1234">
+                        <input type="password" name="password" id="password" class="form-control" placeholder="unmsm1234" required autocomplete="current-password">
                         <button type="button" class="btn btn-outline-secondary" id="btn-show-password"><i class="bi bi-eye"></i></button>
                     </div>
                 </div>
