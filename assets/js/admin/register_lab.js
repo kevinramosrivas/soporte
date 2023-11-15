@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     modal._element.addEventListener('shown.bs.modal', function () {
         // cuando se abra el modal, se ejecuta el código
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
     });
     // cuando se envíe el formulario, se ejecuta el código
     form.addEventListener('submit', function (event) {
@@ -29,7 +30,11 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function onScanSuccess(decodedText, decodedResult) {
         // handle the scanned code as you like, for example:
-        //console.log(`Code matched = ${decodedText}`, decodedResult);
+        // actualizar el valor del input con el valor del código QR
+        document.getElementById('num_doc').value = decodedText;
+        // cerrar el modal
+        modal.hide();
+        // detener el lector QR
         html5QrcodeScanner.clear();
     
     }
