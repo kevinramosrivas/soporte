@@ -16,7 +16,7 @@ $(document).ready(function() {
                 "previous": "Anterior"
             },
             //ordenar por defecto por la columna de entrada
-            "order": [[ 3, "desc" ]]
+            "order": [[ 4, "desc" ]]
         }
     });
 });
