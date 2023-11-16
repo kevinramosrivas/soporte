@@ -33,7 +33,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->get('registerExitLab', 'AdminController::registerExitLab');
     $routes->get('viewRegisterEntryLab', 'AdminController::viewRegisterEntryLab');
     $routes->get('users', 'AdminController::users');
-    $routes->post('logout', 'AdminController::logout');
+    $routes->get('logout', 'AdminController::logout');
     $routes->post('registerUser', 'AdminController::registerNewUser');
     $routes->post('userDelete', 'AdminController::deleteUser');
     $routes->post('editUser', 'AdminController::editUser');

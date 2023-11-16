@@ -32,10 +32,20 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <!-- boton de cerrar sesion  -->
-                    <form action="<?=base_url("user/logout")?>" method="post">
-                        <button type="submit" class="btn btn-danger text-center">Cerrar sesión</button>
-                    </form>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                            <?php
+                                $session = session();
+                                echo $session->username;
+                            ?>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                <a class="dropdown-item" href="<?=base_url("user/logout")?>">Cerrar sesión</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>

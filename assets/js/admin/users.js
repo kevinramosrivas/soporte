@@ -18,8 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         //validar que el correo sea del dominio @unmsm.edu.pe con una regex
+        //concatenar el dominio al correo
+        let emailconcat = email + '@unmsm.edu.pe';
+        //actualizar el valor del formulario antes de enviar
+        document.getElementById('id_email_create').value = emailconcat;
         let regex = new RegExp('^[a-zA-Z0-9._-]+@unmsm.edu.pe$');
-        if (!regex.test(email)) {
+        if (!regex.test(emailconcat)) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',

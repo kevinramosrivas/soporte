@@ -16,7 +16,7 @@ class UserController extends BaseController
             $users_lab = $prestamos_model->findAll();
             // que sean del dia de hoy
             foreach ($users_lab as $key => $value) {
-                if($value['hour_entry'] !== $value['hour_exit'] && date('Y-m-d', strtotime($value['hour_entry'])) !== date('Y-m-d')){
+                if($value['hour_entry'] !== $value['hour_exit']){
                     unset($users_lab[$key]);
                 }
             }
