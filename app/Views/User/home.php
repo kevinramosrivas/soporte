@@ -178,6 +178,7 @@
     </div>
 </div>
 <?=$this->endSection()?>
+<?=$this->include('Layouts/footer')?>
 <?=$this->section('js')?>
 <?=$this->endSection()?>
 

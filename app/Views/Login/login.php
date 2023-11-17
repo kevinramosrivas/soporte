@@ -2,6 +2,9 @@
 <?=$this->section('css')?>
 <link rel="stylesheet" href="<?=base_url('assets/css/login.css')?>">
 <?=$this->endSection()?>
+<?=$this->section('title')?>
+Iniciar sesión
+<?=$this->endSection()?>
 
 <?=$this->section('content')?>
 <main>
@@ -14,7 +17,7 @@
 
                 <div class="d-flex justify-content-center py-4">
                     <div class="logo d-flex align-items-center w-auto">
-                        <img src="https://cdn-icons-png.flaticon.com/512/7928/7928596.png" alt="" width="90" height="90">
+                        <span class="d-block">🔧🪛</span>
                         <span class="d-none d-lg-block d-xl-block text-white ms-2">Sistema de soporte - FISI</span>
                     </div>
                 </div><!-- End Logo -->

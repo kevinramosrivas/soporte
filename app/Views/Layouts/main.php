@@ -2,11 +2,11 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title><?=$this->renderSection('title')?> - SGST FISI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?=$this->renderSection('title')?></title>
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="https://cdn-icons-png.flaticon.com/512/7928/7928596.png" rel="icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -22,8 +22,10 @@
     <link href="<?=base_url('assets/vendor/remixicon/remixicon.css')?>" rel="stylesheet">
     <link href="<?=base_url('assets/vendor/simple-datatables/style.css')?>" rel="stylesheet">
 
+    <script src="<?=base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
+
     <!-- Template Main CSS File -->
-    <link href="<?=base_url('assets/css/style.css" rel="stylesheet')?>">
+    <link href="<?=base_url('assets/css/style.css')?>"rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <?=$this->renderSection('css')?>
@@ -33,7 +35,6 @@
     <?=$this->renderSection('js')?>
     <!-- Vendor JS Files -->
     <script src="<?=base_url('assets/vendor/apexcharts/apexcharts.min.js')?>"></script>
-    <script src="<?=base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')?>"></script>
     <script src="<?=base_url('assets/vendor/chart.js/chart.umd.js')?>"></script>
     <script src="<?=base_url('assets/vendor/echarts/echarts.min.js')?>"></script>
     <script src="<?=base_url('assets/vendor/quill/quill.min.js')?>"></script>
