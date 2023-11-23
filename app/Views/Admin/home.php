@@ -3,6 +3,10 @@
 <link rel="stylesheet" href="<?=base_url('assets/css/admin/home.css')?>">
 <?=$this->endSection()?>
 
+<?=$this->section('title')?>
+Dashboard
+<?=$this->endSection()?>
+
 
 <?=$this->section('content')?>
 <?=$this->include('Layouts/header')?>
@@ -13,7 +17,7 @@
 <h1>Dashboard</h1>
 <nav>
     <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+    <li class="breadcrumb-item"><a href="<?=base_url('admin/home')?>">Inicio</a></li>
     <li class="breadcrumb-item active">Dashboard</li>
     </ol>
 </nav>

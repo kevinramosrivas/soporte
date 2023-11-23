@@ -17,8 +17,7 @@ Iniciar sesión
 
                 <div class="d-flex justify-content-center py-4">
                     <div class="logo d-flex align-items-center w-auto">
-                        <span class="d-block">🔧🪛</span>
-                        <span class="d-none d-lg-block d-xl-block text-white ms-2">Sistema de soporte - FISI</span>
+                        <span class="d-lg-block d-xl-block text-white ms-2">Sistema de soporte - FISI</span>
                     </div>
                 </div><!-- End Logo -->
 
@@ -77,7 +76,7 @@ Iniciar sesión
                 </div>
 
                 <div class="credits text-white ms-2">
-                    <p>Made by Team soporte FISI © 2023 with ❤️</p>
+                    <p>Made by Team soporte FISI © 2023 with <i class="bi bi-heart-fill text-danger"></i></p>
                 </div>
 
             </div>

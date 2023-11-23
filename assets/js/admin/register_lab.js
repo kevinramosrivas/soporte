@@ -1,18 +1,18 @@
 
 let form = document.getElementById('form_register_entry_lab');
 let modal = new bootstrap.Modal('#modalLectorQRBarcodes');
-
+let input_num_doc = document.getElementById('num_doc');
+let body = document.getElementsByTagName('body')[0];
 //ver si el modal esta abierto, solo si esta abierto escribir en el input
 
 function onScanSuccess(decodedText, decodedResult) {
     // handle the scanned code as you like, for example:
-    console.log(`Code matched = ${decodedText}`, decodedResult);
-    // actualizar el valor del input con el valor del código QR
-    document.getElementById('numero_documento').value = decodedText;
-    // cerrar el modal
-    modal.hide();
-    // detener el lector QR
-    html5QrcodeScanner.clear();
+    //console.log(`Code matched = ${decodedText}`, decodedResult);
+    if (modal._element.classList.contains('show')) {
+        input_num_doc.value = decodedText;
+        modal.hide();
+        //html5QrcodeScanner.clear();
+    }
 
 }
     
@@ -27,13 +27,13 @@ let html5QrcodeScanner = new Html5QrcodeScanner(
     { fps: 60, qrbox: {width: 350, height: 150} },
     /* verbose= */ false
 );
+html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+// modal._element.addEventListener('shown.bs.modal', function (event) {
+//     // cuando se abra el modal, se ejecuta el código
     
 
-modal._element.addEventListener('shown.bs.modal', function (event) {
-    // cuando se abra el modal, se ejecuta el código
-    html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
-});
+// });
 // cuando se envíe el formulario, se ejecuta el código
 form.addEventListener('submit', function (event) {
     event.preventDefault();

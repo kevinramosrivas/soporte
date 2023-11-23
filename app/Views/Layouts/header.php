@@ -3,11 +3,11 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
+      <a href="<?=base_url('admin/home')?>" class="logo d-flex align-items-center">
+        <img src="<?=base_url('assets/img/logo.png')?>" alt="">
         <span class="d-lg-block">SGST-FISI</span>
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
+      <i class="bi toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
     <div class="search-bar d-none">
@@ -119,7 +119,7 @@
 
             <li class="message-item">
               <a href="#">
-                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                <img src="" alt="" class="rounded-circle">
                 <div>
                   <h4>Maria Hudson</h4>
                   <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -133,7 +133,7 @@
 
             <li class="message-item">
               <a href="#">
-                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                <img src="" alt="" class="rounded-circle">
                 <div>
                   <h4>Anna Nelson</h4>
                   <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -147,7 +147,7 @@
 
             <li class="message-item">
               <a href="#">
-                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                <img src="" alt="" class="rounded-circle">
                 <div>
                   <h4>David Muldon</h4>
                   <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>

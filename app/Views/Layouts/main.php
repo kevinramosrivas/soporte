@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?=$this->renderSection('title')?></title>
     <!-- Favicons -->
-    <link href="https://cdn-icons-png.flaticon.com/512/7928/7928596.png" rel="icon">
+    <link href="<?=base_url('assets/img/favicon.ico')?>" rel="icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">

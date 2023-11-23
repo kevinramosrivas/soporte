@@ -75,6 +75,6 @@
 <?=$this->endSection()?>
 <?=$this->section('js')?>
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script src="<?=base_url('assets/js/admin/register_lab_exit.js')?>"></script>
+<script src="<?=base_url('assets/js/admin/register_lab.js')?>"></script>
 <?=$this->endSection()?>
 

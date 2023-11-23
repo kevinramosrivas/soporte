@@ -41,11 +41,40 @@
   /**
    * Sidebar toggle
    */
-  if (select('.toggle-sidebar-btn')) {
+  //verificar el tamaño de la pantalla
+  if (select('.toggle-sidebar-btn') && window.innerWidth > 1024) {
+    select('.toggle-sidebar-btn').classList.add('bi-arrow-left-circle-fill')
     on('click', '.toggle-sidebar-btn', function(e) {
       select('body').classList.toggle('toggle-sidebar')
+      //cambiar el icono del boton
+      if (select('body').classList.contains('toggle-sidebar')) {
+        select('.toggle-sidebar-btn').classList.remove('bi-arrow-left-circle-fill')
+        select('.toggle-sidebar-btn').classList.add('bi-list')
+      }
+      else {
+        select('.toggle-sidebar-btn').classList.remove('bi-list')
+        select('.toggle-sidebar-btn').classList.add('bi-arrow-left-circle-fill')
+      }
     })
   }
+  else if (select('.toggle-sidebar-btn') && window.innerWidth <= 1024) {
+    select('.toggle-sidebar-btn').classList.add('bi-list')
+    on('click', '.toggle-sidebar-btn', function(e) {
+      select('body').classList.toggle('toggle-sidebar')
+      //cambiar el icono del boton
+      if (select('body').classList.contains('toggle-sidebar')) {
+        select('.toggle-sidebar-btn').classList.remove('bi-list')
+        select('.toggle-sidebar-btn').classList.add('bi-arrow-left-circle-fill')
+
+      }
+      else {
+        select('.toggle-sidebar-btn').classList.remove('bi-arrow-left-circle-fill')
+        select('.toggle-sidebar-btn').classList.add('bi-list')
+      }
+    })
+  }
+
+
 
   /**
    * Search bar toggle
