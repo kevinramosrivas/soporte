@@ -21,7 +21,7 @@ class UserModel extends Model
                 return $user;
             }
         }
-        return null;
+        //return null;
     }
     public function getUserByEmail($email)
     {
@@ -33,6 +33,8 @@ class UserModel extends Model
     }
     public function searchUser($search)
     {
+
+        $search = $this->escapeLikeString($search);
         $user = $this->query("SELECT * FROM user WHERE username LIKE '%$search%' OR email LIKE '%$search%'")->getResultArray();
         if($user != null){
             return $user;
@@ -43,7 +45,8 @@ class UserModel extends Model
     {
         $user = $this->where('id_user', $id)->first();
         if($user != null){
-            $this->query("UPDATE user SET active = 0 WHERE id_user = '$id'");
+            $sql = "UPDATE user SET active = :active: WHERE id_user = :id:";
+            $this->query($sql, ['active' => 0, 'id' => $id]);
             return true;
         }
         return false;
@@ -53,23 +56,38 @@ class UserModel extends Model
         $user = $this->where('id_user', $id)->first();
         //obtener datetime actual
         $date = date('Y-m-d H:i:s');
+        $sql_with_password = "UPDATE user SET type = :type:,
+        username = :username:,
+        email = :email:,
+        password = :password:,
+        active = :active:,
+        updated_at = :updated_at:
+        WHERE id_user = :id:";
         if($user != null && $data['password'] != null){
-            $this->query("UPDATE user SET type = '$data[type]', 
-            username = '$data[username]', 
-            email = '$data[email]', 
-            password = '$data[password]', 
-            active = '$data[active]' 
-            , updated_at = '$date'
-            WHERE id_user = '$id'");
+            $this->query($sql_with_password, 
+            ['type' => $data['type'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+            'active' => $data['active'],
+            'updated_at' => $date,
+            'id' => $id]);
             return true;
         }
+        $sql_without_password = "UPDATE user SET type = :type:,
+        username = :username:,
+        email = :email:,
+        active = :active:,
+        updated_at = :updated_at:
+        WHERE id_user = :id:";
         if($user != null && $data['password'] == null){
-            $this->query("UPDATE user SET type = '$data[type]', 
-            username = '$data[username]', 
-            email = '$data[email]', 
-            active = '$data[active]' 
-            , updated_at = '$date'
-            WHERE id_user = '$id'");
+            $this->query($sql_without_password, 
+            ['type' => $data['type'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'active' => $data['active'],
+            'updated_at' => $date,
+            'id' => $id]);
             return true;
         }
         return false;

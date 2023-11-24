@@ -75,7 +75,7 @@ class LoginController extends BaseController
     {
         $data = [
             'id_user' => '6',
-            'type' => 'admin',
+            'type' => 'ADMINISTRADOR',
             'username' => 'admdADSFin',
             'email' => '1234@gmail.com',
             'password' => '123456789',

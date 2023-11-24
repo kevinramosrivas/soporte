@@ -21,14 +21,6 @@ class PrestamosLabModel extends Model
         return null;
     }
 
-    public function getLabByUser($id_user)
-    {
-        $lab = $this->query("SELECT * FROM prestamos_lab WHERE registrar_id = $id_user")->getResultArray();
-        if($lab != null){
-            return $lab;
-        }
-        return null;
-    }
 
     public function getAllRegisterEntryLab()
     {
