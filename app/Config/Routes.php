@@ -29,19 +29,13 @@ $routes->group('login', ['namespace' => 'App\Controllers\Login'], function ($rou
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
     $routes->get('home', 'AdminController::index');
-    $routes->get('registerEntryLab', 'AdminController::registerEntryLab');
-    $routes->get('registerExitLab', 'AdminController::registerExitLab');
-    $routes->get('viewRegisterEntryLab', 'AdminController::viewRegisterEntryLab');
     $routes->get('users', 'AdminController::users');
     $routes->get('logout', 'AdminController::logout');
     $routes->post('registerUser', 'AdminController::registerNewUser');
     $routes->post('userDelete', 'AdminController::deleteUser');
     $routes->post('editUser', 'AdminController::editUser');
     $routes->post('searchUser', 'AdminController::searchUser');
-    $routes->post('registerNewEntryLab', 'AdminController::registerNewEntryLab');
-    $routes->post('registerNewExitLab', 'AdminController::registerNewExitLab');
-    $routes->post('searchEntryLabByDocLab', 'AdminController::searchEntryLabByDocLab');
-    $routes->post('searchEntryLabByDatetime', 'AdminController::searchEntryLabByDatetime');
+    $routes->post('deleteRegisterEntryLab', 'AdminController::deleteRegisterEntryLab');
 });
 
 $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($routes) {
@@ -51,6 +45,10 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
     $routes->post('registerNewExitLab', 'UserController::registerNewExitLab');
     $routes->get('registerEntryLab', 'UserController::registerEntryLab');
     $routes->get('registerExitLab', 'UserController::registerExitLab');
+    $routes->get('viewRegisterEntryLab','UserController::viewRegisterEntryLab');
+    $routes->post('searchEntryLabByDocLab','UserController::searchEntryLabByDocLab');
+    $routes->post('searchEntryLabByDatetime','UserController::searchEntryLabByDatetime');
+
 });
 
 

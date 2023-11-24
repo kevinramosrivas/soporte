@@ -24,7 +24,7 @@ class AdminController extends BaseController
          * @return mixed
          */
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
             //recolectar el numero de usuarios
             $user_model = model('UserModel');
             $users = $user_model->findAll();
@@ -49,275 +49,11 @@ class AdminController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
-    public function registerEntryLab()
-    {
-        $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
-            return view('Admin/register_entry_lab');
-        } else {
-            return redirect()->to(site_url('login'));
-        }
-    }
-    public function registerNewEntryLab()
-    {
-        /**
-         * Registra la entrada de un usuario en el laboratorio.
-         *
-         * @return \CodeIgniter\HTTP\RedirectResponse Redirige a la página de registro de entrada si hay un error o a la página de inicio de sesión si el usuario no está autenticado o no es un administrador.
-         */
-        $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
-            $data = [
-                'num_lab' => $this->request->getPost('num_laboratorio'),
-                'type_doc' => $this->request->getPost('tipo_documento'),
-                'num_doc' => $this->request->getPost('numero_documento'),
-                'registrar_id' => $session->id_user,
-            ];
-            // validar los datos
-            $validation = \Config\Services::validation();
-            $validation->setRules([
-                'num_lab' => 'required|integer|max_length[2]',
-                'type_doc' => 'required|integer|max_length[1]',
-                'num_doc' => 'required|exact_length[8]',
-            ]);
-            if (!$validation->run($data)) {
-                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
-                return redirect()->to(site_url('admin/registerEntryLab'));
-            }
-            // obtener el ultimo registro de prestamo
-            $model = model('PrestamosLabModel');
-            $prestamo = $model->where('num_doc', $data['num_doc'])->where('type_doc', $data['type_doc'])->orderBy('hour_entry', 'DESC')->first();
-            // verificar si existe un registro y si es del mismo dia
-            if ($prestamo != null) {
-                $date = date('Y-m-d', strtotime($prestamo['hour_entry']));
-                $date_now = date('Y-m-d');
-                if ($date == $date_now) {
-                    if(date('H:i:s', strtotime($prestamo['hour_entry'])) == date('H:i:s', strtotime($prestamo['hour_exit']))){
-                        // retornar error
-                        $session->setFlashdata('error_num_doc', 'El usuario ya se encuentra registrado, por favor registre su salida');
-                        return redirect()->to(site_url('admin/registerEntryLab'));
-                    }
-                    $data['interval_num'] = $prestamo['interval_num'] + 1;
-                } else {
-                    $data['interval_num'] = 1;
-                }
-            } else {
-                $data['interval_num'] = 1;
-            }
-            $prestamo = new PrestamosLab($data);
-            $model->insert($prestamo);
-            // retornar mensaje de exito
-            $session->setFlashdata('success', 'El usuario se registro correctamente');
-            return redirect()->to(site_url('admin/registerEntryLab'));
-        } else {
-            return redirect()->to(site_url('login'));
-        }
-    }
-    public function registerExitLab()
-    {
-        $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
-            return view('Admin/register_out_lab');
-        } else {
-            return redirect()->to(site_url('login'));
-        }
-    }
-    public function registerNewExitLab(){
-        /**
-         * Este método se encarga de registrar la salida de un usuario del laboratorio.
-         * Verifica si el usuario está autenticado como administrador y si los datos ingresados son correctos.
-         * Si el usuario ya tiene un registro de entrada en el laboratorio, actualiza la hora de salida.
-         * Si el usuario no tiene un registro de entrada, muestra un mensaje de error.
-         * @return redirect
-         */
-        $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
-            $data = [
-                'num_doc' => $this->request->getPost('num_doc'),
-                'registrar_id' => $session->id_user,
-            ];
-            // validar los datos
-            $validation = \Config\Services::validation();
-            $validation->setRules([
-                'num_doc' => 'required|exact_length[8]',
-            ]);
-            if (!$validation->run($data)) {
-                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
-                return redirect()->to(site_url('admin/registerExitLab'));
-            }
-            // obtener el ultimo registro de prestamo que la hora
-            $model = model('PrestamosLabModel');
-            $prestamo = $model->where('num_doc', $data['num_doc'])->orderBy('hour_entry', 'DESC')->first();
-            // verificar si existe un registro y si es del mismo dia
-            if ($prestamo != null) {
-                $date = date('Y-m-d', strtotime($prestamo['hour_entry']));
-                $date_now = date('Y-m-d');
-                if ($date == $date_now && date('H:i:s', strtotime($prestamo['hour_entry'])) == date('H:i:s', strtotime($prestamo['hour_exit']))) {
-                    //actualizar la hora de salida del prestamo
-                    $prestamo['hour_exit'] = date('Y-m-d H:i:s');
-                    $model->update($prestamo['id_prestamo'], $prestamo);
-                    // retornar mensaje de exito
-                    $session->setFlashdata('success', 'El usuario se registro correctamente');
-                    return redirect()->to(site_url('admin/registerExitLab'));
-                }else if($date != $date_now && date('H:i:s', strtotime($prestamo['hour_entry'])) == date('H:i:s', strtotime($prestamo['hour_exit']))){
-                    // retornar error
-                    $prestamo['hour_exit'] = date('Y-m-d H:i:s');
-                    $model->update($prestamo['id_prestamo'], $prestamo);
-                    // emviar mensaje de alerta
-                    $session->setFlashdata('alert_num_doc', 'El usuario no se encuentra registrado el dia de hoy, recuerde al usuario recoger su carnet al salir');
-                    return redirect()->to(site_url('admin/registerExitLab'));
-                }
-                else{
-                    // retornar error
-                    $session->setFlashdata('error_num_doc', 'El usuario no se encuentra registrado, por favor registre su entrada');
-                    return redirect()->to(site_url('admin/registerExitLab'));
-                }
-            } else {
-                $session->setFlashdata('error_num_doc', 'La entrada del usuario no se encuentra registrada');
-                return redirect()->to(site_url('admin/registerExitLab'));
-            }
-        } else {
-            return redirect()->to(site_url('login'));
-        }
-    }
-    public function viewRegisterEntryLab()
-    {
-        $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
-            // obtener todos los registros de entrada
-            $model = model('PrestamosLabModel');
-            $registerEntryLab = $model->getAllRegisterEntryLab();
-            $data = [
-                'registerEntryLab' => $registerEntryLab,
-            ];
-            if($registerEntryLab != null){
-                foreach ($registerEntryLab as $key => $value) {
-                    if(date('H:i:s', strtotime($value['hour_entry'])) == date('H:i:s', strtotime($value['hour_exit']))){
-                        $data['registerEntryLab'][$key]['hour_exit'] = null;
-                    }
-                    if($value['type_doc'] == 1){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'DNI';
-                    }
-                    elseif($value['type_doc'] == 2){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet de biblioteca';
-                    }
-                    elseif($value['type_doc'] == 3){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
-                    }
-                }
-                return view('Admin/view_register_entry_lab', $data);
-            }
-            else{
-                $session->setFlashdata('error', 'No se encontraron registros');
-                return view('Admin/view_register_entry_lab', $data);
-            }
-        } else {
-            return redirect()->to(site_url('login'));
-        }
-    }
-    public function searchEntryLabByDocLab(){
-        $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
-            $data = [
-                'type_doc' => $this->request->getPost('type_doc'),
-                'num_lab' => $this->request->getPost('num_lab'),
-            ];
-            // validar los datos
-            $validation = \Config\Services::validation();
-            $validation->setRules([
-                'type_doc' => 'required|integer|max_length[1]',
-                'num_lab' => 'required|integer|max_length[2]',
-            ]);
-            if (!$validation->run($data)) {
-                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
-                return redirect()->to(site_url('admin/viewRegisterEntryLab'));
-            }
-            // obtener todos los registros de entrada
-            $model = model('PrestamosLabModel');
-            $registerEntryLab = $model->getByTypeDocLab($data['type_doc'], $data['num_lab']);
-            $data = [
-                'registerEntryLab' => $registerEntryLab,
-            ];
-            if($registerEntryLab != null){
-                foreach ($registerEntryLab as $key => $value) {
-                    if(date('H:i:s', strtotime($value['hour_entry'])) == date('H:i:s', strtotime($value['hour_exit']))){
-                        $data['registerEntryLab'][$key]['hour_exit'] = null;
-                    }
-                    if($value['type_doc'] == 1){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'DNI';
-                    }
-                    elseif($value['type_doc'] == 2){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet de biblioteca';
-                    }
-                    elseif($value['type_doc'] == 3){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
-                    }
-                }
-                return view('Admin/view_register_entry_lab', $data);
-            }
-            else{
-                $session->setFlashdata('error', 'No se encontraron registros');
-                return redirect()->to(site_url('admin/viewRegisterEntryLab'));
-            }
-
- 
-        } else {
-            return redirect()->to(site_url('login'));
-        }
-            
-    }
-    public function searchEntryLabByDatetime(){
-        $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
-            $data = [
-                'hour_entry' => $this->request->getPost('hour_entry'),
-                'hour_exit' => $this->request->getPost('hour_exit'),
-            ];
-            // validar los datos
-            $validation = \Config\Services::validation();
-            $validation->setRules([
-                'hour_entry' => 'required',
-                'hour_exit' => 'required',
-            ]);
-            if (!$validation->run($data)) {
-                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
-                return redirect()->to(site_url('admin/viewRegisterEntryLab'));
-            }
-            // obtener todos los registros de entrada
-            $model = model('PrestamosLabModel');
-            $registerEntryLab = $model->getByDatetime($data['hour_entry'], $data['hour_exit']);
-            $data = [
-                'registerEntryLab' => $registerEntryLab,
-            ];
-            if($registerEntryLab != null){
-                foreach ($registerEntryLab as $key => $value) {
-                    if(date('H:i:s', strtotime($value['hour_entry'])) == date('H:i:s', strtotime($value['hour_exit']))){
-                        $data['registerEntryLab'][$key]['hour_exit'] = null;
-                    }
-                    if($value['type_doc'] == 1){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'DNI';
-                    }
-                    elseif($value['type_doc'] == 2){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet de biblioteca';
-                    }
-                    elseif($value['type_doc'] == 3){
-                        $data['registerEntryLab'][$key]['type_doc'] = 'Carnet universitario';
-                    }
-                }
-                return view('Admin/view_register_entry_lab', $data);
-            }
-            else{
-                $session->setFlashdata('error', 'No se encontraron registros');
-                return redirect()->to(site_url('admin/viewRegisterEntryLab'));
-            }
-        } else {
-            return redirect()->to(site_url('login'));
-        }
-    }
+    
     public function users()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
             // obtener todos los usuarios
             $model = model('UserModel');
             $users = $model->findAll();
@@ -338,7 +74,7 @@ class AdminController extends BaseController
     public function registerNewUser()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
             $data = [
                 'id_user' => $this->request->getPost('id_user'),
                 'type' => $this->request->getPost('type'),
@@ -363,7 +99,7 @@ class AdminController extends BaseController
     public function deleteUser()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
             $id_user = $this->request->getPost('id_user');
             $model = model('UserModel');
             $model->desactivateUser($id_user);
@@ -375,7 +111,7 @@ class AdminController extends BaseController
     public function editUser()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
             $data = [
                 'id_user' => $this->request->getPost('id_user'),
                 'type' => $this->request->getPost('type'),
@@ -397,7 +133,7 @@ class AdminController extends BaseController
     public function searchUser()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'admin') {
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
             $search = $this->request->getPost('search');
             $model = model('UserModel');
             $user = $model->searchUser($search);
@@ -414,6 +150,17 @@ class AdminController extends BaseController
         $session = session();
         $session->destroy();
         return redirect()->to(site_url('login'));
+    }
+    public function deleteRegisterEntryLab(){
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+            $id_prestamo = $this->request->getPost('id_prestamo');
+            $model = model('PrestamosLabModel');
+            $model->delete($id_prestamo);
+            return redirect()->to(site_url('user/viewRegisterEntryLab'));
+        } else {
+            return redirect()->to(site_url('login'));
+        }
     }
 
 

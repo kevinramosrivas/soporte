@@ -67,12 +67,12 @@ class PrestamosLabModel extends Model
     public function getByDatetime($hour_entry, $hour_exit)
     {
         //convertir a formato de hora y fecha       
-        $hour_entry = date('Y-m-d H:i:s', strtotime($hour_entry));
-        $hour_exit = date('Y-m-d H:i:s', strtotime($hour_exit));
+        $hour_entry = date('Y-m-d', strtotime($hour_entry));
+        $hour_exit = date('Y-m-d', strtotime($hour_exit));
         
         if($hour_entry == null && $hour_exit == null){
             return $this->getAllRegisterEntryLab();
-        }   
+        }
         $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user WHERE hour_entry BETWEEN '$hour_entry' AND '$hour_exit'")->getResultArray();
         if($registerEntryLab != null){
             return $registerEntryLab;

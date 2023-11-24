@@ -17,6 +17,13 @@ class LoginController extends BaseController
      */
     public function index(): string
     {
+        if(session()->get('isLoggedIn')){
+            if(session()->get('type') == 'ADMINISTRADOR'){
+                return view('Admin/home');
+            }else if(session()->get('type') == 'user'){
+                return view('User/home');
+            }
+        }
         return view('Login/login');
     }
     public function login()
@@ -38,12 +45,12 @@ class LoginController extends BaseController
                 'isLoggedIn' => true,
                 'active' => $user['active']
             ]);
-            if ($user['type'] == 'admin' && $user['active'] == 1) {
+            if ($user['type'] == 'ADMINISTRADOR' && $user['active'] == 1) {
                 return redirect()->to(site_url('admin/home'));
             } else if ($user['type'] == 'user') {
                 return redirect()->to(site_url('user/home'));
             }
-            else if (($user['type'] == 'admin' ||$user['type'] == 'user') && $user['active'] == 0) {
+            else if (($user['type'] == 'ADMINISTRADOR' ||$user['type'] == 'user') && $user['active'] == 0) {
                 $session = session();
                 //añadir un mensaje de error
                 $session->setFlashdata('login_error', 'Usuario inactivo, por favor contacte con el administrador');

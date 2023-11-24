@@ -15,13 +15,18 @@
         </a>
         <ul id="labs-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="<?=base_url('admin/registerEntryLab')?>">
+            <a href="<?=base_url('user/registerEntryLab')?>">
               <span>Registrar entrada</span>
             </a>
           </li>
           <li>
-            <a href="<?=base_url('admin/registerExitLab')?>">
+            <a href="<?=base_url('user/registerExitLab')?>">
               <span>Registrar salida</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('user/viewRegisterEntryLab')?>">
+              <span>Ver registro de ingresos</span>
             </a>
           </li>
         </ul>

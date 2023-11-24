@@ -2,6 +2,7 @@
 
 $(document).ready(function() {
     $('#table-register-entry-lab').DataTable({
+        order: [[3, 'desc']],
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros por página",
             "zeroRecords": "No se encontró nada 😕",
@@ -104,8 +105,30 @@ btnPrint.addEventListener('click', function() {
 
     // descargar el pdf commbinando la fecha y hora actual
     doc.save('LabRegister_' + new Date().toLocaleDateString() + '-' + new Date().toLocaleTimeString() + '.pdf');
-        
 
+});
 
-    
+let formdeleteregister = document.querySelectorAll('.form-delete-register-lab');
+
+formdeleteregister.forEach(function(form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        //preguntar si está seguro de eliminar con sweetalert
+        Swal.fire({
+            title: '¿Estás seguro de eliminar?',
+            text: "No podrás revertir los cambios",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //enviar el formulario
+                this.submit();
+            }
+        })
+
+    });
 });

@@ -1,24 +1,33 @@
 <?=$this->extend('Layouts/main')?>
 <?=$this->section('css')?>
-<link rel="stylesheet" href="<?=base_url('assets/css/admin/view_register_lab.css')?>">
+<link rel="stylesheet" href="<?=base_url('assets/css/admin/register_entry_lab.css')?>">
+<?=$this->endSection()?>
+<?=$this->section('title')?>
+Reg. ingreso lab.
 <?=$this->endSection()?>
 
 <?=$this->section('content')?>
+<?=$this->include('Layouts/header')?>
 <?=$this->include('Layouts/navbar_admin')?>
-<!-- hacer una tabla con el registro de entrada de laboratorio , los campos son el numero de documento, el tipo de documento, el laboratior, hora y fecha de entrada, hora y fecha de salida, el nombre del usuario que registro la entrada -->
-<div class="container">
-    <div class="row" id="row-title">
-        <div class="col-12">
-            <h1 class="text-center">Registro préstamo de laboratorio</h1>   
-        </div>
-    </div>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Registro de pretamo de laboratorio</h1>
+        <nav>
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<?=base_url('admin/home')?>">Inicio</a></li>
+            <li class="breadcrumb-item inactive">Laboratorios</li>
+            <li class="breadcrumb-item active">Registro de prestamo</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section register-entry-lab">
     <div class="row">
         <h3 class="text col-12">Filtrar por:</h3>
         <div class="col-12 col-md-6">
-            <form action="<?=base_url('admin/searchEntryLabByDocLab')?>" method="post" class="p-3">
+            <form action="<?=base_url('user/searchEntryLabByDocLab')?>" method="post" class="p-3">
                 <div class="input-group">
                     <select name="type_doc" id="type_doc" class="form-select" placeholder="Tipo de documento">
-                        <option value="0">Documento 🪪</option>
+                        <option value="0">Tipo doc.🪪</option>
                         <option value="1">DNI</option>
                         <option value="2">Carnet de biblioteca</option>
                         <option value="3">Carnet universitario</option>
@@ -45,12 +54,12 @@
 
         <!-- boton para generar reporte -->
         <div class="col-12 col-md-6">
-            <form action="<?=base_url('admin/searchEntryLabByDatetime')?>" method="post" class="p-3">
+            <form action="<?=base_url('user/searchEntryLabByDatetime')?>" method="post" class="p-3">
                 <div class="input-group">
                     <!-- por hora y fecha de entrada -->
-                    <input type="date" name="hour_entry" id="hour_entry" class="form-control" placeholder="Hora de entrada" >
+                    <input type="date" name="date_begin" id="hour_entry" class="form-control">
                     <!-- por hora y fecha de salida -->
-                    <input type="date" name="hour_exit" id="hour_exit" class="form-control" placeholder="Hora de salida">
+                    <input type="date" name="date_end" id="hour_exit" class="form-control">
                     <input type="submit" value="Filtrar" class="btn btn-primary">
                 </div>
             </form>
@@ -73,7 +82,7 @@
                         <th scope="col">Laboratorio</th>
                         <th scope="col">Entrada</th>
                         <th scope="col">Salida</th>
-                        <th scope="col">Registrado por</th>
+                        <th scope="col">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,11 +106,30 @@
                                 <span class="badge text-bg-primary"><?='🕛'.date('h:i:s a', strtotime($registerEntryLab['hour_entry']))?></span>
                             </td>
                             <td>
-                                <?=is_null($registerEntryLab['hour_exit']) ? '<span class="badge bg-danger">No ha salido</span>' : '<span class="badge bg-secondary">🕛 '.date('h:i:s a', strtotime($registerEntryLab['hour_exit'])).'</span>'?>
+                            <?=is_null($registerEntryLab['hour_exit']) ? '<span class="badge bg-danger">No ha salido</span>' : '<span class="badge bg-secondary">🗓️ '.date('d-m-Y', strtotime($registerEntryLab['hour_exit'])).'</span>'?>
                                 <br>
-                                <?=is_null($registerEntryLab['hour_exit']) ? '<span class="badge bg-danger">No ha salido</span>' : '<span class="badge bg-secondary">🗓️ '.date('d-m-Y', strtotime($registerEntryLab['hour_exit'])).'</span>'?>
+                                <?=is_null($registerEntryLab['hour_exit']) ? '<span class="badge bg-danger">No ha salido</span>' : '<span class="badge bg-secondary">🕛 '.date('h:i:s a', strtotime($registerEntryLab['hour_exit'])).'</span>'?>
                             </td>
-                            <td><?=$registerEntryLab['username']?></td>
+                            <td>
+                                <button type="button" class="btn btn-secondary"
+                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-custom-class="custom-tooltip"
+                                        data-bs-title="Registrado por: <?=$registerEntryLab['username']?>">
+                                    <i class="bi bi-info-circle-fill"></i>
+                                </button>
+                                <?php //si el usuario es de tipo admin mostrale un bton para eliminar el registro
+                                if($session->type == 'ADMINISTRADOR'):?>
+                                    <form action="<?=base_url('admin/deleteRegisterEntryLab')?>" method="post" class="d-inline form-delete-register-lab" id="<?=$registerEntryLab['id_prestamo']?>">
+                                        <input type="hidden" name="id_prestamo" value="<?=$registerEntryLab['id_prestamo']?>">
+                                        <button type="submit" class="btn btn-danger"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Eliminar registro">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </button>
+                                    </form>
+                                <?php endif;?>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     <?php endif;?>
@@ -110,7 +138,7 @@
             </table>
         </div>
     </div>
-</div>
+<?=$this->include('Layouts/footer')?>
 <?=$this->endSection()?>
 
 <?=$this->section('js')?>

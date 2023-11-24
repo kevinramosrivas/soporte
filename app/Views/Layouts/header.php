@@ -221,7 +221,7 @@
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="<?=base_url('admin/logout');?>">
-                <i class="bi bi-box-arrow-right"></i>
+                <i class="bi bi-box-arrow-right text-dangerr"></i>
                 <span>Salir</span>
               </a>
             </li>

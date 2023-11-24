@@ -37,9 +37,8 @@ html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 // cuando se envíe el formulario, se ejecuta el código
 form.addEventListener('submit', function (event) {
     event.preventDefault();
-    let input_numero_documento = document.getElementById('numero_documento');
     // validar que el input no esté vacío y que tenga 8 caracteres, además de que sea un número
-    if (input_numero_documento.value.length == 0 || input_numero_documento.value.length != 8 || isNaN(input_numero_documento.value)) {
+    if (input_num_doc.value.length == 0 || input_num_doc.value.length != 8 || isNaN(input_num_doc.value)) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
