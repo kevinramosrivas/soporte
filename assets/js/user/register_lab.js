@@ -10,8 +10,8 @@ function onScanSuccess(decodedText, decodedResult) {
     //console.log(`Code matched = ${decodedText}`, decodedResult);
     if (modal._element.classList.contains('show')) {
         input_num_doc.value = decodedText;
+        html5QrcodeScanner.clear();
         modal.hide();
-        //html5QrcodeScanner.clear();
     }
 
 }
