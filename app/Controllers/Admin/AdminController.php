@@ -70,13 +70,14 @@ class AdminController extends BaseController
     {
         $session = session();
         if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
-            $data = [
+            $data = array(
                 'id_user' => $this->request->getPost('id_user'),
                 'type' => $this->request->getPost('type'),
                 'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
                 'password' => $this->request->getPost('password'),
-            ];
+                'user_status' => 1,
+            );
             $user = new User($data);
             $model = model('UserModel');
             //verificar si el usuario ya existe en la base de datos
@@ -113,18 +114,11 @@ class AdminController extends BaseController
                 'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
                 'password' => $this->request->getPost('password'),
-                'active' => $this->request->getPost('active'),
+                'user_status' => $this->request->getPost('user_status'),
             ];
-            $user = new User($data);
             $model = model('UserModel');
-            if (isset($data['password'])) {
-                $data['password'] = (string) $data['password'];
-                $data['password'] = $user->encriptPassword($data['password']);
-            }
-            else{
-                $data['password'] = null;
-            }
-            $model->updateUser($data['id_user'], $data);
+            $user = new User($data);
+            $model->update($data['id_user'], $user);
             return redirect()->to(site_url('admin/users'));
         }else{
             return redirect()->to(site_url('login'));

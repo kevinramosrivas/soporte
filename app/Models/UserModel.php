@@ -7,7 +7,7 @@ class UserModel extends Model
 {
     protected $table = 'user';
     protected $primaryKey = 'id_user';
-    protected $allowedFields = ['type', 'username', 'email', 'password', 'created_at', 'updated_at'];
+    protected $allowedFields = ['type', 'username', 'email', 'password', 'user_status', 'created_at', 'updated_at'];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
@@ -45,52 +45,12 @@ class UserModel extends Model
     {
         $user = $this->where('id_user', $id)->first();
         if($user != null){
-            $sql = "UPDATE user SET active = :active: WHERE id_user = :id:";
-            $this->query($sql, ['active' => 0, 'id' => $id]);
+            $sql = "UPDATE user SET user_status = :user_status: WHERE id_user = :id:";
+            $this->query($sql, ['user_status' => 0, 'id' => $id]);
             return true;
         }
         return false;
     }
-    public function updateUser($id, $data)
-    {
-        $user = $this->where('id_user', $id)->first();
-        //obtener datetime actual
-        $date = date('Y-m-d H:i:s');
-        $sql_with_password = "UPDATE user SET type = :type:,
-        username = :username:,
-        email = :email:,
-        password = :password:,
-        active = :active:,
-        updated_at = :updated_at:
-        WHERE id_user = :id:";
-        if($user != null && $data['password'] != null){
-            $this->query($sql_with_password, 
-            ['type' => $data['type'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'active' => $data['active'],
-            'updated_at' => $date,
-            'id' => $id]);
-            return true;
-        }
-        $sql_without_password = "UPDATE user SET type = :type:,
-        username = :username:,
-        email = :email:,
-        active = :active:,
-        updated_at = :updated_at:
-        WHERE id_user = :id:";
-        if($user != null && $data['password'] == null){
-            $this->query($sql_without_password, 
-            ['type' => $data['type'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'active' => $data['active'],
-            'updated_at' => $date,
-            'id' => $id]);
-            return true;
-        }
-        return false;
-    }
+    
 
 }

@@ -31,6 +31,9 @@ class User extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => '100',
             ],
+            'user_status' => [
+                'type' => 'INT',
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
@@ -39,10 +42,6 @@ class User extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-            'active' => [
-                'type' => 'BOOLEAN',
-                'default' => true,
-            ]
 
         ]);
         $this->forge->addKey('id_user', true);

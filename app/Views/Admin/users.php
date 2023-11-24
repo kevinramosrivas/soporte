@@ -16,7 +16,7 @@ Usuarios
         </nav>
     </div><!-- End Page Title -->
     <div class="row p-4">
-        <div class="col-6 d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalNewUser">
             Crear usuario <i class="bi bi-person-plus-fill"></i>
@@ -81,14 +81,6 @@ Usuarios
             </div>
             </div>
         </div>
-        <div class="col-6">
-            <form action="<?= base_url('admin/searchUser') ?>" method="post">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Buscar usuario" aria-label="Recipient's username" aria-describedby="button-addon2" name="search" required>
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                </div>  
-            </form>
-        </div>
     </div>
     <div class="row">
         <div class="col-12 container-table table-responsive">
@@ -108,18 +100,10 @@ Usuarios
                     foreach ($users as $user) : ?>
                         <tr id="user_<?= $user['id_user'] ?>">
                             <td>
-                                <?php if ($user['type'] == 'ADMINISTRADOR' && $user['active'] == 1) : ?>
-                                    <button class="btn btn-dark">
-                                    <i class="bi bi-person-check-fill"></i>
-                                    </button>
-                                <?php elseif ($user['type'] == 'BOLSISTA' && $user['active'] == 1) : ?>
-                                    <button class="btn btn-primary">
-                                        <i class="bi bi-person-check-fill"></i>
-                                    </button>
+                                <?php if ($user['user_status'] == 1) : ?>
+                                    <span class="badge bg-primary">Activo</span>
                                 <?php else : ?>
-                                    <button class="btn btn-warning">
-                                        <i class="bi bi-person-exclamation"></i>
-                                    </button>
+                                    <span class="badge bg-danger">Inactivo</span>
                                 <?php endif; ?>
                             <td>
                                 <?= $user['username'] ?>
@@ -149,7 +133,7 @@ Usuarios
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h6>Estado: <span class="badge bg-primary"><?= $user['active'] == 1 ? 'Activo' : 'Inactivo' ?></span></h6>
+                                        <h6>Estado: <span class="badge bg-primary"><?= $user['user_status'] == 1 ? 'Activo' : 'Inactivo' ?></span></h6>
                                         <h6>Fecha de creación: <span class="badge text-bg-dark"><?= date('d/m/Y h:i:s a', strtotime($user['created_at'])) ?></span></h6>
                                         <h6>Fecha de actualización: <span class="badge text-bg-success"><?= date('d/m/Y h:i:s a', strtotime($user['updated_at'])) ?></span></h6>
                                     </div>
@@ -184,19 +168,19 @@ Usuarios
                                                                 </select>
                                                             </div>
                                                             <div class="mb-3">
+                                                                <label for="estado_id_<?= $user['id_user']?>" class="form-label">Estado</label>
+                                                                <select name="user_status" id="estado_id_<?= $user['id_user']?>" class="form-select" required>
+                                                                    <option value="1" <?php if ($user['user_status'] == 1) : ?> selected <?php endif; ?>>Activo</option>
+                                                                    <option value="0" <?php if ($user['user_status'] == 0) : ?> selected <?php endif; ?>>Inactivo</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
                                                                 <label for="name_id_<?= $user['id_user']?>" class="form-label">Nombre y Apellido</label>
                                                                 <input type="text" name="username" id="name_id_<?= $user['id_user']?>" class="form-control" value="<?= $user['username'] ?>" required>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="email_id_<?= $user['id_user']?>" class="form-label">Correo</label>
                                                                 <input type="email" name="email" id="email_id_<?= $user['id_user']?>" class="form-control" value="<?= $user['email'] ?>" required>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="estado_id_<?= $user['id_user']?>" class="form-label">Estado</label>
-                                                                <select name="active" id="estado_id_<?= $user['id_user']?>" class="form-select" required>
-                                                                    <option value="1" <?php if ($user['active'] == 1) : ?> selected <?php endif; ?>>Activo</option>
-                                                                    <option value="0" <?php if ($user['active'] == 0) : ?> selected <?php endif; ?>>Inactivo</option>
-                                                                </select>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="input_password_<?= $user['id_user']?>">Contraseña</label>
@@ -219,7 +203,7 @@ Usuarios
                                             </div>
                                         </div>
                                         <div class="col">
-                                        <?php if ($user['active'] == 1) : ?>
+                                        <?php if ($user['user_status'] == 1) : ?>
                                             <form id="deleteUser_<?= $user['id_user'] ?>" action="<?= base_url('admin/userDelete') ?>" method="post" class="delete_form m-1">
                                                 <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
                                                 <button type="submit" class="btn btn-danger btn-delete" form="deleteUser_<?= $user['id_user'] ?>"><i class="bi bi-trash"></i></button>

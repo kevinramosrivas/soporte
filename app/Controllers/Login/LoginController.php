@@ -43,14 +43,14 @@ class LoginController extends BaseController
                 'username' => $user['username'],
                 'email' => $user['email'],
                 'isLoggedIn' => true,
-                'active' => $user['active']
+                'user_status' => $user['user_status']
             ]);
-            if ($user['type'] == 'ADMINISTRADOR' && $user['active'] == 1) {
+            if ($user['type'] == 'ADMINISTRADOR' && $user['user_status'] == 1) {
                 return redirect()->to(site_url('admin/home'));
             } else if ($user['type'] == 'user') {
                 return redirect()->to(site_url('user/home'));
             }
-            else if (($user['type'] == 'ADMINISTRADOR' ||$user['type'] == 'user') && $user['active'] == 0) {
+            else if (($user['type'] == 'ADMINISTRADOR' ||$user['type'] == 'user') && $user['user_status'] == 0) {
                 $session = session();
                 //añadir un mensaje de error
                 $session->setFlashdata('login_error', 'Usuario inactivo, por favor contacte con el administrador');
@@ -76,9 +76,9 @@ class LoginController extends BaseController
         $data = [
             'id_user' => '6',
             'type' => 'ADMINISTRADOR',
-            'username' => 'admdADSFin',
-            'email' => '1234@gmail.com',
-            'password' => '123456789',
+            'username' => 'ADM_SOPORTE',
+            'email' => 'admin_soporte@unmsm.edu.pe',	
+            'password' => 'soporteFISI',
         ];
         $user = new User($data);
         $model = model('UserModel');
