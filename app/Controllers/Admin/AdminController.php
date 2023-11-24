@@ -58,11 +58,6 @@ class AdminController extends BaseController
             $model = model('UserModel');
             $users = $model->findAll();
             // solo mostrar los usuarios activos
-            foreach ($users as $key => $value) {
-                if($value['active'] == 0){
-                    unset($users[$key]);
-                }
-            }
             $data = [
                 'users' => $users,
             ];
@@ -118,13 +113,18 @@ class AdminController extends BaseController
                 'username' => $this->request->getPost('username'),
                 'email' => $this->request->getPost('email'),
                 'password' => $this->request->getPost('password'),
+                'active' => $this->request->getPost('active'),
             ];
-            if($data['password'] == ''){
-                unset($data['password']);
-            }
             $user = new User($data);
-            $model = model('UserModel');    
-            $model->update($data['id_user'], $user);
+            $model = model('UserModel');
+            if (isset($data['password'])) {
+                $data['password'] = (string) $data['password'];
+                $data['password'] = $user->encriptPassword($data['password']);
+            }
+            else{
+                $data['password'] = null;
+            }
+            $model->updateUser($data['id_user'], $data);
             return redirect()->to(site_url('admin/users'));
         }else{
             return redirect()->to(site_url('login'));

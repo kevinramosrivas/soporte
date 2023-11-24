@@ -1,15 +1,20 @@
 <?=$this->extend('Layouts/main')?>
-<?=$this->section('css')?>
-<link rel="stylesheet" href="<?=base_url('assets/css/admin/home.css')?>">
+<?=$this->section('title')?>
+Usuarios
 <?=$this->endSection()?>
 <?=$this->section('content')?>
+<?=$this->include('Layouts/header')?>
 <?=$this->include('Layouts/navbar_admin')?>
-<div class="container">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="text-center p-3">Usuarios</h1>
-        </div>
-    </div>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Usuarios</h1>
+        <nav>
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<?=base_url('admin/home')?>">Inicio</a></li>
+            <li class="breadcrumb-item inactive">Usuarios</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
     <div class="row p-4">
         <div class="col-6 d-flex justify-content-center">
             <!-- Button trigger modal -->
@@ -30,8 +35,8 @@
                         <div class="mb-3">
                             <label for="type_user" class="form-label">Tipo de usuario</label>
                             <select name="type" id="type_user" class="form-select" required>
-                                <option value="admin">Administrador</option>
-                                <option value="user">Bolsista</option>
+                                <option value="ADMINISTRADOR">Administrador</option>
+                                <option value="BOLSISTA">Bolsista</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -87,13 +92,14 @@
     </div>
     <div class="row">
         <div class="col-12 container-table table-responsive">
-            <table class="table table-striped table-hover text-start">
+            <table class="table table-striped table-hover text-start" id="table_users">
                 <thead>
                     <tr>
-                        <th scope="col" class="d-none">ID</th>
-                        <th scope="col">Tipo</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Detalles</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Correo electronico</th>
+                        <th scope="col">+ Información</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -101,20 +107,33 @@
                     <?php
                     foreach ($users as $user) : ?>
                         <tr id="user_<?= $user['id_user'] ?>">
-                            <form id="deleteUser_<?= $user['id_user'] ?>" action="<?= base_url('admin/userDelete') ?>" method="post" class="delete_form">
-                                <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
-                            </form>
                             <td>
-                                <?php if ($user['type'] == 'admin') : ?>
+                                <?php if ($user['type'] == 'ADMINISTRADOR' && $user['active'] == 1) : ?>
                                     <button class="btn btn-dark">
-                                    <i class="bi bi-person-fill-gear"></i>
+                                    <i class="bi bi-person-check-fill"></i>
+                                    </button>
+                                <?php elseif ($user['type'] == 'BOLSISTA' && $user['active'] == 1) : ?>
+                                    <button class="btn btn-primary">
+                                        <i class="bi bi-person-check-fill"></i>
                                     </button>
                                 <?php else : ?>
-                                    <button class="btn btn-primary">
-                                        <i class="bi bi-person-circle"></i>
+                                    <button class="btn btn-warning">
+                                        <i class="bi bi-person-exclamation"></i>
                                     </button>
                                 <?php endif; ?>
-                            <td><?= $user['username'] ?></td>
+                            <td>
+                                <?= $user['username'] ?>
+                            </td>
+                            <td>
+                                <?php if ($user['type'] == 'ADMINISTRADOR') : ?>
+                                    <span class="badge bg-dark">Administrador</span>
+                                <?php else : ?>
+                                    <span class="badge bg-primary">Bolsista</span>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?= $user['email'] ?>
+                            </td>
                             <!-- separar la fecha y hora -->
                             <td>
                                 <!-- Button trigger modal -->
@@ -130,12 +149,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h6>Tipo de usuario: <?php if ($user['type'] == 'admin') : ?>
-                                            <span class="badge bg-dark">Administrador</span>
-                                        <?php else : ?>
-                                            <span class="badge bg-primary">Bolsista</span>
-                                        <?php endif; ?></h6>
-                                        <h6>Correo electronico: <span class="badge text-bg-dark"><?= $user['email'] ?></span></h6>
+                                        <h6>Estado: <span class="badge bg-primary"><?= $user['active'] == 1 ? 'Activo' : 'Inactivo' ?></span></h6>
                                         <h6>Fecha de creación: <span class="badge text-bg-dark"><?= date('d/m/Y h:i:s a', strtotime($user['created_at'])) ?></span></h6>
                                         <h6>Fecha de actualización: <span class="badge text-bg-success"><?= date('d/m/Y h:i:s a', strtotime($user['updated_at'])) ?></span></h6>
                                     </div>
@@ -144,57 +158,76 @@
                                 </div>
                             </td>
                             <td>
-							    <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#editUser_<?= $user['id_user'] ?>">
-                                    <i class="bi bi-pencil-square"></i>     
-                                </button>
-
-                                <!-- Modal for edit user -->
-                                <div class="modal fade" id="editUser_<?= $user['id_user'] ?>" tabindex="-1" aria-labelledby="editUser_<?= $user['id_user'] ?>Label" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar usuario</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                            <form action="<?=base_url('admin/editUser')?>" method="post" id="formEditUser_<?= $user['id_user'] ?>" class="edit_user_form">
+                                <div class="container ">
+                                    <div class="row">
+                                        <div class="col">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#editUser_<?= $user['id_user'] ?>">
+                                                <i class="bi bi-pencil-square"></i>     
+                                            </button>
+                                            <!-- Modal for edit user -->
+                                            <div class="modal fade" id="editUser_<?= $user['id_user'] ?>" tabindex="-1" aria-labelledby="editUser_<?= $user['id_user'] ?>Label" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar usuario</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                        <form action="<?=base_url('admin/editUser')?>" method="post" id="formEditUser_<?= $user['id_user'] ?>" class="edit_user_form">
+                                                            <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
+                                                            <div class="mb-3">
+                                                                <label for="type_user_<?= $user['id_user']?>" class="form-label">Tipo de usuario</label>
+                                                                <select name="type" id="type_user_<?= $user['id_user']?>" class="form-select" required>
+                                                                    <option value="ADMINISTRADOR" <?php if ($user['type'] == 'ADMINISTRADOR') : ?> selected <?php endif; ?>>Administrador</option>
+                                                                    <option value="BOLSISTA" <?php if ($user['type'] == 'BOLSISTA') : ?> selected <?php endif; ?>>Bolsista</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="name_id_<?= $user['id_user']?>" class="form-label">Nombre y Apellido</label>
+                                                                <input type="text" name="username" id="name_id_<?= $user['id_user']?>" class="form-control" value="<?= $user['username'] ?>" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="email_id_<?= $user['id_user']?>" class="form-label">Correo</label>
+                                                                <input type="email" name="email" id="email_id_<?= $user['id_user']?>" class="form-control" value="<?= $user['email'] ?>" required>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="estado_id_<?= $user['id_user']?>" class="form-label">Estado</label>
+                                                                <select name="active" id="estado_id_<?= $user['id_user']?>" class="form-select" required>
+                                                                    <option value="1" <?php if ($user['active'] == 1) : ?> selected <?php endif; ?>>Activo</option>
+                                                                    <option value="0" <?php if ($user['active'] == 0) : ?> selected <?php endif; ?>>Inactivo</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="input_password_<?= $user['id_user']?>">Contraseña</label>
+                                                                <!-- hacer un input con un boton para revelar la contraseña -->
+                                                                <div class="input-group">
+                                                                    <input type="password" name="password" id="input_password_<?= $user['id_user']?>" class="form-control">
+                                                                    <button class="btn btn-primary btn_toggle_input_password" type="button" id="button_password<?= $user['id_user']?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar contraseña">
+                                                                        <i class="bi bi-eye"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                    <button type="submit" class="btn btn-primary" form="formEditUser_<?= $user['id_user'] ?>">Guardar cambios</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                        <?php if ($user['active'] == 1) : ?>
+                                            <form id="deleteUser_<?= $user['id_user'] ?>" action="<?= base_url('admin/userDelete') ?>" method="post" class="delete_form m-1">
                                                 <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
-                                                <div class="mb-3">
-                                                    <label for="type_user_<?= $user['id_user']?>" class="form-label">Tipo de usuario</label>
-                                                    <select name="type" id="type_user_<?= $user['id_user']?>" class="form-select" required>
-                                                        <option value="admin" <?php if ($user['type'] == 'admin') : ?> selected <?php endif; ?>>Administrador</option>
-                                                        <option value="user" <?php if ($user['type'] == 'user') : ?> selected <?php endif; ?>>Bolsista</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="name_id_<?= $user['id_user']?>" class="form-label">Nombre y Apellido</label>
-                                                    <input type="text" name="username" id="name_id_<?= $user['id_user']?>" class="form-control" value="<?= $user['username'] ?>" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="email_id_<?= $user['id_user']?>" class="form-label">Correo</label>
-                                                    <input type="email" name="email" id="email_id_<?= $user['id_user']?>" class="form-control" value="<?= $user['email'] ?>" required>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="input_password_<?= $user['id_user']?>">Contraseña</label>
-                                                    <!-- hacer un input con un boton para revelar la contraseña -->
-                                                    <div class="input-group">
-                                                        <input type="password" name="password" id="input_password_<?= $user['id_user']?>" class="form-control">
-                                                        <button class="btn btn-primary btn_toggle_input_password" type="button" id="button_password<?= $user['id_user']?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Mostrar contraseña">
-                                                            <i class="bi bi-eye"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary" form="formEditUser_<?= $user['id_user'] ?>">Guardar cambios</button>
-                                    </div>
+                                                <button type="submit" class="btn btn-danger btn-delete" form="deleteUser_<?= $user['id_user'] ?>"><i class="bi bi-trash"></i></button>
+                                            </form>                              
+                                        <?php endif; ?>
+                                        </div>
                                     </div>
                                 </div>
-                                </div>
-                                <button type="submit" class="btn btn-danger btn-delete m-1" form="deleteUser_<?= $user['id_user'] ?>"><i class="bi bi-trash"></i></button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -204,5 +237,10 @@
     </div>
 <?=$this->endSection()?>
 <?=$this->section('js')?>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.5/jspdf.plugin.autotable.js"></script>
 <script src="<?=base_url('assets/js/admin/users.js')?>"></script>
 <?=$this->endSection()?>

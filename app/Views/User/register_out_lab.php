@@ -1,7 +1,4 @@
 <?=$this->extend('Layouts/main')?>
-<?=$this->section('css')?>
-<link rel="stylesheet" href="<?=base_url('assets/css/admin/register_entry_lab.css')?>">
-<?=$this->endSection()?>
 <?=$this->section('title')?>
 Reg. ingreso lab.
 <?=$this->endSection()?>

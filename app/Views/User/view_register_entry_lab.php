@@ -1,7 +1,4 @@
 <?=$this->extend('Layouts/main')?>
-<?=$this->section('css')?>
-<link rel="stylesheet" href="<?=base_url('assets/css/admin/register_entry_lab.css')?>">
-<?=$this->endSection()?>
 <?=$this->section('title')?>
 Reg. ingreso lab.
 <?=$this->endSection()?>
@@ -57,9 +54,9 @@ Reg. ingreso lab.
             <form action="<?=base_url('user/searchEntryLabByDatetime')?>" method="post" class="p-3">
                 <div class="input-group">
                     <!-- por hora y fecha de entrada -->
-                    <input type="date" name="date_begin" id="hour_entry" class="form-control">
+                    <input type="date" name="date_begin" id="hour_entry" class="form-control" value="<?=date('Y-m-d')?>">
                     <!-- por hora y fecha de salida -->
-                    <input type="date" name="date_end" id="hour_exit" class="form-control">
+                    <input type="date" name="date_end" id="hour_exit" class="form-control" value="<?=date('Y-m-d')?>">
                     <input type="submit" value="Filtrar" class="btn btn-primary">
                 </div>
             </form>

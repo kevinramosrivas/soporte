@@ -11,6 +11,10 @@ class User extends Entity
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [];
 
+    public function encriptPassword(string $password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
     protected function setPassword(string $password)
     {
         $this->attributes['password'] = password_hash($password, PASSWORD_DEFAULT);

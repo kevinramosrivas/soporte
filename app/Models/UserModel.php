@@ -48,5 +48,31 @@ class UserModel extends Model
         }
         return false;
     }
+    public function updateUser($id, $data)
+    {
+        $user = $this->where('id_user', $id)->first();
+        //obtener datetime actual
+        $date = date('Y-m-d H:i:s');
+        if($user != null && $data['password'] != null){
+            $this->query("UPDATE user SET type = '$data[type]', 
+            username = '$data[username]', 
+            email = '$data[email]', 
+            password = '$data[password]', 
+            active = '$data[active]' 
+            , updated_at = '$date'
+            WHERE id_user = '$id'");
+            return true;
+        }
+        if($user != null && $data['password'] == null){
+            $this->query("UPDATE user SET type = '$data[type]', 
+            username = '$data[username]', 
+            email = '$data[email]', 
+            active = '$data[active]' 
+            , updated_at = '$date'
+            WHERE id_user = '$id'");
+            return true;
+        }
+        return false;
+    }
 
 }
