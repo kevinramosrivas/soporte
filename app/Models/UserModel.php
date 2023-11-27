@@ -21,11 +21,19 @@ class UserModel extends Model
                 return $user;
             }
         }
-        //return null;
+        return null;
     }
     public function getUserByEmail($email)
     {
         $user = $this->where('email', $email)->first();
+        if($user != null){
+            return $user;
+        }
+        return null;
+    }
+    public function getUserById($id)
+    {
+        $user = $this->where('id_user', $id)->first();
         if($user != null){
             return $user;
         }

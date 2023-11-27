@@ -35,33 +35,29 @@ class LoginController extends BaseController
         $userModel = model('UserModel');
         $user = $userModel->getUser($email, $password);
         if($user != null){
-            //crear la sesion
-            $session = session();
-            $session->set([
-                'id_user' => $user['id_user'],
-                'type' => $user['type'],
-                'username' => $user['username'],
-                'email' => $user['email'],
-                'isLoggedIn' => true,
-                'user_status' => $user['user_status']
-            ]);
-            if ($user['type'] == 'ADMINISTRADOR' && $user['user_status'] == 1) {
-                return redirect()->to(site_url('admin/home'));
-            } else if ($user['type'] == 'user') {
-                return redirect()->to(site_url('user/home'));
-            }
-            else if (($user['type'] == 'ADMINISTRADOR' ||$user['type'] == 'user') && $user['user_status'] == 0) {
+            if($user['user_status'] == 0){
                 $session = session();
                 //añadir un mensaje de error
-                $session->setFlashdata('login_error', 'Usuario inactivo, por favor contacte con el administrador');
+                $session->setFlashdata('login_error', 'Usuario desactivado, contacte con el administrador');
+                //redireccionar al login con el mensaje de error
                 return redirect()->to(site_url('login'));
             }
-
             else{
+                //crear la sesion
                 $session = session();
-                //añadir un mensaje de error
-                $session->setFlashdata('login_error', 'Tipo de usuario incorrecto');
-                return redirect()->to(site_url('login'));
+                $session->set([
+                    'id_user' => $user['id_user'],
+                    'type' => $user['type'],
+                    'username' => $user['username'],
+                    'email' => $user['email'],
+                    'isLoggedIn' => true,
+                    'user_status' => $user['user_status']
+                ]);
+                if($user['type'] == 'ADMINISTRADOR'){
+                    return redirect()->to(site_url('admin/home'));
+                }else if($user['type'] == 'BOLSISTA'){
+                    return redirect()->to(site_url('user/home'));
+                }
             }
         }else{
             $session = session();

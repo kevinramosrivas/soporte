@@ -47,8 +47,8 @@ class PrestamosLab extends Migration
             ],
         ]);
         $this->forge->addKey('id_prestamo', true);
-        $this->forge->addForeignKey('registrar_id', 'user', 'id_user');
-        $this->forge->addForeignKey('num_lab', 'laboratories', 'id_lab');
+        $this->forge->addForeignKey('registrar_id', 'user', 'id_user', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('num_lab', 'laboratories', 'id_lab', 'CASCADE', 'CASCADE');
         $this->forge->createTable('prestamos_lab');
     }
 

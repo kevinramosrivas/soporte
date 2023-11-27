@@ -87,6 +87,13 @@ class AdminController extends BaseController
                 return redirect()->to(site_url('admin/users'));
             }
             $model->insert($user);
+            //añadir al user log
+            $log_model = model('UserLogModel');
+            $log = [
+                'id_user' => $session->id_user,
+                'action' => 'Creó un nuevo usuario con el correo: '.$data['email'],
+            ];
+            $log_model->insert($log);
             return redirect()->to(site_url('admin/users'));
         } else {
             return redirect()->to(site_url('login'));
@@ -99,6 +106,15 @@ class AdminController extends BaseController
             $id_user = $this->request->getPost('id_user');
             $model = model('UserModel');
             $model->desactivateUser($id_user);
+            //añadir al user log
+            $log_model = model('UserLogModel');
+            //obtenemos el usuario que se va a eliminar
+            $user = $model->getUserById($id_user);
+            $log = [
+                'id_user' => $session->id_user,
+                'action' => 'Puso en estado inactivo al usuario con el correo: '.$user['email'],
+            ];
+            $log_model->insert($log);
             return redirect()->to(site_url('admin/users'));
         } else {
             return redirect()->to(site_url('login'));
@@ -116,9 +132,19 @@ class AdminController extends BaseController
                 'password' => $this->request->getPost('password'),
                 'user_status' => $this->request->getPost('user_status'),
             ];
+            if($data['password'] == ''){
+                unset($data['password']);
+            }
             $model = model('UserModel');
             $user = new User($data);
             $model->update($data['id_user'], $user);
+            //añadir al user log
+            $log_model = model('UserLogModel');
+            $log = [
+                'id_user' => $session->id_user,
+                'action' => 'Editó el usuario con el correo: '.$data['email'],
+            ];
+            $log_model->insert($log);
             return redirect()->to(site_url('admin/users'));
         }else{
             return redirect()->to(site_url('login'));
@@ -151,6 +177,12 @@ class AdminController extends BaseController
             $id_prestamo = $this->request->getPost('id_prestamo');
             $model = model('PrestamosLabModel');
             $model->delete($id_prestamo);
+            //añadir al user log
+            $log_model = model('UserLogModel');
+            $log = [
+                'id_user' => $session->id_user,
+                'action' => 'Eliminó el registro de entrada al laboratorio con el id: '.$id_prestamo,
+            ];
             return redirect()->to(site_url('user/viewRegisterEntryLab'));
         } else {
             return redirect()->to(site_url('login'));
