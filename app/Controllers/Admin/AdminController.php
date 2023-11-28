@@ -25,24 +25,13 @@ class AdminController extends BaseController
          */
         $session = session();
         if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
-            //recolectar el numero de usuarios
-            $user_model = model('UserModel');
-            $users = $user_model->findAll();
-            // obtener el numero de usuarios ocupando un laboratorio
-            $prestamos_model = model('PrestamosLabModel');
-            $users_lab = $prestamos_model->findAll();
-            // que sean del dia de hoy
-            foreach ($users_lab as $key => $value) {
-                if($value['hour_entry'] !== $value['hour_exit']){
-                    unset($users_lab[$key]);
-                }
-            }
-            $students_in_lab = count($users_lab);
-            // contar el numero de usuarios de tipo admin y user
-            $users = count($users);
+            //recolectamos los eventos recientes en user log
+            $model = model('UserLogModel');
+            $logs = $model->getAllLog();
+            //se calculo la diferencia entre la fecha actual y la fecha de creacion del registro
             $data = [
-                'users' => $users,
-                'students_in_lab' => $students_in_lab,
+                'logs' => $logs,
+                'now' => date('Y-m-d H:i:s'),
             ];
             return view('Admin/home', $data);
         } else {
