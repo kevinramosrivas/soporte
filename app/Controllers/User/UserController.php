@@ -63,6 +63,13 @@ class UserController extends BaseController
             }
             $prestamo = new PrestamosLab($data);
             $model->insert($prestamo);
+            //registrar en el log
+            $model_log = model('UserLogModel');
+            $log = [
+                'id_user' => $session->id_user,
+                'action' => 'registro la entrada del usuario con el documento '.$data['num_doc'].' en el laboratorio '.$data['num_lab'],
+            ];
+            $model_log->insert($log);
             // retornar mensaje de exito
             $session->setFlashdata('success', 'El usuario se registro correctamente');
             return redirect()->to(site_url('user/registerEntryLab'));
@@ -113,6 +120,13 @@ class UserController extends BaseController
                     //actualizar la hora de salida del prestamo
                     $prestamo['hour_exit'] = date('Y-m-d H:i:s');
                     $model->update($prestamo['id_prestamo'], $prestamo);
+                    //registrar en el log
+                    $model_log = model('UserLogModel');
+                    $log = [
+                        'id_user' => $session->id_user,
+                        'action' => 'registro la salida del usuario con el documento '.$data['num_doc'].' en el laboratorio '.$prestamo['num_lab'],
+                    ];
+                    $model_log->insert($log);
                     // retornar mensaje de exito
                     $session->setFlashdata('success', 'El usuario se registro correctamente');
                     return redirect()->to(site_url('user/registerExitLab'));

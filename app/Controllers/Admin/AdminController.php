@@ -28,10 +28,16 @@ class AdminController extends BaseController
             //recolectamos los eventos recientes en user log
             $model = model('UserLogModel');
             $logs = $model->getAllLog();
+            $model_user = model('UserModel');
+            $users = count($model_user->findAll());
+            $model_prestamos = model('PrestamosLabModel');
+            $students_using_lab = count($model_prestamos->getStudentsUsingLab());
             //se calculo la diferencia entre la fecha actual y la fecha de creacion del registro
             $data = [
                 'logs' => $logs,
                 'now' => date('Y-m-d H:i:s'),
+                'users' => $users,
+                'students_using_lab' => $students_using_lab,
             ];
             return view('Admin/home', $data);
         } else {
@@ -80,7 +86,7 @@ class AdminController extends BaseController
             $log_model = model('UserLogModel');
             $log = [
                 'id_user' => $session->id_user,
-                'action' => 'Creó un nuevo usuario con el correo: '.$data['email'],
+                'action' => 'creó un nuevo usuario con el correo '.$data['email'],
             ];
             $log_model->insert($log);
             return redirect()->to(site_url('admin/users'));
@@ -101,7 +107,7 @@ class AdminController extends BaseController
             $user = $model->getUserById($id_user);
             $log = [
                 'id_user' => $session->id_user,
-                'action' => 'Puso en estado inactivo al usuario con el correo: '.$user['email'],
+                'action' => 'puso en estado inactivo al usuario con el correo'.$user['email'],
             ];
             $log_model->insert($log);
             return redirect()->to(site_url('admin/users'));
@@ -131,7 +137,7 @@ class AdminController extends BaseController
             $log_model = model('UserLogModel');
             $log = [
                 'id_user' => $session->id_user,
-                'action' => 'Editó el usuario con el correo: '.$data['email'],
+                'action' => 'editó el usuario con el correo '.$data['email'],
             ];
             $log_model->insert($log);
             return redirect()->to(site_url('admin/users'));

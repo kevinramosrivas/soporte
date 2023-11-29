@@ -14,7 +14,9 @@ class UserLogModel extends Model
     
     public function getAllLog()
     {
-        $log = $this->findAll();
+        $sql = "SELECT users_log.id_log, users_log.id_user, users_log.action, users_log.created_at, users_log.updated_at, user.username
+        FROM users_log JOIN user ON users_log.id_user = user.id_user ORDER BY users_log.created_at DESC LIMIT 20 ";
+        $log = $this->query($sql)->getResultArray();
         if($log != null){
             return $log;
         }
