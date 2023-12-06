@@ -20,8 +20,8 @@ class LoginController extends BaseController
         if(session()->get('isLoggedIn')){
             if(session()->get('type') == 'ADMINISTRADOR'){
                 return view('Admin/home');
-            }else if(session()->get('type') == 'user'){
-                return view('User/home');
+            }else if(session()->get('type') == 'BOLSISTA'){
+                return view('Student/home');
             }
         }
         return view('Login/login');
@@ -56,7 +56,7 @@ class LoginController extends BaseController
                 if($user['type'] == 'ADMINISTRADOR'){
                     return redirect()->to(site_url('admin/home'));
                 }else if($user['type'] == 'BOLSISTA'){
-                    return redirect()->to(site_url('user/home'));
+                    return redirect()->to(site_url('student/home'));
                 }
             }
         }else{

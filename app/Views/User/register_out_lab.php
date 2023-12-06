@@ -5,15 +5,26 @@ Reg. ingreso lab.
 
 <?=$this->section('content')?>
 <?=$this->include('Layouts/header')?>
-<?=$this->include('Layouts/navbar_admin')?>
+<?php
+    $session = session(); 
+if($session->type == 'ADMINISTRADOR'): ?>
+    <?=$this->include('Layouts/navbar_admin')?>
+<?php  elseif($session->type == 'BOLSISTA'): ?>
+    <?=$this->include('Layouts/navbar_user')?>
+<?php  endif; ?>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Registro de salida laboratorio</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=base_url('admin/home')?>">Inicio</a></li>
-            <li class="breadcrumb-item inactive">Laboratorios</li>
-            <li class="breadcrumb-item active">Registro de salida</li>
+            <li class="breadcrumb-item"><a href="
+            <?php if($session->type == 'ADMINISTRADOR'): ?>
+                <?=base_url('admin/home')?>
+            <?php  elseif($session->type == 'BOLSISTA'): ?>
+                <?=base_url('student/home')?>
+            <?php  endif; ?>
+            ">Inicio</a></li>
+            <li class="breadcrumb-item inactive">Registro de salida</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->

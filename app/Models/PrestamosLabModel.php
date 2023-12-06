@@ -75,7 +75,7 @@ class PrestamosLabModel extends Model
     public function getStudentsUsingLab()
     {
         //mientrs la hora de entrada y salida sea diferentes entre si, el estudiante ya salio del laboratorio
-        $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user WHERE hour_entry != hour_exit")->getResultArray();
+        $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user WHERE hour_entry = hour_exit")->getResultArray();
         if($registerEntryLab != null){
             return $registerEntryLab;
         }

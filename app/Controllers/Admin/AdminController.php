@@ -51,12 +51,29 @@ class AdminController extends BaseController
         if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
             // obtener todos los usuarios
             $model = model('UserModel');
-            $users = $model->findAll();
+            $users = $model->getActiveUsers();
             // solo mostrar los usuarios activos
             $data = [
                 'users' => $users,
             ];
-            return view('Admin/users', $data);
+            return view('Admin/users_active', $data);
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+
+    public function usersInactive()
+    {
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+            // obtener todos los usuarios
+            $model = model('UserModel');
+            $users = $model->getInactiveUsers();
+            // solo mostrar los usuarios activos
+            $data = [
+                'users' => $users,
+            ];
+            return view('Admin/users_inactive', $data);
         } else {
             return redirect()->to(site_url('login'));
         }
@@ -107,7 +124,7 @@ class AdminController extends BaseController
             $user = $model->getUserById($id_user);
             $log = [
                 'id_user' => $session->id_user,
-                'action' => 'puso en estado inactivo al usuario con el correo'.$user['email'],
+                'action' => 'puso en estado inactivo al usuario con el correo '.$user['email'],
             ];
             $log_model->insert($log);
             return redirect()->to(site_url('admin/users'));
@@ -179,6 +196,26 @@ class AdminController extends BaseController
                 'action' => 'Eliminó el registro de entrada al laboratorio con el id: '.$id_prestamo,
             ];
             return redirect()->to(site_url('user/viewRegisterEntryLab'));
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function restoreUser(){
+        $session = session();
+        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+            $id_user = $this->request->getPost('id_user');
+            $model = model('UserModel');
+            $model->activateUser($id_user);
+            //añadir al user log
+            $log_model = model('UserLogModel');
+            //obtenemos el usuario que se va a eliminar
+            $user = $model->getUserById($id_user);
+            $log = [
+                'id_user' => $session->id_user,
+                'action' => 'puso en estado activo al usuario con el correo '.$user['email'],
+            ];
+            $log_model->insert($log);
+            return redirect()->to(site_url('admin/usersInactive'));
         } else {
             return redirect()->to(site_url('login'));
         }

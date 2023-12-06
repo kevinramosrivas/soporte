@@ -3,7 +3,14 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="<?=base_url('admin/home')?>" class="logo d-flex align-items-center">
+      <a href="<?php
+      if($session->type == 'ADMINISTRADOR'){
+        echo base_url('admin/home');
+      }elseif($session->type == 'BOLSISTA'){
+        echo base_url('student/home');
+      }
+      ?>"
+      class="logo d-flex align-items-center">
         <img src="<?=base_url('assets/img/logo.png')?>" alt="">
         <span class="d-lg-block">SGST-FISI</span>
       </a>
@@ -189,8 +196,8 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li class="d-none">
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="<?=base_url('user/profile');?>">
                 <i class="bi bi-person"></i>
                 <span>Mi perfil</span>
               </a>
@@ -198,26 +205,6 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-
-            <!-- <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Configuración de cuenta</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>F.A.Q</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li> -->
 
             <li>
               <a class="dropdown-item d-flex align-items-center" href="<?=base_url('admin/logout');?>">

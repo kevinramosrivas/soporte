@@ -1,54 +1,52 @@
-<link rel="stylesheet" href="<?=base_url('/assets/css/admin/navbar.css')?>">
-<nav class="navbar  fixed-top navbar-expand-md navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/UNMSM_coatofarms_seal.svg" class="img-fluid" alt="" width="50px"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="offcanvas" aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
-            </svg>
-            </button>
-        </div>
-        <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?=base_url("user/home")?>">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <div class="dropdown">
-                        <a class="btn btn-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Laboratorios
-                        </a>
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
 
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="<?=base_url("user/registerEntryLab")?>">Registrar entrada</a></li>
-                            <li><a class="dropdown-item" href="<?=base_url("user/registerExitLab")?>">Registrar salida</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                            <?php
-                                $session = session();
-                                echo $session->username;
-                            ?>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li class="dropdown-item">
-                                <a class="dropdown-item" href="<?=base_url("user/logout")?>">Cerrar sesión</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        </div>
-    </div>
-</nav>
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link " href="<?=base_url('student/home')?>">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#labs-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-pc-display"></i><span>Laboratorios</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="labs-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="<?=base_url('user/registerEntryLab')?>">
+              <span>Registrar entrada</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('user/registerExitLab')?>">
+              <span>Registrar salida</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('user/viewRegisterEntryLab')?>">
+              <span>Ver registro de ingresos</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Labs Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="<?=base_url('user/profile')?>">
+          <i class="bi bi-person"></i>
+          <span>Mi perfil</span>
+        </a>
+      </li>
+      <!-- End Profile Page Nav -->
+
+      <!-- <li class="nav-item">
+        <a class="nav-link collapsed" href="pages-faq.html">
+          <i class="bi bi-question-circle"></i>
+          <span>F.A.Q</span>
+        </a>
+      </li> -->
+      <!-- End F.A.Q Page Nav -->
+
+    </ul>
+
+  </aside><!-- End Sidebar-->

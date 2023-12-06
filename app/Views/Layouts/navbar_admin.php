@@ -38,18 +38,24 @@
         <ul id="users-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="<?=base_url('admin/users')?>">
-              <span>Ver usuarios</span>
+              <span>Usuarios</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('admin/usersInactive')?>">
+              <span>Usuarios inactivos</span>
             </a>
           </li>
         </ul>
       </li>
+      
 
-      <!-- <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="<?=base_url('user/profile')?>">
           <i class="bi bi-person"></i>
-          <span>Profile</span>
+          <span>Mi perfil</span>
         </a>
-      </li> -->
+      </li>
       <!-- End Profile Page Nav -->
 
       <!-- <li class="nav-item">

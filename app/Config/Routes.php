@@ -30,26 +30,33 @@ $routes->group('login', ['namespace' => 'App\Controllers\Login'], function ($rou
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($routes) {
     $routes->get('home', 'AdminController::index');
     $routes->get('users', 'AdminController::users');
+    $routes->get('usersInactive', 'AdminController::usersInactive');
     $routes->get('logout', 'AdminController::logout');
     $routes->post('registerUser', 'AdminController::registerNewUser');
     $routes->post('userDelete', 'AdminController::deleteUser');
     $routes->post('editUser', 'AdminController::editUser');
     $routes->post('searchUser', 'AdminController::searchUser');
     $routes->post('deleteRegisterEntryLab', 'AdminController::deleteRegisterEntryLab');
-    $routes->post('userDeletePermanently', 'AdminController::deleteUserPermanently');
+    $routes->post('restoreUser', 'AdminController::restoreUser');
 });
 
 $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($routes) {
-    $routes->get('home', 'UserController::index');
-    $routes->post('logout', 'UserController::logout');
     $routes->post('registerNewEntryLab', 'UserController::registerNewEntryLab');
     $routes->post('registerNewExitLab', 'UserController::registerNewExitLab');
     $routes->get('registerEntryLab', 'UserController::registerEntryLab');
     $routes->get('registerExitLab', 'UserController::registerExitLab');
     $routes->get('viewRegisterEntryLab','UserController::viewRegisterEntryLab');
+    $routes->get('profile','UserController::profile');
     $routes->post('searchEntryLabByDocLab','UserController::searchEntryLabByDocLab');
     $routes->post('searchEntryLabByDatetime','UserController::searchEntryLabByDatetime');
+    $routes->post('updateProfile','UserController::updateProfile');
 
+
+});
+
+$routes->group('student', ['namespace' => 'App\Controllers\Student'], function ($routes) {
+    $routes->get('home', 'StudentController::index');
+    $routes->get('logout', 'StudentController::logout');
 });
 
 

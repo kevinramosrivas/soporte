@@ -59,6 +59,33 @@ class UserModel extends Model
         }
         return false;
     }
+    public function activateUser($id)
+    {
+        $user = $this->where('id_user', $id)->first();
+        if($user != null){
+            $sql = "UPDATE user SET user_status = :user_status: WHERE id_user = :id:";
+            $this->query($sql, ['user_status' => 1, 'id' => $id]);
+            return true;
+        }
+        return false;
+    }
+
+    public function getInactiveUsers()
+    {
+        $user = $this->where('user_status', 0)->findAll();
+        if($user != null){
+            return $user;
+        }
+        return null;
+    }
+    public function getActiveUsers()
+    {
+        $user = $this->where('user_status', 1)->findAll();
+        if($user != null){
+            return $user;
+        }
+        return null;
+    }
     
 
 }
