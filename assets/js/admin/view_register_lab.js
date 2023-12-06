@@ -75,7 +75,7 @@ btnPrint.addEventListener('click', function() {
         let row = [rowdocs[i], rowDocTypes[i], rowLabs[i], entryDates[i], exitDates[i], rowUsers[i]];
         data.push(row);
     }
-    let columns = ['#doc','Tipo de documento', '#Laboratorio', 'Entrada', 'Salida', 'Registrado por'];
+    let columns = ['#doc','Tipo de documento', '#Laboratorio', 'Entrada', 'Salida'];
     let rows = data;
     const doc = new jsPDF('l', 'pt');
 

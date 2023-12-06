@@ -48,6 +48,19 @@
           </li>
         </ul>
       </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#password-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-key-fill"></i><span>Contraseñas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="password-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="<?=base_url('user/passwordManager')?>">
+              <span>Contraseñas</span>
+            </a>
+          </li>
+        </ul>
+      </li>
       
 
       <li class="nav-item">

@@ -47,6 +47,7 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
     $routes->get('registerExitLab', 'UserController::registerExitLab');
     $routes->get('viewRegisterEntryLab','UserController::viewRegisterEntryLab');
     $routes->get('profile','UserController::profile');
+    $routes->get('passwordManager','UserController::passwordManager');
     $routes->post('searchEntryLabByDocLab','UserController::searchEntryLabByDocLab');
     $routes->post('searchEntryLabByDatetime','UserController::searchEntryLabByDatetime');
     $routes->post('updateProfile','UserController::updateProfile');

@@ -352,4 +352,15 @@ class UserController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
+    public function passwordManager(){
+        $session = session();
+        if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
+            $data = [
+                'user' => $session,
+            ];
+            return view('User/intermediary', $data);
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
 }
