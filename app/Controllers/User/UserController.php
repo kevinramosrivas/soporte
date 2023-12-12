@@ -352,13 +352,74 @@ class UserController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
-    public function passwordManager(){
+    public function intermediary(){
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
+            if($session->getTempdata('verifyIdentity')){
+                return redirect()->to(site_url('user/passwordManager'));
+            }
             $data = [
                 'user' => $session,
             ];
             return view('User/intermediary', $data);
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function verifyIdentity(){
+        $timeLeft = 6;
+        $session = session();
+        if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
+            $data = [
+                'id_user' => $session->id_user,
+                //esta es la contraseña actual
+                'password' => $this->request->getPost('password'),
+            ];
+            // validar los datos
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'password' => 'required|min_length[8]',
+            ]);
+            if (!$validation->run($data)) {
+                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                return redirect()->to(site_url('user/intermediary'));
+            }
+            $model = model('UserModel');
+            $user = $model->getUserById($data['id_user']);
+            if($user != null){
+                if(password_verify($data['password'], $user['password'])){
+                    //establecer una variable de sesion que dure 5 minutos
+                    $session->setTempdata('verifyIdentity', true, $timeLeft);
+                    //tomar la hora actual y sumarle el tiempo de expiracion
+                    $session->setTempdata('dateExpire', date('H:i:s', strtotime('+'.$timeLeft.'seconds')) , $timeLeft);
+                    return redirect()->to(site_url('user/passwordManager'));
+                }
+                else{
+                    $session->setFlashdata('error', 'La contraseña es incorrecta');
+                    return redirect()->to(site_url('user/intermediary'));
+                }
+            }
+            else{
+                $session->setFlashdata('error', 'El usuario no existe');
+                return redirect()->to(site_url('user/intermediary'));
+            }
+        }
+        else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function passwordManager(){
+        $session = session();
+        if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
+            if($session->getTempdata('verifyIdentity')){
+                $data = [
+                    'session' => $session,
+                ];
+                return view('User/password_manager', $data);
+            }
+            else{
+                return redirect()->to(site_url('user/intermediary'));
+            }
         } else {
             return redirect()->to(site_url('login'));
         }

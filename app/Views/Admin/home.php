@@ -402,7 +402,7 @@ Dashboard
                         $datetime1 = new DateTime($log['created_at']);
                         $datetime2 = new DateTime($now);
                         $interval = $datetime1->diff($datetime2);
-                        echo $interval->format('%h h %i m');
+                        echo $interval->format('%dd %hh %im');
                         ?>
                     </div>
                     <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>

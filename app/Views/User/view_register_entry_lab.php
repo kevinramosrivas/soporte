@@ -82,6 +82,14 @@ if($session->type == 'ADMINISTRADOR'): ?>
     <!-- hacer que la tabla sea scrollable hacia abajo -->
     <div class="row table-container mt-3 p-3">
         <div class="col-12 table-responsive">
+            <?php 
+            //inicio de sesion
+            $session = session();
+            if(session()->getFlashdata('error')):?>
+                <div class="alert alert-danger" role="alert">
+                    <?=session()->getFlashdata('error')?>
+                </div>
+            <?php else :?>
             <table class="table table-hover table-striped" id="table-register-entry-lab">
                 <thead class="thead-dark">
                     <tr>
@@ -94,15 +102,6 @@ if($session->type == 'ADMINISTRADOR'): ?>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                    //inicio de sesion
-                    $session = session();
-                    if(session()->getFlashdata('error')):?>
-                        <div class="alert alert-danger" role="alert">
-                            <?=session()->getFlashdata('error')?>
-                        </div>
-                    <!-- ver si es que hay datos en la variable de sesion -->
-                    <?php else: ?>
                         <?php foreach ($registerEntryLab as $registerEntryLab) : ?>
                         <tr>
                             <td><?=$registerEntryLab['num_doc']?></td>
@@ -139,13 +138,15 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                 <?php endif;?>
                             </td>
                         </tr>
-                        <?php endforeach; ?>
-                    <?php endif;?>
-                    
+                        <?php endforeach; ?>     
                 </tbody>
             </table>
+            <?php endif;?>
         </div>
     </div>
+
+</section>
+
 <?=$this->include('Layouts/footer')?>
 <?=$this->endSection()?>
 

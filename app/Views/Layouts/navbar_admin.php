@@ -55,7 +55,7 @@
         </a>
         <ul id="password-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="<?=base_url('user/passwordManager')?>">
+            <a href="<?=base_url('user/intermediary')?>">
               <span>Contraseñas</span>
             </a>
           </li>

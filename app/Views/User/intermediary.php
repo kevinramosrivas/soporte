@@ -30,24 +30,30 @@ if($session->type == 'ADMINISTRADOR'): ?>
     </div><!-- End Page Title -->
     <?php $session = session(); ?>
     <section class="section profile">
-    <div class="row p-3">
+    <div class="row">
+        <h2 class="text-center col-12">Verificación de identidad</h2>
+    </div>
+    <div class="row p-3 d-flex justify-content-center align-items-center">
         <!-- formulario de verificacion de contraseña antes de entrar al gestor de contraseñas -->
-        <form class="col-md-6 col-lg-4" id="formPassword" method="POST" action="<?=base_url('user/passwordManager')?>">
+        <form class="col-12 col-md-6  text-center" id="formPassword" method="POST" action="<?=base_url('user/verifyIdentity')?>">
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" id="password" name="password" required>
-                <div class="invalid-feedback">
-                    Contraseña incorrecta
-                </div>
             </div>
             <button type="submit" class="btn btn-primary">Verificar</button>
         </form>
+        <div class="col-12 col-md-6 p-4 text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/891/891399.png" alt="security" width="200px">
+        </div>
+        <?php 
+        $session = session();
+        if(isset($session->error)): ?>
+            <div class="alert alert-danger" role="alert">
+                <?=$session->error?>
+            </div>
+        <?php endif;?>
     </div>
     </section>
 </main><!-- End #main -->
 <?=$this->include('Layouts/footer')?>
-<?=$this->endSection()?>
-<?=$this->section('js')?>
-<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-<script src="<?=base_url('assets/js/user/profile.js')?>"></script>
 <?=$this->endSection()?>
