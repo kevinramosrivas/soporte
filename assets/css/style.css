@@ -473,6 +473,13 @@ h6 {
   position: relative;
 }
 
+.header-nav .nav-time {
+  font-size: 18px;
+  color: var(--bs-white);
+  margin-right: 25px;
+  position: relative;
+}
+
 .header-nav .nav-profile {
   color: var(--bs-white);
 }

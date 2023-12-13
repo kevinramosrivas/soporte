@@ -4,6 +4,9 @@ use App\Controllers\BaseController;
 use App\Entities\PrestamosLab;
 use App\Models\PrestamosLabModel;
 use App\Entities\User;
+use App\Models\UserModel;
+use App\Entities\Passwords;
+use App\Models\PasswordsModel;
 
 class UserController extends BaseController
 {
@@ -367,7 +370,7 @@ class UserController extends BaseController
         }
     }
     public function verifyIdentity(){
-        $timeLeft = 6;
+        $timeLeft = 10;
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
             $data = [
@@ -416,6 +419,62 @@ class UserController extends BaseController
                     'session' => $session,
                 ];
                 return view('User/password_manager', $data);
+            }
+            else{
+                return redirect()->to(site_url('user/intermediary'));
+            }
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function closeTempSession(){
+        $session = session();
+        if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
+            $session->removeTempdata('verifyIdentity');
+            $session->removeTempdata('dateExpire');
+            return redirect()->to(site_url('user/intermediary'));
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function createNewAccountPassword(){
+        $session = session();
+        if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
+            if($session->getTempdata('verifyIdentity')){
+                $data = [
+                    'registrar_id' => $session->id_user,
+                    'typeAccount' => $this->request->getPost('typeAccount'),
+                    'accountName' => $this->request->getPost('acountname'),
+                    'username' => $this->request->getPost('username'),
+                    'password' => $this->request->getPost('password'),
+                ];
+                // validar los datos
+                $validation = \Config\Services::validation();
+                $validation->setRules([
+                    'typeAccount' => 'required',
+                    'accountName' => 'required',
+                    'username' => 'required',
+                    'password' => 'required',
+                ]);
+                if (!$validation->run($data)) {
+                    $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                    return redirect()->to(site_url('user/passwordManager'));
+                }
+                $model = model('PasswordsModel');
+                $password = new Passwords($data);
+                $password->encryptAccountName($data['accountName']);
+                $password->encryptUsername($data['username']);
+                $password->encryptPassword($data['password']);
+                $model->insert($password);
+                //registrar en el log
+                $model_log = model('UserLogModel');
+                $log = [
+                    'id_user' => $session->id_user,
+                    'action' => 'registro una nueva cuenta de '.$data['typeAccount'].' con el nombre de '.$data['accountName'],
+                ];
+                $model_log->insert($log);
+                $session->setFlashdata('success', 'La cuenta se registro correctamente');
+                return redirect()->to(site_url('user/passwordManager'));
             }
             else{
                 return redirect()->to(site_url('user/intermediary'));

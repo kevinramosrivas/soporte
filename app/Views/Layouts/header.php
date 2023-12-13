@@ -27,6 +27,12 @@
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
+        <li class="nav-item d-none" id="clock_timeleft">
+          <a class="nav-time" >
+            <i class="bi bi-hourglass-top" id="hourglass-icon"></i><p id="MyClockDisplay" class="d-inline"></p>
+          </a>
+        </li><!-- End Search Icon-->
+
         <li class="nav-item d-block d-none">
           <a class="nav-link nav-icon search-bar-toggle " href="#">
             <i class="bi bi-search"></i>

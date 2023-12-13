@@ -49,10 +49,13 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
     $routes->get('profile','UserController::profile');
     $routes->get('intermediary','UserController::intermediary');
     $routes->get('passwordManager','UserController::passwordManager');
+    $routes->get('closeTemporarySession','UserController::closeTempSession');
     $routes->post('verifyIdentity', 'UserController::verifyIdentity');
     $routes->post('searchEntryLabByDocLab','UserController::searchEntryLabByDocLab');
     $routes->post('searchEntryLabByDatetime','UserController::searchEntryLabByDatetime');
     $routes->post('updateProfile','UserController::updateProfile');
+    $routes->post('createNewAccountPassword','UserController::createNewAccountPassword');
+
 
 
 });

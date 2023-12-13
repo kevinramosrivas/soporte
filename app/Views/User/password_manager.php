@@ -31,11 +31,72 @@ if($session->type == 'ADMINISTRADOR'): ?>
         <div class="d-none" id="dateExpire">
             <?php echo $session->getTempdata('dateExpire') ?>
         </div>
-        <div class="row clock">
+        <div class="row">
             <div class="col-12 col-md-6">
-                <h5>
-                <span class="badge bg-secondary"><i class="bi bi-hourglass-top"></i> Tiempo restante: <p id="MyClockDisplay" class="d-inline"></p></span>
-                </h5>
+                <!-- boton para crear una nueva contraseña -->
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newAccountPasswordModal">
+                <i class="bi bi-key-fill"></i>
+                    Crear nueva contraseña
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="newAccountPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Crear nueva contraseña</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form action="<?=base_url('user/createNewAccountPassword')?>" method="post">
+                            <label for="account" class="form-label">Tipo de cuenta</label>
+                            <div class="mb-3 input-group">
+                                <i class="bi input-group-text bg-primary text-white d-none" id="iconTypeAccountSelect">
+                                </i>
+                                <select class="form-select" name="typeAccount"required onchange="selectAccount()" id ="accountType">
+                                    <option value="" selected>Seleccione una opción</option>
+                                    <option value="DATABASE" data-icon="bi bi-database">Base de datos de prueba</option>
+                                    <option value="EMAIL">Correo electrónico</option>
+                                    <option value="WIFI">Wifi</option>
+                                    <option value="DOMAIN">Dominio</option>
+                                    <option value="OTHER">Otro</option>
+                                    <option data-content="<i class='fa fa-address-book-o' aria-hidden='true'></i>Option1"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3 inputFormAccount d-none">
+                                <label for="username" class="form-label" id ="labelCountName">
+                                    Descripción de la cuenta
+                                </label>
+                                <input type="text" class="form-control" name="acountname" id="inputCountName" required>
+                            </div>
+                            <div class="mb-3 inputFormAccount d-none">
+                                <label for="username" class="form-label" id ="labelUsername">
+                                    Usuario
+                                </label>
+                                <input type="text" class="form-control" name="username" id="inputUsername" required>
+                            </div>
+                            <div class="mb-3 inputFormAccount d-none">
+                                <label for="password" class="form-label" id ="labelPassword">
+                                    Contraseña
+                                </label>
+                                <input type="text" class="form-control" name="password" id="inputPassword" placeholder="********" required>
+                            </div>
+                            <div class="mb-3 inputFormAccount d-none">
+                                <input type="submit" class="btn btn-primary" value="Crear">
+                            </div>
+                        </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <a type="button" class="btn btn-danger" href="<?=base_url('user/closeTemporarySession')?>">
+                    <i class="bi bi-lock-fill"></i> Bloquear gestor
+                </a>
             </div>
         </div>
         <div class="row table-container mt-3 p-3">
