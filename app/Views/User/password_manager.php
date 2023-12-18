@@ -192,7 +192,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         <i class="bi bi-eye" id="iconShowCredentials<?=$password['id_password']?>"></i>
                                     </button>
                                     <?php if($session->type == 'ADMINISTRADOR' || $session->id_user == $password['registrar_id']): ?>
-                                        <a href="<?=base_url('admin/passwordsManager/deletePassword/'.$password['id_password'])?>" class="btn btn-danger m-1">
+                                        <a href="<?=base_url('user/deletePassword/'.$password['id_password'])?>" class="btn btn-danger m-1">
                                             <i class="bi bi-trash-fill"></i>
                                         </a>
                                     <?php endif; ?> 

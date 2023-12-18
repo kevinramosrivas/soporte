@@ -373,7 +373,7 @@ class UserController extends BaseController
         }
     }
     public function verifyIdentity(){
-        $timeLeft = 3000;
+        $timeLeft = 300;
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
             $data = [
@@ -533,7 +533,7 @@ class UserController extends BaseController
                 $model = model('PasswordsModel');
                 //obtener la contraseña actual
                 $password = $model->getPasswordById($data['id_password']);
-                if($data['password'] != ''){
+                if($data['password'] == ''){
                     $data['password'] = $password['password'];
                 }
                 $password = new Passwords($data);
@@ -546,6 +546,34 @@ class UserController extends BaseController
                 ];
                 $model_log->insert($log);
                 $session->setFlashdata('success', 'La cuenta se actualizo correctamente');
+                return redirect()->to(site_url('user/passwordManager'));
+            }
+            else{
+                return redirect()->to(site_url('user/intermediary'));
+            }
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    //UserController::deletePassword/$1
+    public function deletePassword($id_password){
+        $session = session();
+        $uniquePassword = $session->getTempdata('uniquePassword');
+        $token = $session->getTempdata('token');
+        $id_user = $session->id_user;
+        if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
+            if(password_verify($id_user.$uniquePassword, $token)){
+                $model = model('PasswordsModel');
+                $password = $model->getPasswordById($id_password);
+                $model->delete($id_password);
+                //registrar en el log
+                $model_log = model('UserLogModel');
+                $log = [
+                    'id_user' => $session->id_user,
+                    'action' => 'elimino la cuenta de '.$password['typeAccount'].' con el nombre de '.$password['accountName'],
+                ];
+                $model_log->insert($log);
+                $session->setFlashdata('success', 'La cuenta se elimino correctamente');
                 return redirect()->to(site_url('user/passwordManager'));
             }
             else{
