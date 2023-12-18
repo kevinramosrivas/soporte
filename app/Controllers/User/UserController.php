@@ -502,4 +502,57 @@ class UserController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
+    public function editPassword(){
+        $session = session();
+        $uniquePassword = $session->getTempdata('uniquePassword');
+        $token = $session->getTempdata('token');
+        $id_user = $session->id_user;
+        if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
+            if(password_verify($id_user.$uniquePassword, $token)){
+                $data = [
+                    'id_password' => $this->request->getPost('id_password'),
+                    'typeAccount' => $this->request->getPost('edit-account-type'),
+                    'accountName' => $this->request->getPost('edit-account-name'),
+                    'username' => $this->request->getPost('edit-username'),
+                    'password' => $this->request->getPost('edit-password'),
+                    'level' => $this->request->getPost('edit-level'),
+                ];
+                // validar los datos
+                $validation = \Config\Services::validation();
+                $validation->setRules([
+                    'id_password' => 'required',
+                    'typeAccount' => 'required',
+                    'accountName' => 'required',
+                    'username' => 'required',
+                    'level' => 'required',
+                ]);
+                if (!$validation->run($data)) {
+                    $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                    return redirect()->to(site_url('user/passwordManager'));
+                }
+                $model = model('PasswordsModel');
+                //obtener la contraseña actual
+                $password = $model->getPasswordById($data['id_password']);
+                if($data['password'] != ''){
+                    $data['password'] = $password['password'];
+                }
+                $password = new Passwords($data);
+                $model->update($data['id_password'], $password);
+                //registrar en el log
+                $model_log = model('UserLogModel');
+                $log = [
+                    'id_user' => $session->id_user,
+                    'action' => 'edito la cuenta de '.$data['typeAccount'].' con el nombre de '.$data['accountName'],
+                ];
+                $model_log->insert($log);
+                $session->setFlashdata('success', 'La cuenta se actualizo correctamente');
+                return redirect()->to(site_url('user/passwordManager'));
+            }
+            else{
+                return redirect()->to(site_url('user/intermediary'));
+            }
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
 }

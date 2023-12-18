@@ -43,5 +43,10 @@ class PasswordsModel extends Model
             return $passwords;
         }
     }
+    public function getPasswordById($id)
+    {
+        $password = $this->find($id);
+        return $password;
+    }
 
 }

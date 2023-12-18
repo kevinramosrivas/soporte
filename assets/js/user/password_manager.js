@@ -200,5 +200,38 @@ function showCredentials(id) {
     }
 }
 
+function showEditPassword(id) {
+    let password = document.getElementById('edit-password' + id);
+    let passwordConfirm = document.getElementById('confirm-password' + id);
+    let icon = document.getElementById('iconShowPassword' + id);
+    //cambiar el tipo a text solo mientras se mantiene presionado el icono
+    if (password.type === "password") {
+        password.type = "text";
+        passwordConfirm.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    } else {
+        password.type = "password";
+        passwordConfirm.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    }
+}
+
+function generateEditPassword(id) {
+    let password = document.getElementById('edit-password' + id);
+    let passwordConfirm = document.getElementById('confirm-password' + id);
+    let length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (let i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+
+    }
+    password.value = retVal;
+    passwordConfirm.value = retVal;
+}
+
+
 
 showTime();

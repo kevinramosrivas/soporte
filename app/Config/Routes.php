@@ -55,6 +55,7 @@ $routes->group('user', ['namespace' => 'App\Controllers\User'], function ($route
     $routes->post('searchEntryLabByDatetime','UserController::searchEntryLabByDatetime');
     $routes->post('updateProfile','UserController::updateProfile');
     $routes->post('createNewAccountPassword','UserController::createNewAccountPassword');
+    $routes->post('editPassword','UserController::editPassword');
 
 
 

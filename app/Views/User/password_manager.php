@@ -197,9 +197,80 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         </a>
                                     <?php endif; ?> 
                                     <?php
-                                    //si el usuario es el que creo la contraseña
-                                    if($session->id_user == $password['registrar_id']): ?>
-                                        
+                                    //si el usuario es el que creo la contraseña o es administrador
+                                    if($session->id_user == $password['registrar_id'] || $session->type == 'ADMINISTRADOR'):?>
+                                     <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#editAccountPasswordModal<?=$password['id_password']?>">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="editAccountPasswordModal<?=$password['id_password']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar contraseña</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- formulario para editar contraseña guardada -->
+                                                <form class="edit-password-form" action="<?=base_url('user/editPassword')?>" method="post" id="formEditAccountPassword<?=$password['id_password']?>">
+                                                    <input type="hidden" name="id_password" value="<?=$password['id_password']?>">
+                                                    <div class="mb-3">
+                                                        <label for="edit-account-type" class="form-label">Tipo de cuenta</label>
+                                                        <select class="form-select" name="edit-account-type">
+                                                            <option value="" selected>Seleccione una opción</option>
+                                                            <option value="DATABASE" <?php if($password['typeAccount'] == 'DATABASE'): ?> selected <?php endif; ?>>Base de datos de prueba</option>
+                                                            <option value="EMAIL" <?php if($password['typeAccount'] == 'EMAIL'): ?> selected <?php endif; ?>>Correo electrónico</option>
+                                                            <option value="WIFI" <?php if($password['typeAccount'] == 'WIFI'): ?> selected <?php endif; ?>>Wifi</option>
+                                                            <option value="DOMAIN" <?php if($password['typeAccount'] == 'DOMAIN'): ?> selected <?php endif; ?>>Dominio</option>
+                                                            <option value="OTHER" <?php if($password['typeAccount'] == 'OTHER'): ?> selected <?php endif; ?>>Otro</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="edit-account-name" class="form-label">Descripción de la cuenta</label>
+                                                        <input type="text" class="form-control"  name="edit-account-name" value="<?=$password['accountName']?>" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="edit-username" class="form-label">Usuario</label>
+                                                        <input type="text" class="form-control" name="edit-username" value="<?=$password['username']?>" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="edit-level" class="form-label">Nivel de autorización</label>
+                                                        <select class="form-select" name="edit-level">
+                                                            <option value="" selected>Seleccione una opción</option>
+                                                            <option value="ADMINISTRADOR" <?php if($password['level'] == 'ADMINISTRADOR'): ?> selected <?php endif; ?>>Administrador</option>
+                                                            <option value="BOLSISTA" <?php if($password['level'] == 'BOLSISTA'): ?> selected <?php endif; ?>>Bolsista y administrador</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="edit-password" class="form-label">Nueva contraseña</label>
+                                                        <div class="input-group">
+                                                            <input type="password" class="form-control" id="edit-password<?=$password['id_password']?>" name="edit-password">
+                                                            <button class="btn btn-outline-secondary" type="button" id="buttonShowPassword" onclick="showEditPassword('<?=$password['id_password']?>')">
+                                                                <i class="bi bi-eye-fill" id="iconShowPassword<?=$password['id_password']?>"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-outline-primary"
+                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                        data-bs-custom-class="custom-tooltip"
+                                                                        data-bs-title="Generar contraseña" onclick="generateEditPassword('<?=$password['id_password']?>')">
+                                                                <i class="bi bi-magic"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="confirm-password" class="form-label">Confirmar contraseña</label>
+                                                        <input type="password" class="form-control" id="confirm-password<?=$password['id_password']?>" name="confirm-password">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <input type="submit" class="btn btn-primary" value="Guardar" form="formEditAccountPassword<?=$password['id_password']?>">
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
                                     <?php endif; ?>
                                     <!-- boton para generar qr -->
                                     <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>">
