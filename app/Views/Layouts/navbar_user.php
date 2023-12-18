@@ -32,6 +32,18 @@
         </ul>
       </li><!-- End Labs Nav -->
       <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#password-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-key-fill"></i><span>Contraseñas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="password-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="<?=base_url('user/intermediary')?>">
+              <span>Contraseñas</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url('user/profile')?>">
           <i class="bi bi-person"></i>
           <span>Mi perfil</span>
