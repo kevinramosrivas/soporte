@@ -358,7 +358,10 @@ class UserController extends BaseController
     public function intermediary(){
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
-            if($session->getTempdata('verifyIdentity')){
+            $uniquePassword = $session->getTempdata('uniquePassword');
+            $token = $session->getTempdata('token');
+            $id_user = $session->id_user;
+            if(password_verify($id_user.$uniquePassword, $token)){
                 return redirect()->to(site_url('user/passwordManager'));
             }
             $data = [
@@ -370,7 +373,7 @@ class UserController extends BaseController
         }
     }
     public function verifyIdentity(){
-        $timeLeft = 10;
+        $timeLeft = 3000;
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
             $data = [
@@ -391,8 +394,11 @@ class UserController extends BaseController
             $user = $model->getUserById($data['id_user']);
             if($user != null){
                 if(password_verify($data['password'], $user['password'])){
+                    $variableCrypto = openssl_random_pseudo_bytes(16);
                     //establecer una variable de sesion que dure 5 minutos
-                    $session->setTempdata('verifyIdentity', true, $timeLeft);
+                    $session->setTempdata('uniquePassword', $variableCrypto, $timeLeft);
+                    $token = password_hash($user['id_user'].$variableCrypto, PASSWORD_DEFAULT);
+                    $session->setTempdata('token', $token, $timeLeft);
                     //tomar la hora actual y sumarle el tiempo de expiracion
                     $session->setTempdata('dateExpire', date('H:i:s', strtotime('+'.$timeLeft.'seconds')) , $timeLeft);
                     return redirect()->to(site_url('user/passwordManager'));
@@ -414,8 +420,18 @@ class UserController extends BaseController
     public function passwordManager(){
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
-            if($session->getTempdata('verifyIdentity')){
+            $uniquePassword = $session->getTempdata('uniquePassword');
+            $token = $session->getTempdata('token');
+            $id_user = $session->id_user;
+            if(password_verify($id_user.$uniquePassword, $token)){
+                // obtener todas las cuentas
+                $model = model('PasswordsModel');
+                $passwords = $model->getPasswords($session->type);
+                if($passwords == null){
+                    $session->setFlashdata('error', 'No se encontraron registros');
+                }
                 $data = [
+                    'passwords' => $passwords,
                     'session' => $session,
                 ];
                 return view('User/password_manager', $data);
@@ -430,7 +446,8 @@ class UserController extends BaseController
     public function closeTempSession(){
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
-            $session->removeTempdata('verifyIdentity');
+            $session->removeTempdata('uniquePassword');
+            $session->removeTempdata('token');
             $session->removeTempdata('dateExpire');
             return redirect()->to(site_url('user/intermediary'));
         } else {
@@ -439,14 +456,18 @@ class UserController extends BaseController
     }
     public function createNewAccountPassword(){
         $session = session();
+        $uniquePassword = $session->getTempdata('uniquePassword');
+        $token = $session->getTempdata('token');
+        $id_user = $session->id_user;
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
-            if($session->getTempdata('verifyIdentity')){
+            if(password_verify($id_user.$uniquePassword, $token)){
                 $data = [
                     'registrar_id' => $session->id_user,
                     'typeAccount' => $this->request->getPost('typeAccount'),
                     'accountName' => $this->request->getPost('acountname'),
                     'username' => $this->request->getPost('username'),
                     'password' => $this->request->getPost('password'),
+                    'level' => $this->request->getPost('level'),
                 ];
                 // validar los datos
                 $validation = \Config\Services::validation();
@@ -455,6 +476,7 @@ class UserController extends BaseController
                     'accountName' => 'required',
                     'username' => 'required',
                     'password' => 'required',
+                    'level' => 'required',
                 ]);
                 if (!$validation->run($data)) {
                     $session->setFlashdata('error', 'Los datos ingresados no son correctos');
@@ -462,9 +484,6 @@ class UserController extends BaseController
                 }
                 $model = model('PasswordsModel');
                 $password = new Passwords($data);
-                $password->encryptAccountName($data['accountName']);
-                $password->encryptUsername($data['username']);
-                $password->encryptPassword($data['password']);
                 $model->insert($password);
                 //registrar en el log
                 $model_log = model('UserLogModel');

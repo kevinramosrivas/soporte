@@ -75,6 +75,7 @@ class LoginController extends BaseController
             'username' => 'ADM_SOPORTE',
             'email' => 'admin_soporte@unmsm.edu.pe',	
             'password' => 'soporteFISI',
+            'user_status' => '1'
         ];
         $user = new User($data);
         $model = model('UserModel');

@@ -1,3 +1,24 @@
+$(document).ready(function() {
+    $('#table-passwords').DataTable({
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros por página",
+            "zeroRecords": "No se encontró nada 😕",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(filtrado de _MAX_ registros totales)",
+            "search": "🔎Buscar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+        },
+    });
+});
+
+
+
 //obtenemos de un div el tiempo en el que se expira la sesion
 let dateExpire = document.getElementById("dateExpire").innerHTML;
 let hourglass = document.getElementById("hourglass-icon");
@@ -83,6 +104,7 @@ function selectAccount() {
             labelPassword.innerHTML = "Contraseña";
             inputCountName.placeholder = "Correo de soporte";
             inputUsername.placeholder = "soporte@gmail.com";
+            inputUsername.type = "email";
             deleteDnone(elementsinputFormAccount);
             break;
         case "DOMAIN":
@@ -137,13 +159,46 @@ function toDateWithOutTimeZone(date) {
     return dt;
 }
 
+function showPassword() {
+    let password = document.getElementById("inputPassword");
+    let icon = document.getElementById("iconShowPassword");
+    if (password.type === "password") {
+        password.type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    } else {
+        password.type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    }
+}
+
+function generatePassword() {
+    let password = document.getElementById("inputPassword");
+    let length = 8,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (let i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+
+    }
+    password.value = retVal;
+}
+
+function showCredentials(id) {
+    let row = document.getElementById('rowPassword' + id);
+    let icon = document.getElementById('iconShowCredentials' + id);
+    //cambiar el tipo a text solo mientras se mantiene presionado el icono
+    if (row.cells[4].children[0].type === "password") {
+        row.cells[4].children[0].type = "text";
+        icon.classList.remove("bi-eye");
+        icon.classList.add("bi-eye-slash");
+    } else {
+        row.cells[4].children[0].type = "password";
+        icon.classList.remove("bi-eye-slash");
+        icon.classList.add("bi-eye");
+    }
+}
+
+
 showTime();
-
-
-
-
-
-
-
-
-

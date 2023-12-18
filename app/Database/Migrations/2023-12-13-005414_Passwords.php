@@ -17,19 +17,23 @@ class Passwords extends Migration
             ],
             'typeAccount' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '50',
             ],
             'accountName' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '300',
             ],
             'username' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '300',
             ],
             'password' => [
                 'type' => 'VARCHAR',
-                'constraint' => '100',
+                'constraint' => '300',
+            ],
+            'level' => [
+                'type' => 'VARCHAR',
+                'constraint' => '300',
             ],
             'registrar_id' => [
                 'type' => 'INT',
@@ -49,7 +53,7 @@ class Passwords extends Migration
         ]);
 
         $this->forge->addKey('id_password', true);
-        $this->forge->addForeignKey('registrar_id', 'user', 'id_user', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('registrar_id', 'user', 'id_user');
         $this->forge->createTable('passwords');
     }
 

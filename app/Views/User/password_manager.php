@@ -32,7 +32,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <?php echo $session->getTempdata('dateExpire') ?>
         </div>
         <div class="row">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 p-2">
                 <!-- boton para crear una nueva contraseña -->
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newAccountPasswordModal">
@@ -48,8 +48,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Crear nueva contraseña</h1>
                     </div>
                     <div class="modal-body">
-                        <form action="<?=base_url('user/createNewAccountPassword')?>" method="post">
-                            <label for="account" class="form-label">Tipo de cuenta</label>
+                        <form action="<?=base_url('user/createNewAccountPassword')?>" method="post" id="formNewAccountPassword">
+                            <label for="accountType" class="form-label">Tipo de cuenta</label>
                             <div class="mb-3 input-group">
                                 <i class="bi input-group-text bg-primary text-white d-none" id="iconTypeAccountSelect">
                                 </i>
@@ -64,36 +64,55 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                 </select>
                             </div>
                             <div class="mb-3 inputFormAccount d-none">
-                                <label for="username" class="form-label" id ="labelCountName">
+                                <label for="inputCountName" class="form-label" id ="labelCountName">
                                     Descripción de la cuenta
                                 </label>
                                 <input type="text" class="form-control" name="acountname" id="inputCountName" required>
                             </div>
                             <div class="mb-3 inputFormAccount d-none">
-                                <label for="username" class="form-label" id ="labelUsername">
+                                <label for="inputUsername" class="form-label" id ="labelUsername">
                                     Usuario
                                 </label>
                                 <input type="text" class="form-control" name="username" id="inputUsername" required>
                             </div>
                             <div class="mb-3 inputFormAccount d-none">
-                                <label for="password" class="form-label" id ="labelPassword">
+                                <label for="inputPassword" class="form-label" id ="labelPassword">
                                     Contraseña
                                 </label>
-                                <input type="text" class="form-control" name="password" id="inputPassword" placeholder="********" required>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" name="password" id="inputPassword" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="buttonShowPassword" onclick="showPassword()">
+                                        <i class="bi bi-eye-fill" id="iconShowPassword"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Generar contraseña" onclick="generatePassword()">
+                                        <i class="bi bi-magic"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="mb-3 inputFormAccount d-none">
-                                <input type="submit" class="btn btn-primary" value="Crear">
+                                <label for="inputLevel" class="form-label" id ="labelLevel">
+                                    Nivel de autorización
+                                </label>
+                                <select class="form-select" name="level" id ="inputLevel">
+                                    <option value="" selected>Seleccione una opción</option>
+                                    <option value="ADMINISTRADOR">Administrador</option>
+                                    <option value="BOLSISTA">Bolsista y administrador</option>
+                                </select>
                             </div>
                         </form>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <input type="submit" class="btn btn-primary" value="Crear" form="formNewAccountPassword">
                     </div>
                     </div>
                 </div>
                 </div>
             </div>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-6 p-2">
                 <a type="button" class="btn btn-danger" href="<?=base_url('user/closeTemporarySession')?>">
                     <i class="bi bi-lock-fill"></i> Bloquear gestor
                 </a>
@@ -104,57 +123,89 @@ if($session->type == 'ADMINISTRADOR'): ?>
                 <?php 
                 //inicio de sesion
                 $session = session();
-                if(session()->getFlashdata('error') || !isset($registerEntryLab)):?>
+                if(session()->getFlashdata('error') || !isset($passwords)):?>
                     <div class="alert alert-danger" role="alert">
                         <?=session()->getFlashdata('error')?>
                     </div>
                 <?php else :?>
-                <table class="table table-hover table-striped" id="table-register-entry-lab">
+                <table class="table table-hover table-striped" id="table-passwords">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col"># doc</th>
                             <th scope="col">Tipo</th>
-                            <th scope="col">Laboratorio</th>
-                            <th scope="col">Entrada</th>
-                            <th scope="col">Salida</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Nivel de autorización</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Contraseña</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                            <?php foreach ($registerEntryLab as $registerEntryLab) : ?>
-                            <tr>
-                                <td><?=$registerEntryLab['num_doc']?></td>
-                                <td><?=$registerEntryLab['type_doc']?></td>
-                                <td><?=$registerEntryLab['num_lab']?></td>
+                            <?php foreach ($passwords as $password): ?>     
+                            <tr  id="rowPassword<?=$password['id_password']?>" class="rowPassword">
                                 <td>
-                                    <span class="badge text-bg-primary"><?='🗓️ '.date('d-m-Y', strtotime($registerEntryLab['hour_entry']))?></span>
-                                    <br>
-                                    <span class="badge text-bg-primary"><?='🕛'.date('h:i:s a', strtotime($registerEntryLab['hour_entry']))?></span>
+                                    <?php if($password['typeAccount'] == 'DATABASE'): ?>
+                                        <button type="button" class="btn btn-secondary"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Base de datos de prueba">
+                                            <i class="bi bi-database"></i>
+                                        </button>
+                                    <?php elseif($password['typeAccount'] == 'EMAIL'): ?>
+                                        <button type="button" class="btn btn-primary"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Correo electrónico">
+                                            <i class="bi bi-envelope-fill"></i>
+                                        </button>
+                                    <?php elseif($password['typeAccount'] == 'WIFI'): ?>
+                                        <button type="button" class="btn btn-success"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Wifi">
+                                            <i class="bi bi-wifi"></i>
+                                        </button>
+                                    <?php elseif($password['typeAccount'] == 'DOMAIN'): ?>
+                                        <button type="button" class="btn btn-dark"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Dominio">
+                                            <i class="bi bi-globe"></i>
+                                        </button>
+                                    <?php elseif($password['typeAccount'] == 'OTHER'): ?>
+                                        <button type="button" class="btn btn-alert"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Otro">
+                                            <i class="bi bi-file-earmark"></i>
+                                        </button>
+                                    <?php endif; ?>
                                 </td>
-                                <td>
-                                <?=is_null($registerEntryLab['hour_exit']) ? '<span class="badge bg-danger">No ha salido</span>' : '<span class="badge bg-secondary">🗓️ '.date('d-m-Y', strtotime($registerEntryLab['hour_exit'])).'</span>'?>
-                                    <br>
-                                    <?=is_null($registerEntryLab['hour_exit']) ? '<span class="badge bg-danger">No ha salido</span>' : '<span class="badge bg-secondary">🕛 '.date('h:i:s a', strtotime($registerEntryLab['hour_exit'])).'</span>'?>
-                                </td>
+                                <td><?=$password['accountName']?></td>
+                                <td><?=$password['level']?></td>
+                                <td><?=$password['username']?></td>
+                                <td><input type="password" class="form-control" value="<?=$password['password']?>" readonly id="password<?=$password['id_password']?>"></td>
                                 <td>
                                     <button type="button" class="btn btn-secondary"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-custom-class="custom-tooltip"
-                                            data-bs-title="Registrado por: <?=$registerEntryLab['username']?>">
-                                        <i class="bi bi-info-circle-fill"></i>
+                                            data-bs-title="Ver credenciales" onclick="showCredentials('<?=$password['id_password']?>')">
+                                        <i class="bi bi-eye" id="iconShowCredentials<?=$password['id_password']?>"></i>
                                     </button>
-                                    <?php //si el usuario es de tipo admin mostrale un bton para eliminar el registro
-                                    if($session->type == 'ADMINISTRADOR'):?>
-                                        <form action="<?=base_url('admin/deleteRegisterEntryLab')?>" method="post" class="d-inline form-delete-register-lab" id="<?=$registerEntryLab['id_prestamo']?>">
-                                            <input type="hidden" name="id_prestamo" value="<?=$registerEntryLab['id_prestamo']?>">
-                                            <button type="submit" class="btn btn-danger"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    data-bs-custom-class="custom-tooltip"
-                                                    data-bs-title="Eliminar registro">
-                                                <i class="bi bi-trash-fill"></i>
-                                            </button>
-                                        </form>
-                                    <?php endif;?>
+                                    <?php if($session->type == 'ADMINISTRADOR' || $session->id_user == $password['registrar_id']): ?>
+                                        <a href="<?=base_url('admin/passwordsManager/deletePassword/'.$password['id_password'])?>" class="btn btn-danger m-1">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+                                    <?php endif; ?> 
+                                    <?php
+                                    //si el usuario es el que creo la contraseña
+                                    if($session->id_user == $password['registrar_id']): ?>
+                                        
+                                    <?php endif; ?>
+                                    <!-- boton para generar qr -->
+                                    <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>">
+                                        <i class="bi bi-qr-code"></i>
+                                    </button>
+
                                 </td>
                             </tr>
                             <?php endforeach; ?>     
@@ -168,6 +219,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
 <?=$this->include('Layouts/footer')?>
 <?=$this->endSection()?>
 <?=$this->section('js')?>
-<script src="<?=base_url('assets/js/user/password_manager.js')?>">
-</script>
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
+<script src="<?=base_url('assets/js/user/password_manager.js')?>"></script>
 <?=$this->endSection()?>

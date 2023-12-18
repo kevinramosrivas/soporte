@@ -3,7 +3,10 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
-helper('date');
+use App\Helpers\Encryptor;
+
+
+
 
 
 
@@ -11,46 +14,36 @@ class Passwords extends Entity
 {
     protected $datamap = ['id_password','typeAccount', 'accountName', 'username', 'password', 'registrar_id', 'created_at', 'updated_at'];
     protected $dates   = ['created_at', 'updated_at'];
-    
+    protected $allowedFields = ['typeAccount', 'accountName', 'username', 'password', 'registrar_id', 'level','created_at', 'updated_at'];
     protected $casts   = [];
-    // Define the secret key
-    protected $key = "secret";
+    protected $encryptor;
 
-    // Define the encryption method
-    protected $method = "AES-256-CBC";
+    public function __construct($data)
+    {
+        $this->encryptor = Encryptor::getInstance();
+        $this->fill($data);
+        $this->encryptAccountName($this->attributes['accountName']);
+        $this->encryptUsername($this->attributes['username']);
+        $this->encryptPassword($this->attributes['password']);
 
-    protected $separator = ':';
-    
-    protected function encryptText($text, $key) {
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-        $encrypted = openssl_encrypt($text, 'aes-256-cbc', $key, 0, $iv);
-        return base64_encode($iv . $encrypted);
     }
 
-    protected function setCreatedAt()
-    {
-        $this->attributes['created_at'] = now('America/Los_Angeles', 'datetime');
-    }
 
-    protected function setUpdatedAt()
-    {
-        $this->attributes['updated_at'] = now('America/Los_Angeles', 'datetime');
-    }
 
-    public function encryptAccountName(string $accountName)
+    protected function encryptAccountName(string $accountName)
     {
-        $this->attributes['accountName'] = $this->encryptText($accountName, $this->key);
+        $this->attributes['accountName'] = $this->encryptor->encrypt($accountName);
         
     }
 
-    public function encryptUsername(string $username)
+    protected function encryptUsername(string $username)
     {
-        $this->attributes['username'] = $this->encryptText($username, $this->key);
+        $this->attributes['username'] =  $this->encryptor->encrypt($username);
     }
 
-    public function encryptPassword(string $password)
+    protected function encryptPassword(string $password)
     {
-        $this->attributes['password'] = $this->encryptText($password, $this->key);
+        $this->attributes['password'] = $this->encryptor->encrypt($password);
     }
 
 
