@@ -217,8 +217,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                 <form class="edit-password-form" action="<?=base_url('user/editPassword')?>" method="post" id="formEditAccountPassword<?=$password['id_password']?>">
                                                     <input type="hidden" name="id_password" value="<?=$password['id_password']?>">
                                                     <div class="mb-3">
-                                                        <label for="edit-account-type" class="form-label">Tipo de cuenta</label>
-                                                        <select class="form-select" name="edit-account-type">
+                                                        <label for="editAccountTypeInput<?=$password['id_password']?>" class="form-label">Tipo de cuenta</label>
+                                                        <select class="form-select" name="edit-account-type" id="editAccountTypeInput<?=$password['id_password']?>">
                                                             <option value="" selected>Seleccione una opción</option>
                                                             <option value="DATABASE" <?php if($password['typeAccount'] == 'DATABASE'): ?> selected <?php endif; ?>>Base de datos de prueba</option>
                                                             <option value="EMAIL" <?php if($password['typeAccount'] == 'EMAIL'): ?> selected <?php endif; ?>>Correo electrónico</option>
@@ -228,26 +228,26 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="edit-account-name" class="form-label">Descripción de la cuenta</label>
-                                                        <input type="text" class="form-control"  name="edit-account-name" value="<?=$password['accountName']?>" required>
+                                                        <label for="editAccountNameInput<?=$password['id_password']?>" class="form-label">Descripción de la cuenta</label>
+                                                        <input type="text" class="form-control"  name="edit-account-name" value="<?=$password['accountName']?>" id="editAccountNameInput<?=$password['id_password']?>" required>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="edit-username" class="form-label">Usuario</label>
-                                                        <input type="text" class="form-control" name="edit-username" value="<?=$password['username']?>" required>
+                                                        <label for="editUsernameInput<?=$password['id_password']?>" class="form-label">Usuario</label>
+                                                        <input type="text" class="form-control" name="edit-username" value="<?=$password['username']?>" id="editUsernameInput<?=$password['id_password']?>" required>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="edit-level" class="form-label">Nivel de autorización</label>
-                                                        <select class="form-select" name="edit-level">
+                                                        <label for="editLevelInput<?=$password['id_password']?>" class="form-label">Nivel de autorización</label>
+                                                        <select class="form-select" name="edit-level" id="editLevelInput<?=$password['id_password']?>">
                                                             <option value="" selected>Seleccione una opción</option>
                                                             <option value="ADMINISTRADOR" <?php if($password['level'] == 'ADMINISTRADOR'): ?> selected <?php endif; ?>>Administrador</option>
                                                             <option value="BOLSISTA" <?php if($password['level'] == 'BOLSISTA'): ?> selected <?php endif; ?>>Bolsista y administrador</option>
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="edit-password" class="form-label">Nueva contraseña</label>
+                                                        <label for="edit-password<?=$password['id_password']?>"class="form-label">Nueva contraseña</label>
                                                         <div class="input-group">
                                                             <input type="password" class="form-control" id="edit-password<?=$password['id_password']?>" name="edit-password">
-                                                            <button class="btn btn-outline-secondary" type="button" id="buttonShowPassword" onclick="showEditPassword('<?=$password['id_password']?>')">
+                                                            <button class="btn btn-outline-secondary" type="button"  onclick="showEditPassword('<?=$password['id_password']?>')">
                                                                 <i class="bi bi-eye-fill" id="iconShowPassword<?=$password['id_password']?>"></i>
                                                             </button>
                                                             <button type="button" class="btn btn-outline-primary"
@@ -259,7 +259,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="confirm-password" class="form-label">Confirmar contraseña</label>
+                                                        <label for="confirm-password<?=$password['id_password']?>" class="form-label">Confirmar contraseña</label>
                                                         <input type="password" class="form-control" id="confirm-password<?=$password['id_password']?>" name="confirm-password">
                                                     </div>
                                                 </form>

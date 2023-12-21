@@ -373,7 +373,7 @@ class UserController extends BaseController
         }
     }
     public function verifyIdentity(){
-        $timeLeft = 10;
+        $timeLeft = 3000;
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
             $data = [

@@ -402,6 +402,9 @@ Dashboard
                         $datetime1 = new DateTime($log['created_at']);
                         $datetime2 = new DateTime($now);
                         $interval = $datetime1->diff($datetime2);
+                        // hacer que todos tenga el formato de 2 digitos
+                        $interval->format('%d %h %i');
+                        //imprimir la diferencia
                         echo $interval->format('%dd %hh %im');
                         ?>
                     </div>
