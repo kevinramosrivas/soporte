@@ -373,7 +373,7 @@ class UserController extends BaseController
         }
     }
     public function verifyIdentity(){
-        $timeLeft = 300;
+        $timeLeft = 10;
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
             $data = [
@@ -387,7 +387,7 @@ class UserController extends BaseController
                 'password' => 'required|min_length[8]',
             ]);
             if (!$validation->run($data)) {
-                $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                $session->setFlashdata('error_password_manager', 'Los datos ingresados no son correctos');
                 return redirect()->to(site_url('user/intermediary'));
             }
             $model = model('UserModel');
@@ -404,12 +404,12 @@ class UserController extends BaseController
                     return redirect()->to(site_url('user/passwordManager'));
                 }
                 else{
-                    $session->setFlashdata('error', 'La contraseña es incorrecta');
+                    $session->setFlashdata('error_password_manager', 'La contraseña es incorrecta');
                     return redirect()->to(site_url('user/intermediary'));
                 }
             }
             else{
-                $session->setFlashdata('error', 'El usuario no existe');
+                $session->setFlashdata('error_password_manager', 'El usuario no existe');
                 return redirect()->to(site_url('user/intermediary'));
             }
         }
@@ -428,7 +428,7 @@ class UserController extends BaseController
                 $model = model('PasswordsModel');
                 $passwords = $model->getPasswords($session->type);
                 if($passwords == null){
-                    $session->setFlashdata('error', 'No se encontraron registros');
+                    $session->setFlashdata('no_records_password_manager','No se encontraron registros');
                 }
                 $data = [
                     'passwords' => $passwords,
@@ -527,7 +527,7 @@ class UserController extends BaseController
                     'level' => 'required',
                 ]);
                 if (!$validation->run($data)) {
-                    $session->setFlashdata('error', 'Los datos ingresados no son correctos');
+                    $session->setFlashdata('error_password_manager', 'Los datos ingresados no son correctos');
                     return redirect()->to(site_url('user/passwordManager'));
                 }
                 $model = model('PasswordsModel');

@@ -47,9 +47,9 @@ if($session->type == 'ADMINISTRADOR'): ?>
         </div>
         <?php 
         $session = session();
-        if(isset($session->error)): ?>
+        if(isset($session->error_password_manager)): ?>
             <div class="alert alert-danger" role="alert">
-                <?=$session->error?>
+                <?=$session->error_password_manager?>
             </div>
         <?php endif;?>
     </div>

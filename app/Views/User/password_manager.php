@@ -123,9 +123,9 @@ if($session->type == 'ADMINISTRADOR'): ?>
                 <?php 
                 //inicio de sesion
                 $session = session();
-                if(session()->getFlashdata('error') || !isset($passwords)):?>
+                if(session()->getFlashdata('no_records_password_manager') || !isset($passwords)):?>
                     <div class="alert alert-danger" role="alert">
-                        <?=session()->getFlashdata('error')?>
+                        <?=session()->getFlashdata('no_records_password_manager')?>
                     </div>
                 <?php else :?>
                 <table class="table table-hover table-striped" id="table-passwords">

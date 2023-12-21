@@ -3,6 +3,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 use App\Entities\PrestamosLab;
 use App\Entities\User;
+use App\Helpers\VerifyAdmin;
 
 
 
@@ -24,12 +25,14 @@ class AdminController extends BaseController
          * @return mixed
          */
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        //usar el helper para verificar si el usuario es administrador
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
             //recolectamos los eventos recientes en user log
             $model = model('UserLogModel');
             $logs = $model->getAllLog();
             $model_user = model('UserModel');
-            $users = count($model_user->findAll());
+            $users = count($model_user->getActiveUsers());
             $model_prestamos = model('PrestamosLabModel');
             $students_using_lab = count($model_prestamos->getStudentsUsingLab());
             //se calculo la diferencia entre la fecha actual y la fecha de creacion del registro
@@ -48,7 +51,9 @@ class AdminController extends BaseController
     public function users()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        //usar el helper para verificar si el usuario es administrador
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
             // obtener todos los usuarios
             $model = model('UserModel');
             $users = $model->getActiveUsers();
@@ -65,7 +70,9 @@ class AdminController extends BaseController
     public function usersInactive()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        //usar el helper para verificar si el usuario es administrador
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
             // obtener todos los usuarios
             $model = model('UserModel');
             $users = $model->getInactiveUsers();
@@ -81,7 +88,8 @@ class AdminController extends BaseController
     public function registerNewUser()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify) {
             $data = array(
                 'id_user' => $this->request->getPost('id_user'),
                 'type' => $this->request->getPost('type'),
@@ -114,10 +122,15 @@ class AdminController extends BaseController
     public function deleteUser()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify) {
             $id_user = $this->request->getPost('id_user');
             $model = model('UserModel');
             $model->desactivateUser($id_user);
+            //destruir la sesion del usuario que se eliminó
+            if($session->id_user == $id_user){
+                $session->destroy();
+            }  
             //añadir al user log
             $log_model = model('UserLogModel');
             //obtenemos el usuario que se va a eliminar
@@ -135,7 +148,8 @@ class AdminController extends BaseController
     public function editUser()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify) {
             $data = [
                 'id_user' => $this->request->getPost('id_user'),
                 'type' => $this->request->getPost('type'),
@@ -165,7 +179,8 @@ class AdminController extends BaseController
     public function searchUser()
     {
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify) {
             $search = $this->request->getPost('search');
             $model = model('UserModel');
             $user = $model->searchUser($search);
@@ -185,7 +200,8 @@ class AdminController extends BaseController
     }
     public function deleteRegisterEntryLab(){
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify) {
             $id_prestamo = $this->request->getPost('id_prestamo');
             $model = model('PrestamosLabModel');
             $model->delete($id_prestamo);
@@ -202,7 +218,8 @@ class AdminController extends BaseController
     }
     public function restoreUser(){
         $session = session();
-        if ($session->isLoggedIn && $session->type == 'ADMINISTRADOR') {
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify) {
             $id_user = $this->request->getPost('id_user');
             $model = model('UserModel');
             $model->activateUser($id_user);

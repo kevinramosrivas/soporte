@@ -1,6 +1,4 @@
-<!-- hacer una clase php que inicise sesion -->
 <?php
-
 namespace App\Helpers;
 
 class Session
@@ -37,3 +35,5 @@ class Session
         session_destroy();
     }
 }
+
+?>

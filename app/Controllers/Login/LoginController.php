@@ -15,13 +15,14 @@ class LoginController extends BaseController
      *
      * @return string
      */
-    public function index(): string
+    public function index()
     {
-        if(session()->get('isLoggedIn')){
-            if(session()->get('type') == 'ADMINISTRADOR'){
-                return view('Admin/home');
-            }else if(session()->get('type') == 'BOLSISTA'){
-                return view('Student/home');
+        $session = session();
+        if(isset($session->isLoggedIn)){
+            if($session->type == 'ADMINISTRADOR' && $session->user_status == 1){
+                return redirect()->to(base_url('admin/home'));
+            }else if($session->type == 'BOLSISTA' && $session->user_status == 1){
+                return redirect()->to(base_url('student/home'));
             }
         }
         return view('Login/login');
@@ -54,9 +55,9 @@ class LoginController extends BaseController
                     'user_status' => $user['user_status']
                 ]);
                 if($user['type'] == 'ADMINISTRADOR'){
-                    return redirect()->to(site_url('admin/home'));
+                    return redirect()->to(base_url('admin/home'));
                 }else if($user['type'] == 'BOLSISTA'){
-                    return redirect()->to(site_url('student/home'));
+                    return redirect()->to(base_url('student/home'));
                 }
             }
         }else{

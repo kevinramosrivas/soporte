@@ -42,6 +42,7 @@ class PasswordsModel extends Model
             }, $passwords);
             return $passwords;
         }
+        return null;
     }
     public function getPasswordById($id)
     {

@@ -35,7 +35,7 @@ let showTime = () => {
         //si el tiempo es menor a 0, redireccionamos a la pagina de login
         if (time <= 0) {
             //direccion base de ip + /user/intermediary
-            window.location.href = window.location.origin + "/user/intermediary";
+            window.location.href = window.location.origin ;
         }
         if (time >0){
             //convertimos el tiempo a minutos y segundos independientes
