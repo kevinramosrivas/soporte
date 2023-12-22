@@ -259,7 +259,7 @@ function generateEditPassword(id) {
     passwordConfirm.value = retVal;
 }
 
-function generateQrWifi(id, ssid, password) {
+function generateQrWifi(id, ssid, password , nameAccount) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -277,13 +277,14 @@ function generateQrWifi(id, ssid, password) {
         text: "WIFI:S:" + ssid + ";T:WPA;P:" + password + ";;",
         width: width,
         height: height,
-        colorDark : "#000000",
+        colorDark : "#70191c",
         colorLight : "#ffffff",
+        useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
 }
 
-function generateQrEmail(id, email, password) {
+function generateQrEmail(id, email, password , nameAccount) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -298,11 +299,12 @@ function generateQrEmail(id, email, password) {
     //limpiar el div del qr
     document.getElementById("qrcode" + id).innerHTML = "";
     let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "MATMSG:TO:" + email + ";SUB:;BODY:" + password + ";;",
+        text: "Nombre del correo:" + nameAccount + "\nCorreo:" + email + "\nContraseña:" + password,
         width: width,
         height: height,
-        colorDark : "#000000",
+        colorDark : "#70191c",
         colorLight : "#ffffff",
+        useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
 }
@@ -322,16 +324,17 @@ function generateQrDomain(id, username, password) {
     //limpiar el div del qr
     document.getElementById("qrcode" + id).innerHTML = "";
     let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "BEGIN:VCARD\nVERSION:3.0\nFN:" + username + "\nORG:Universidad Nacional de Ingeniería\nTEL;TYPE=work,voice;VALUE=uri:tel:+5117480888\nEMAIL:" + username + "@uni.pe\nEND:VCARD",
+        text: "Nombre de la cuenta:" + username + "\nContraseña:" + password,
         width: width,
         height: height,
-        colorDark : "#000000",
+        colorDark : "#70191c",
         colorLight : "#ffffff",
+        useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
 }
 
-function generateQrDatabase(id, username, password) {
+function generateQrDatabase(id, username, password, nameAccount) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -346,23 +349,24 @@ function generateQrDatabase(id, username, password) {
     //limpiar el div del qr
     document.getElementById("qrcode" + id).innerHTML = "";
     let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "BEGIN:VCARD\nVERSION:3.0\nFN:" + username + "\nORG:Universidad Nacional de Ingeniería\nTEL;TYPE=work,voice;VALUE=uri:tel:+5117480888\nEMAIL:" + username + "@uni.pe\nEND:VCARD",
+        text: "Nombre del SGBD:"+nameAccount+"\nNombre de usuario:" + username + "\nContraseña:" + password,
         width: width,
         height: height,
-        colorDark : "#000000",
+        colorDark : "#70191c",
         colorLight : "#ffffff",
+        useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
 }
 
-function generateQrOther(id, username, password) {
+function generateQrOther(id, username, password, nameAccount) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
     //si el ancho es menor a 768px, el tamaño del qr es de 128px
     if (width < 768) {
-        width = 200;
-        height = 200;
+        width = screen.width - 100;
+        height = screen.height - 100;
     } else {
         width = 400;
         height = 400;
@@ -370,13 +374,90 @@ function generateQrOther(id, username, password) {
     //limpiar el div del qr
     document.getElementById("qrcode" + id).innerHTML = "";
     let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "BEGIN:VCARD\nVERSION:3.0\nFN:" + username + "\nORG:Universidad Nacional de Ingeniería\nTEL;TYPE=work,voice;VALUE=uri:tel:+5117480888\nEMAIL:" + username + "@uni.pe\nEND:VCARD",
+        text: "Nombre de la cuenta:"+nameAccount+"\nNombre de usuario:" + username + "\nContraseña:" + password,
         width: width,
         height: height,
-        colorDark : "#000000",
+        colorDark : "#70191c",
         colorLight : "#ffffff",
+        useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
+}
+function getStringDateandTime(){
+    let date = new Date();
+    return date.toLocaleDateString();
+}
+
+function encodeId(id){
+    let result = 'id='+id+'&d='+getStringDateandTime();
+    return result = btoa(result);
+}
+
+function downloadQr(cardQr,id,id_user){
+    //añadir un modal que indique que se esta generando el pdf
+    let spinner = document.getElementById("spinnerQr"+id);
+    spinner.classList.remove("d-none");
+    let signature = document.getElementById("signatureQr"+id);
+    signature.classList.remove("d-none");
+    //añadir la firma del usuario
+    signature.innerHTML = encodeId(id_user);
+    //convertir el html recibido en pdf
+    html2canvas(document.getElementById(cardQr),{ scale: 5}).then(canvas => {
+        canvas.style.display = 'none'
+        document.body.appendChild(canvas)
+        return canvas
+    })
+    .then(canvas => {
+        const image = canvas.toDataURL('image/png')
+        const a = document.createElement('a')
+        let date = new Date()
+        a.setAttribute('download', 'qr_'+date.toLocaleDateString()+'_'+date.toLocaleTimeString()+'.png')
+        a.setAttribute('href', image)
+        a.click()
+        canvas.remove()
+    })
+    .then(() => {
+        spinner.classList.add("d-none");
+        signature.classList.add("d-none");
+    })
+}
+
+
+function printQr(cardQr,id, id_user){
+    //añadir un modal que indique que se esta generando el pdf
+    let spinner = document.getElementById("spinnerQr"+id);
+    spinner.classList.remove("d-none");
+    //convertir el html recibido en pdf
+    html2canvas(document.getElementById(cardQr),{ scale: 5}).then(canvas => {
+        canvas.style.display = 'none';
+        //aumentar la resolucion del canvas
+        document.body.appendChild(canvas);
+        //mejorar la calidad del canvas para que no se vea borroso
+        return canvas;
+    })
+    .then(canvas => {
+        const image = canvas.toDataURL('image/png');
+        const doc = new jsPDF(
+            {
+                orientation: 'portrait',
+                unit: 'mm',
+                //formato a4
+                format: 'a4',
+                precision: 2,
+            }
+        );
+        doc.addImage(image, 'JPEG', 40, 20, 132.6, 239.2);
+        //añadir la fecha y hora de impresion
+        let date = new Date();
+        doc.setFontSize(10);
+        doc.text('Generado por SGST - FISI', 10, 10);
+        doc.text(encodeId(id_user), 10, 20);
+        doc.text(date.toLocaleDateString()+" "+date.toLocaleTimeString(), 10, 15);
+        doc.save('qr_'+date.toLocaleDateString()+'_'+date.toLocaleTimeString()+'.pdf');
+        spinner.classList.add("d-none");
+        canvas.remove();
+
+    })
 }
 
 

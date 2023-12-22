@@ -1,5 +1,4 @@
 
-
 $(document).ready(function() {
     $('#table-register-entry-lab').DataTable({
         order: [[3, 'desc']],
