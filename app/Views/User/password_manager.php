@@ -314,7 +314,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                 <i class="bi bi-file-earmark"></i>
                                                             <?php endif; ?>
                                                         </button>
-                                                        <h5 class="card-text m-2"><span class="badge text-bg-warning"><i class="bi bi-exclamation-triangle"></i> <i class="bi bi-qr-code-scan"></i> Escanea el código QR para ver las credenciales</span></h5>
+                                                        <h5 class="card-text m-2"><span class="badge text-bg-warning"><i class="bi bi-qr-code-scan"></i> Escanea el código QR </span></h5>
+                                                        <h5 class="card-text m-2"><span class="badge text-bg-warning"><i class="bi bi-key-fill"></i> Para ver las credenciales</span></h5>
                                                         <span class="fw-bold">Descripción:</span> 
                                                         <p><?=$password['accountName']?></p>
                                                         <span class="fw-bold">
@@ -335,7 +336,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         <p><?=$password['password']?></p>
                                                     </div>
                                                     <div class= "card-footer">
-                                                        <h6 class="text-center">Generado por SGST-FISI UNMSM 🔧</h6>
+                                                        <h6 class="text-center">SGST-FISI UNMSM</h6>
                                                         <p class="text-center" id="signatureQr<?=$password['id_password']?>"></p>
                                                     </div>
                                                 </div>
