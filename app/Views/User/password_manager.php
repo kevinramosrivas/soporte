@@ -185,7 +185,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                 <td><?=$password['username']?></td>
                                 <td><input type="password" class="form-control" value="<?=$password['password']?>" readonly id="password<?=$password['id_password']?>"></td>
                                 <td>
-                                    <button type="button" class="btn btn-secondary"
+                                    <button type="button" class="btn btn-secondary m-1"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
                                             data-bs-custom-class="custom-tooltip"
                                             data-bs-title="Ver credenciales" onclick="showCredentials('<?=$password['id_password']?>')">
@@ -273,9 +273,50 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         </div>
                                     <?php endif; ?>
                                     <!-- boton para generar qr -->
-                                    <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>">
+                                    <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>"
+                                    <?php if($password['typeAccount'] == 'WIFI'): ?>
+                                        onclick="generateQrWifi('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                    <?php elseif($password['typeAccount'] == 'EMAIL'): ?>
+                                        onclick="generateQrEmail('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                    <?php elseif($password['typeAccount'] == 'DOMAIN'): ?>
+                                        onclick="generateQrDomain('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                    <?php elseif($password['typeAccount'] == 'DATABASE'): ?>
+                                        onclick="generateQrDatabase('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                    <?php elseif($password['typeAccount'] == 'OTHER'): ?>
+                                        onclick="generateQrOther('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                    <?php endif; ?>
+                                    >
                                         <i class="bi bi-qr-code"></i>
                                     </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="qrAccountPasswordModal<?=$password['id_password']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="modalQrTitle<?=$password['id_password']?>">Código QR</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="card d-flex justify-content-center align-items-center">
+                                                <div id="qrcode<?=$password['id_password']?>" class="card-img-top d-flex justify-content-center img-fluid p-4">
+                                                </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-title text-center"><?=$password['typeAccount']?></h5>
+                                                    <p class="card-text"><span class="badge bg-primary">Escanea el código QR para ver las credenciales</span></p>
+                                                </div>
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item"><span class="fw-bold">Descripción:</span> <?=$password['accountName']?></li>
+                                                    <li class="list-group-item"><span class="fw-bold">Usuario:</span> <?=$password['username']?></li>
+                                                    <li class="list-group-item"><span class="fw-bold">Contraseña:</span> <?=$password['password']?></li>
+                                                </ul>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="button" class="btn btn-primary" onclick="downloadQr('qrcode<?=$password['id_password']?>' , '<?=$password['accountName']?>')">Descargar</button>
+                                            </div>
+                                    </div>
+                                    </div>
 
                                 </td>
                             </tr>
@@ -293,5 +334,6 @@ if($session->type == 'ADMINISTRADOR'): ?>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <link href="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
+<script src="<?=base_url('assets/js/libs/qrcode.js')?>"></script>
 <script src="<?=base_url('assets/js/user/password_manager.js')?>"></script>
 <?=$this->endSection()?>

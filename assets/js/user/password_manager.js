@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
     $('#table-passwords').DataTable({
         "language": {
@@ -55,6 +56,12 @@ let showTime = () => {
 
 }
 //esta funcion se ejecuta con onchange en el select de la cuenta
+/**
+ * Cambia el icono y los campos de formulario según el tipo de cuenta seleccionada.
+ */
+/**
+ * Cambia el icono y los campos de formulario según el tipo de cuenta seleccionada.
+ */
 function selectAccount() {
     //funcion que cambia el icono dependiendo del tipo de cuenta, wifi, database, etc
     let accountType = document.getElementById("accountType").value;
@@ -151,6 +158,11 @@ function deleteDnone(elements) {
     }
 }
 
+/**
+ * Converts a time string to a Date object without considering the time zone.
+ * @param {string} date - The time string in the format "HH:MM:SS".
+ * @returns {Date} - The Date object representing the given time without considering the time zone.
+ */
 function toDateWithOutTimeZone(date) {
     let tempTime = date.split(":");
     let dt = new Date();
@@ -160,6 +172,9 @@ function toDateWithOutTimeZone(date) {
     return dt;
 }
 
+/**
+ * Toggles the visibility of the password input field.
+ */
 function showPassword() {
     let password = document.getElementById("inputPassword");
     let icon = document.getElementById("iconShowPassword");
@@ -174,6 +189,9 @@ function showPassword() {
     }
 }
 
+/**
+ * Generates a random password and sets it as the value of the input field with the id "inputPassword".
+ */
 function generatePassword() {
     let password = document.getElementById("inputPassword");
     let length = 8,
@@ -201,6 +219,14 @@ function showCredentials(id) {
     }
 }
 
+/**
+ * Muestra u oculta las contraseñas al editar un usuario.
+ * @param {string} id - El ID del usuario.
+ */
+/**
+ * Muestra u oculta las contraseñas al editar un usuario.
+ * @param {string} id - El ID del usuario.
+ */
 function showEditPassword(id) {
     let password = document.getElementById('edit-password' + id);
     let passwordConfirm = document.getElementById('confirm-password' + id);
@@ -232,6 +258,128 @@ function generateEditPassword(id) {
     password.value = retVal;
     passwordConfirm.value = retVal;
 }
+
+function generateQrWifi(id, ssid, password) {
+    //calcular el tamaño de la pantalla
+    let width = screen.width;
+    let height = screen.height;
+    //si el ancho es menor a 768px, el tamaño del qr es de 128px
+    if (width < 768) {
+        width = 200;
+        height = 200;
+    } else {
+        width = 400;
+        height = 400;
+    }
+    //limpiar el div del qr
+    document.getElementById("qrcode" + id).innerHTML = "";
+    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
+        text: "WIFI:S:" + ssid + ";T:WPA;P:" + password + ";;",
+        width: width,
+        height: height,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+}
+
+function generateQrEmail(id, email, password) {
+    //calcular el tamaño de la pantalla
+    let width = screen.width;
+    let height = screen.height;
+    //si el ancho es menor a 768px, el tamaño del qr es de 128px
+    if (width < 768) {
+        width = 200;
+        height = 200;
+    } else {
+        width = 400;
+        height = 400;
+    }
+    //limpiar el div del qr
+    document.getElementById("qrcode" + id).innerHTML = "";
+    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
+        text: "MATMSG:TO:" + email + ";SUB:;BODY:" + password + ";;",
+        width: width,
+        height: height,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+}
+
+function generateQrDomain(id, username, password) {
+    //calcular el tamaño de la pantalla
+    let width = screen.width;
+    let height = screen.height;
+    //si el ancho es menor a 768px, el tamaño del qr es de 128px
+    if (width < 768) {
+        width = 200;
+        height = 200;
+    } else {
+        width = 400;
+        height = 400;
+    }
+    //limpiar el div del qr
+    document.getElementById("qrcode" + id).innerHTML = "";
+    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
+        text: "BEGIN:VCARD\nVERSION:3.0\nFN:" + username + "\nORG:Universidad Nacional de Ingeniería\nTEL;TYPE=work,voice;VALUE=uri:tel:+5117480888\nEMAIL:" + username + "@uni.pe\nEND:VCARD",
+        width: width,
+        height: height,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+}
+
+function generateQrDatabase(id, username, password) {
+    //calcular el tamaño de la pantalla
+    let width = screen.width;
+    let height = screen.height;
+    //si el ancho es menor a 768px, el tamaño del qr es de 128px
+    if (width < 768) {
+        width = 200;
+        height = 200;
+    } else {
+        width = 400;
+        height = 400;
+    }
+    //limpiar el div del qr
+    document.getElementById("qrcode" + id).innerHTML = "";
+    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
+        text: "BEGIN:VCARD\nVERSION:3.0\nFN:" + username + "\nORG:Universidad Nacional de Ingeniería\nTEL;TYPE=work,voice;VALUE=uri:tel:+5117480888\nEMAIL:" + username + "@uni.pe\nEND:VCARD",
+        width: width,
+        height: height,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+}
+
+function generateQrOther(id, username, password) {
+    //calcular el tamaño de la pantalla
+    let width = screen.width;
+    let height = screen.height;
+    //si el ancho es menor a 768px, el tamaño del qr es de 128px
+    if (width < 768) {
+        width = 200;
+        height = 200;
+    } else {
+        width = 400;
+        height = 400;
+    }
+    //limpiar el div del qr
+    document.getElementById("qrcode" + id).innerHTML = "";
+    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
+        text: "BEGIN:VCARD\nVERSION:3.0\nFN:" + username + "\nORG:Universidad Nacional de Ingeniería\nTEL;TYPE=work,voice;VALUE=uri:tel:+5117480888\nEMAIL:" + username + "@uni.pe\nEND:VCARD",
+        width: width,
+        height: height,
+        colorDark : "#000000",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+}
+
+
 
 
 
