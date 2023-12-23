@@ -262,15 +262,31 @@ function generateEditPassword(id) {
 
 function getStringDateandTime(){
     let date = new Date();
-    return date.toLocaleDateString();
+    return date.toLocaleDateString()+" "+date.toLocaleTimeString();
 }
 
 function encodeId(id){
-    let result = 'id='+id+'&d='+getStringDateandTime();
-    return result = btoa(result);
+    let result = 'ID del usuario: '+id+'\n '+getStringDateandTime();
+    return result;
 }
 
-function generateQrWifi(id, ssid, password , nameAccount) {
+function makeSignature(id, id_user){
+    let signature = document.getElementById("signatureQr"+id);
+    var qrcode = new QRious({
+        element: signature,
+        value: encodeId(id_user),
+        size: 90,
+        backgroundAlpha: 0,
+        foregroundAlpha: 1,
+        foreground: 'black',
+        level: 'H',
+        padding: null,
+    });
+
+
+}
+
+function generateQrWifi(id, ssid, password , nameAccount, id_user) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -293,9 +309,10 @@ function generateQrWifi(id, ssid, password , nameAccount) {
         useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
+    makeSignature(id , id_user);
 }
 
-function generateQrEmail(id, email, password , nameAccount) {
+function generateQrEmail(id, email, password , nameAccount , id_user) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -318,9 +335,10 @@ function generateQrEmail(id, email, password , nameAccount) {
         useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
+    makeSignature(id , id_user);
 }
 
-function generateQrDomain(id, username, password) {
+function generateQrDomain(id, username, password, nameAccount , id_user) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -343,9 +361,10 @@ function generateQrDomain(id, username, password) {
         useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
+    makeSignature(id , id_user);
 }
 
-function generateQrDatabase(id, username, password, nameAccount) {
+function generateQrDatabase(id, username, password, nameAccount , id_user) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -368,9 +387,10 @@ function generateQrDatabase(id, username, password, nameAccount) {
         useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
+    makeSignature(id , id_user);
 }
 
-function generateQrOther(id, username, password, nameAccount) {
+function generateQrOther(id, username, password, nameAccount , id_user) {
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -393,6 +413,7 @@ function generateQrOther(id, username, password, nameAccount) {
         useSVG: true,
         correctLevel : QRCode.CorrectLevel.H
     });
+    makeSignature(id , id_user);
 }
 
 
@@ -400,20 +421,9 @@ function downloadQr(cardQr,id,id_user){
     let message = document.getElementById("messageQr"+id);
     //añadir un modal que indique que se esta generando el pdf
     let spinner = document.getElementById("spinnerQr"+id);
-    let signature = document.getElementById("signatureQr"+id);
     spinner.classList.remove("d-none");
     message.classList.remove("d-none");
-    signature.classList.remove("d-none");
-    var qrcode = new QRious({
-        element: signature,
-        value: encodeId(id_user),
-        size: 70,
-        backgroundAlpha: 0,
-        foregroundAlpha: 1,
-        foreground: 'black',
-        level: 'H',
-        padding: null,
-    });
+
     //convertir el html recibido en pdf
     html2canvas(document.getElementById(cardQr),{ scale: 5}).then(canvas => {
         canvas.style.display = 'none'
@@ -431,9 +441,9 @@ function downloadQr(cardQr,id,id_user){
     })
     .then(() => {
         spinner.classList.add("d-none");
-        signature.classList.add("d-none");
         message.classList.add("d-none");
     })
+
 }
 
 
@@ -443,18 +453,6 @@ function printQr(cardQr,id, id_user){
     //añadir un modal que indique que se esta generando el pdf
     let spinner = document.getElementById("spinnerQr"+id);
     spinner.classList.remove("d-none");
-    let signature = document.getElementById("signatureQr"+id);
-    signature.classList.remove("d-none");
-    var qrcode = new QRious({
-        element: signature,
-        value: encodeId(id_user),
-        size: 70,
-        backgroundAlpha: 0,
-        foregroundAlpha: 1,
-        foreground: 'black',
-        level: 'H',
-        padding: null,
-    });
     //convertir el html recibido en pdf
     html2canvas(document.getElementById(cardQr),{ scale: 5}).then(canvas => {
         canvas.style.display = 'none';
@@ -475,7 +473,7 @@ function printQr(cardQr,id, id_user){
                 compress: true,
             }
         );
-        doc.addImage(image, 'JPEG', 40, 20, 132.6, 239.2);
+        doc.addImage(image, 'JPEG', 40, 20, 128.6, 262.2);
         //añadir la fecha y hora de impresion
         let date = new Date();
         doc.setFontSize(10);
@@ -484,7 +482,6 @@ function printQr(cardQr,id, id_user){
         doc.save('qr_'+date.toLocaleDateString()+'_'+date.toLocaleTimeString()+'.pdf');
         spinner.classList.add("d-none");
         message.classList.add("d-none");
-        signature.classList.add("d-none");
         canvas.remove();
 
     })

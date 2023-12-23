@@ -8,7 +8,7 @@ class PasswordsModel extends Model
 {
     protected $table = 'passwords';
     protected $primaryKey = 'id_password';
-    protected $allowedFields = ['typeAccount', 'accountName', 'username', 'password', 'level','registrar_id', 'created_at', 'updated_at'];
+    protected $allowedFields = ['typeAccount', 'accountName', 'username', 'password', 'level','registrar_id', 'additionalInfo','created_at', 'updated_at'];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
@@ -29,6 +29,7 @@ class PasswordsModel extends Model
                 $password['accountName'] = $this->encryptor->decrypt($password['accountName']);
                 $password['username'] = $this->encryptor->decrypt($password['username']);
                 $password['password'] = $this->encryptor->decrypt($password['password']);
+                $password['additionalInfo'] = $this->encryptor->decrypt($password['additionalInfo']);
                 return $password;
             }, $passwords);
             return $passwords;
@@ -38,6 +39,7 @@ class PasswordsModel extends Model
                 $password['accountName'] = $this->encryptor->decrypt($password['accountName']);
                 $password['username'] = $this->encryptor->decrypt($password['username']);
                 $password['password'] = $this->encryptor->decrypt($password['password']);
+                $password['additionalInfo'] = $this->encryptor->decrypt($password['additionalInfo']);
                 return $password;
             }, $passwords);
             return $passwords;

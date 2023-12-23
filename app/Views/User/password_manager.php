@@ -275,15 +275,15 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                     <!-- boton para generar qr -->
                                     <button type="button" class="btn btn-dark m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>"
                                     <?php if($password['typeAccount'] == 'WIFI'): ?>
-                                        onclick="generateQrWifi('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                        onclick="generateQrWifi('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>', '<?=$session->id_user?>')"
                                     <?php elseif($password['typeAccount'] == 'EMAIL'): ?>
-                                        onclick="generateQrEmail('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                        onclick="generateQrEmail('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user?>')"
                                     <?php elseif($password['typeAccount'] == 'DOMAIN'): ?>
-                                        onclick="generateQrDomain('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                        onclick="generateQrDomain('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user?>')"
                                     <?php elseif($password['typeAccount'] == 'DATABASE'): ?>
-                                        onclick="generateQrDatabase('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                        onclick="generateQrDatabase('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user?>')"
                                     <?php elseif($password['typeAccount'] == 'OTHER'): ?>
-                                        onclick="generateQrOther('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
+                                        onclick="generateQrOther('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user?>')"
                                     <?php endif; ?>
                                     >
                                         <i class="bi bi-qr-code"></i>
@@ -316,9 +316,10 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                             <?php endif; ?>
                                                         </button>
 
-        
-                                                        <h5 class="card-text m-2"><span class="badge text-bg-warning"><i class="bi bi-qr-code-scan"></i> Escanea el código QR </span></h5>
-                                                        <h5 class="card-text m-2"><span class="badge text-bg-warning"><i class="bi bi-key-fill"></i> Para ver las credenciales</span></h5>
+                                                        <span class="badge text-bg-warning d-block m-2">
+                                                            <h5 class="card-text m-2"><i class="bi bi-qr-code-scan"></i> <i class="bi bi-arrow-up-square-fill"></i> Escanea el código QR</h5>
+                                                            <h5 class="card-text m-2">para ver las credenciales</h5>
+                                                        </span>
                                                         <span class="fw-bold">Descripción:</span> 
                                                         <p><?=$password['accountName']?></p>
                                                         <span class="fw-bold">
@@ -338,11 +339,19 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         <span class="fw-bold">Contraseña:</span>
                                                         <p><?=$password['password']?></p>
                                                     </div>
-                                                    <div class= "card-footer d-flex justify-content-center align-items-center flex-column">
-                                                        <h6 class="text-center">SGST-FISI UNMSM</h6>
-                                                        <canvas id="signatureQr<?=$password['id_password']?>" class="d-none">
+                                                    <div class= "card-footer">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-6 d-flex justify-content-center align-items-center">
+                                                                    <h6 class="text-center">SGST-FISI UNMSM</h6>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <canvas id="signatureQr<?=$password['id_password']?>">
                                                                     
-                                                        </canvas>
+                                                                    </canvas>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center align-items-center">

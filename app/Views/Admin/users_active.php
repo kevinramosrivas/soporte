@@ -92,6 +92,7 @@ Usuarios
             <table class="table table-striped table-hover text-start" id="table_users">
                 <thead>
                     <tr>
+                        <th scope="col">ID</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Tipo</th>
@@ -103,6 +104,9 @@ Usuarios
                     <?php
                     foreach ($users as $user) : ?>
                         <tr id="user_<?= $user['id_user'] ?>">
+                            <th scope="row">
+                                <?= $user['id_user'] ?>
+                            </th>
                             <td>
                                 <?php if ($user['user_status'] == 1) : ?>
                                     <span class="badge bg-primary">Activo</span>
