@@ -172,11 +172,11 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                             <i class="bi bi-globe"></i>
                                         </button>
                                     <?php elseif($password['typeAccount'] == 'OTHER'): ?>
-                                        <button type="button" class="btn btn-alert"
+                                        <button type="button" class="btn btn-warning"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
                                                 data-bs-title="Otro">
-                                            <i class="bi bi-file-earmark"></i>
+                                            <i class="bi bi-key-fill"></i>
                                         </button>
                                     <?php endif; ?>
                                 </td>
@@ -273,7 +273,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         </div>
                                     <?php endif; ?>
                                     <!-- boton para generar qr -->
-                                    <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>"
+                                    <button type="button" class="btn btn-dark m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>"
                                     <?php if($password['typeAccount'] == 'WIFI'): ?>
                                         onclick="generateQrWifi('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>')"
                                     <?php elseif($password['typeAccount'] == 'EMAIL'): ?>
@@ -301,6 +301,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                     <div id="qrcode<?=$password['id_password']?>" class="card-img-top d-flex justify-content-center img-fluid p-4">
                                                     </div>
                                                     <div class="card-body text-center">
+
                                                         <button type="button" class="btn btn-lg" style="background-color: #70191c; color: white;">
                                                             <?php if($password['typeAccount'] == "DATABASE"): ?>
                                                                 <i class="bi bi-database"></i>
@@ -311,9 +312,11 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                             <?php elseif($password['typeAccount'] == "DOMAIN"): ?>
                                                                 <i class="bi bi-globe"></i>
                                                             <?php elseif($password['typeAccount'] == "OTHER"): ?>
-                                                                <i class="bi bi-file-earmark"></i>
+                                                                <i class="bi bi-key-fill"></i>
                                                             <?php endif; ?>
                                                         </button>
+
+        
                                                         <h5 class="card-text m-2"><span class="badge text-bg-warning"><i class="bi bi-qr-code-scan"></i> Escanea el código QR </span></h5>
                                                         <h5 class="card-text m-2"><span class="badge text-bg-warning"><i class="bi bi-key-fill"></i> Para ver las credenciales</span></h5>
                                                         <span class="fw-bold">Descripción:</span> 
@@ -335,9 +338,11 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         <span class="fw-bold">Contraseña:</span>
                                                         <p><?=$password['password']?></p>
                                                     </div>
-                                                    <div class= "card-footer">
+                                                    <div class= "card-footer d-flex justify-content-center align-items-center flex-column">
                                                         <h6 class="text-center">SGST-FISI UNMSM</h6>
-                                                        <p class="text-center" id="signatureQr<?=$password['id_password']?>"></p>
+                                                        <canvas id="signatureQr<?=$password['id_password']?>" class="d-none">
+                                                                    
+                                                        </canvas>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center align-items-center">
@@ -345,6 +350,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         <span class="visually-hidden">Loading...</span>
                                                     </div>
                                                 </div>
+                                                <p class="text-center d-none" id="messageQr<?=$password['id_password']?>">Espere un momento</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -374,5 +380,6 @@ if($session->type == 'ADMINISTRADOR'): ?>
 <script src="<?=base_url('assets/js/libs/qrcode.js')?>"></script>
 <script src="<?=base_url('assets/js/libs/html2canvas.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 <script src="<?=base_url('assets/js/user/password_manager.js')?>"></script>
 <?=$this->endSection()?>

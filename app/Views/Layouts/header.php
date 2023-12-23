@@ -29,7 +29,7 @@
 
         <li class="nav-item d-none" id="clock_timeleft">
           <a class="nav-time" >
-            <i class="bi bi-hourglass-top" id="hourglass-icon"></i><p id="MyClockDisplay" class="d-inline"></p>
+            <p id="MyClockDisplay" class="d-inline"></p>
           </a>
         </li><!-- End Search Icon-->
 

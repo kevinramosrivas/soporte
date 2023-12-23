@@ -139,6 +139,7 @@ function selectAccount() {
             labelPassword.innerHTML = "Contraseña";
             inputCountName.placeholder = "Cuenta de soporte";
             inputUsername.placeholder = "soportefisi";
+            inputUsername.type = "text";
             deleteDnone(elementsinputFormAccount);
             break;
         case "":
@@ -257,6 +258,16 @@ function generateEditPassword(id) {
     }
     password.value = retVal;
     passwordConfirm.value = retVal;
+}
+
+function getStringDateandTime(){
+    let date = new Date();
+    return date.toLocaleDateString();
+}
+
+function encodeId(id){
+    let result = 'id='+id+'&d='+getStringDateandTime();
+    return result = btoa(result);
 }
 
 function generateQrWifi(id, ssid, password , nameAccount) {
@@ -383,24 +394,26 @@ function generateQrOther(id, username, password, nameAccount) {
         correctLevel : QRCode.CorrectLevel.H
     });
 }
-function getStringDateandTime(){
-    let date = new Date();
-    return date.toLocaleDateString();
-}
 
-function encodeId(id){
-    let result = 'id='+id+'&d='+getStringDateandTime();
-    return result = btoa(result);
-}
 
 function downloadQr(cardQr,id,id_user){
+    let message = document.getElementById("messageQr"+id);
     //añadir un modal que indique que se esta generando el pdf
     let spinner = document.getElementById("spinnerQr"+id);
-    spinner.classList.remove("d-none");
     let signature = document.getElementById("signatureQr"+id);
+    spinner.classList.remove("d-none");
+    message.classList.remove("d-none");
     signature.classList.remove("d-none");
-    //añadir la firma del usuario
-    signature.innerHTML = encodeId(id_user);
+    var qrcode = new QRious({
+        element: signature,
+        value: encodeId(id_user),
+        size: 70,
+        backgroundAlpha: 0,
+        foregroundAlpha: 1,
+        foreground: 'black',
+        level: 'H',
+        padding: null,
+    });
     //convertir el html recibido en pdf
     html2canvas(document.getElementById(cardQr),{ scale: 5}).then(canvas => {
         canvas.style.display = 'none'
@@ -419,14 +432,29 @@ function downloadQr(cardQr,id,id_user){
     .then(() => {
         spinner.classList.add("d-none");
         signature.classList.add("d-none");
+        message.classList.add("d-none");
     })
 }
 
 
 function printQr(cardQr,id, id_user){
+    let message = document.getElementById("messageQr"+id);
+    message.classList.remove("d-none");
     //añadir un modal que indique que se esta generando el pdf
     let spinner = document.getElementById("spinnerQr"+id);
     spinner.classList.remove("d-none");
+    let signature = document.getElementById("signatureQr"+id);
+    signature.classList.remove("d-none");
+    var qrcode = new QRious({
+        element: signature,
+        value: encodeId(id_user),
+        size: 70,
+        backgroundAlpha: 0,
+        foregroundAlpha: 1,
+        foreground: 'black',
+        level: 'H',
+        padding: null,
+    });
     //convertir el html recibido en pdf
     html2canvas(document.getElementById(cardQr),{ scale: 5}).then(canvas => {
         canvas.style.display = 'none';
@@ -444,6 +472,7 @@ function printQr(cardQr,id, id_user){
                 //formato a4
                 format: 'a4',
                 precision: 2,
+                compress: true,
             }
         );
         doc.addImage(image, 'JPEG', 40, 20, 132.6, 239.2);
@@ -451,14 +480,33 @@ function printQr(cardQr,id, id_user){
         let date = new Date();
         doc.setFontSize(10);
         doc.text('Generado por SGST - FISI', 10, 10);
-        doc.text(encodeId(id_user), 10, 20);
         doc.text(date.toLocaleDateString()+" "+date.toLocaleTimeString(), 10, 15);
         doc.save('qr_'+date.toLocaleDateString()+'_'+date.toLocaleTimeString()+'.pdf');
         spinner.classList.add("d-none");
+        message.classList.add("d-none");
+        signature.classList.add("d-none");
         canvas.remove();
 
     })
 }
+
+//validar que el formulario para agregar una nueva cuenta
+let formNewAccountPassword = document.getElementById("formNewAccountPassword");
+formNewAccountPassword.addEventListener("submit", function(event){
+    //validar que el formulario no este vacio
+    let accountType = document.getElementById("accountType").value;
+    let inputCountName = document.getElementById("inputCountName").value;
+    let inputUsername = document.getElementById("inputUsername").value;
+    let inputPassword = document.getElementById("inputPassword").value;
+    let inputPasswordConfirm = document.getElementById("inputPasswordConfirm").value;
+    let inputLevel = document.getElementById("inputLevel").value;
+    //validar que  accountType y inputlevel no esten vacios
+    if (accountType == "" || inputLevel == ""){
+        event.preventDefault();
+        event.stopPropagation();
+        alert("Debe seleccionar un tipo de cuenta y un nivel");
+    }
+}, false);
 
 
 
