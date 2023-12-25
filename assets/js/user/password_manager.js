@@ -86,6 +86,7 @@ function selectAccount() {
             labelPassword.innerHTML = "Contraseña";
             inputCountName.placeholder = "Wifi del DACC";
             inputUsername.placeholder = "WIFI_DACC";
+            inputUsername.type = "text";
             deleteDnone(elementsinputFormAccount);
             break;
         case "DATABASE":
@@ -99,6 +100,7 @@ function selectAccount() {
             labelPassword.innerHTML = "Contraseña";
             inputCountName.placeholder = "BD del Laboratorio 8";
             inputUsername.placeholder = "root";
+            inputUsername.type = "text";
             deleteDnone(elementsinputFormAccount);
             break;
         case "EMAIL":
@@ -126,6 +128,7 @@ function selectAccount() {
             labelPassword.innerHTML = "Contraseña";
             inputCountName.placeholder = "Cuenta de soporte";
             inputUsername.placeholder = "soportefisi";
+            inputUsername.type = "text";
             deleteDnone(elementsinputFormAccount);
             break;
         case "OTHER":
@@ -208,13 +211,14 @@ function generatePassword() {
 function showCredentials(id) {
     let row = document.getElementById('rowPassword' + id);
     let icon = document.getElementById('iconShowCredentials' + id);
+    let passwordTable = document.getElementById('passwordTable'+ id);
     //cambiar el tipo a text solo mientras se mantiene presionado el icono
-    if (row.cells[4].children[0].type === "password") {
-        row.cells[4].children[0].type = "text";
+    if (passwordTable.type === "password") {
+        passwordTable.type = "text";
         icon.classList.remove("bi-eye");
         icon.classList.add("bi-eye-slash");
     } else {
-        row.cells[4].children[0].type = "password";
+        passwordTable.type = "password";
         icon.classList.remove("bi-eye-slash");
         icon.classList.add("bi-eye");
     }
@@ -229,8 +233,8 @@ function showCredentials(id) {
  * @param {string} id - El ID del usuario.
  */
 function showEditPassword(id) {
-    let password = document.getElementById('edit-password' + id);
-    let passwordConfirm = document.getElementById('confirm-password' + id);
+    let password = document.getElementById('editPasswordInput' + id);
+    let passwordConfirm = document.getElementById('editConfirmPasswordInput' + id);
     let icon = document.getElementById('iconShowPassword' + id);
     //cambiar el tipo a text solo mientras se mantiene presionado el icono
     if (password.type === "password") {
@@ -247,8 +251,8 @@ function showEditPassword(id) {
 }
 
 function generateEditPassword(id) {
-    let password = document.getElementById('edit-password' + id);
-    let passwordConfirm = document.getElementById('confirm-password' + id);
+    let password = document.getElementById('editPasswordInput' + id);
+    let passwordConfirm = document.getElementById('editConfirmPasswordInput' + id);
     let length = 8,
         charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
         retVal = "";
@@ -285,8 +289,7 @@ function makeSignature(id, id_user){
 
 
 }
-
-function generateQrWifi(id, ssid, password , nameAccount, id_user) {
+function makeQr(string, id, id_user){
     //calcular el tamaño de la pantalla
     let width = screen.width;
     let height = screen.height;
@@ -301,7 +304,7 @@ function generateQrWifi(id, ssid, password , nameAccount, id_user) {
     //limpiar el div del qr
     document.getElementById("qrcode" + id).innerHTML = "";
     let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "WIFI:S:" + ssid + ";T:WPA;P:" + password + ";;",
+        text: string,
         width: width,
         height: height,
         colorDark : "#70191c",
@@ -310,110 +313,31 @@ function generateQrWifi(id, ssid, password , nameAccount, id_user) {
         correctLevel : QRCode.CorrectLevel.H
     });
     makeSignature(id , id_user);
+}
+
+function generateQrWifi(id, ssid, password , nameAccount, id_user) {
+    let string = "WIFI:S:" + ssid + ";T:WPA;P:" + password + ";;";
+    makeQr(string, id , id_user);
 }
 
 function generateQrEmail(id, email, password , nameAccount , id_user) {
-    //calcular el tamaño de la pantalla
-    let width = screen.width;
-    let height = screen.height;
-    //si el ancho es menor a 768px, el tamaño del qr es de 128px
-    if (width < 768) {
-        width = 200;
-        height = 200;
-    } else {
-        width = 400;
-        height = 400;
-    }
-    //limpiar el div del qr
-    document.getElementById("qrcode" + id).innerHTML = "";
-    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "Nombre del correo:" + nameAccount + "\nCorreo:" + email + "\nContraseña:" + password,
-        width: width,
-        height: height,
-        colorDark : "#70191c",
-        colorLight : "#ffffff",
-        useSVG: true,
-        correctLevel : QRCode.CorrectLevel.H
-    });
-    makeSignature(id , id_user);
+    let string = "Nombre del correo:" + nameAccount + "\nCorreo:" + email + "\nContraseña:" + password;
+    makeQr(string, id , id_user);
 }
 
 function generateQrDomain(id, username, password, nameAccount , id_user) {
-    //calcular el tamaño de la pantalla
-    let width = screen.width;
-    let height = screen.height;
-    //si el ancho es menor a 768px, el tamaño del qr es de 128px
-    if (width < 768) {
-        width = 200;
-        height = 200;
-    } else {
-        width = 400;
-        height = 400;
-    }
-    //limpiar el div del qr
-    document.getElementById("qrcode" + id).innerHTML = "";
-    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "Nombre de la cuenta:" + username + "\nContraseña:" + password,
-        width: width,
-        height: height,
-        colorDark : "#70191c",
-        colorLight : "#ffffff",
-        useSVG: true,
-        correctLevel : QRCode.CorrectLevel.H
-    });
-    makeSignature(id , id_user);
+    let string = "Nombre del dominio:" + nameAccount + "\nNombre de usuario:" + username + "\nContraseña:" + password;
+    makeQr(string, id , id_user);
 }
 
 function generateQrDatabase(id, username, password, nameAccount , id_user) {
-    //calcular el tamaño de la pantalla
-    let width = screen.width;
-    let height = screen.height;
-    //si el ancho es menor a 768px, el tamaño del qr es de 128px
-    if (width < 768) {
-        width = 200;
-        height = 200;
-    } else {
-        width = 400;
-        height = 400;
-    }
-    //limpiar el div del qr
-    document.getElementById("qrcode" + id).innerHTML = "";
-    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "Nombre del SGBD:"+nameAccount+"\nNombre de usuario:" + username + "\nContraseña:" + password,
-        width: width,
-        height: height,
-        colorDark : "#70191c",
-        colorLight : "#ffffff",
-        useSVG: true,
-        correctLevel : QRCode.CorrectLevel.H
-    });
-    makeSignature(id , id_user);
+    let string = "Nombre del SGBD:"+nameAccount+"\nNombre de usuario:" + username + "\nContraseña:" + password;
+    makeQr(string, id , id_user);
 }
 
 function generateQrOther(id, username, password, nameAccount , id_user) {
-    //calcular el tamaño de la pantalla
-    let width = screen.width;
-    let height = screen.height;
-    //si el ancho es menor a 768px, el tamaño del qr es de 128px
-    if (width < 768) {
-        width = screen.width - 100;
-        height = screen.height - 100;
-    } else {
-        width = 400;
-        height = 400;
-    }
-    //limpiar el div del qr
-    document.getElementById("qrcode" + id).innerHTML = "";
-    let qrcode = new QRCode(document.getElementById("qrcode" + id), {
-        text: "Nombre de la cuenta:"+nameAccount+"\nNombre de usuario:" + username + "\nContraseña:" + password,
-        width: width,
-        height: height,
-        colorDark : "#70191c",
-        colorLight : "#ffffff",
-        useSVG: true,
-        correctLevel : QRCode.CorrectLevel.H
-    });
-    makeSignature(id , id_user);
+    let string = "Nombre de la cuenta:"+nameAccount+"\nNombre de usuario:" + username + "\nContraseña:" + password;
+    makeQr(string, id , id_user);
 }
 
 
@@ -425,7 +349,7 @@ function downloadQr(cardQr,id,id_user){
     message.classList.remove("d-none");
 
     //convertir el html recibido en pdf
-    html2canvas(document.getElementById(cardQr),{ scale: 5}).then(canvas => {
+    html2canvas(document.getElementById(cardQr),{ scale: 3}).then(canvas => {
         canvas.style.display = 'none'
         document.body.appendChild(canvas)
         return canvas
@@ -454,7 +378,7 @@ function printQr(cardQr,id, id_user){
     let spinner = document.getElementById("spinnerQr"+id);
     spinner.classList.remove("d-none");
     //convertir el html recibido en pdf
-    html2canvas(document.getElementById(cardQr),{ scale: 5}).then(canvas => {
+    html2canvas(document.getElementById(cardQr),{ scale: 3}).then(canvas => {
         canvas.style.display = 'none';
         //aumentar la resolucion del canvas
         document.body.appendChild(canvas);
@@ -490,21 +414,120 @@ function printQr(cardQr,id, id_user){
 //validar que el formulario para agregar una nueva cuenta
 let formNewAccountPassword = document.getElementById("formNewAccountPassword");
 formNewAccountPassword.addEventListener("submit", function(event){
+    event.preventDefault();
     //validar que el formulario no este vacio
     let accountType = document.getElementById("accountType").value;
     let inputCountName = document.getElementById("inputCountName").value;
     let inputUsername = document.getElementById("inputUsername").value;
     let inputPassword = document.getElementById("inputPassword").value;
-    let inputPasswordConfirm = document.getElementById("inputPasswordConfirm").value;
+    let inputAdditionaInfo = document.getElementById("inputAdditionaInfo").value;
     let inputLevel = document.getElementById("inputLevel").value;
+    let maxLength = 120;
+    //no permitir emojis /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu
+    let regex = /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu;
     //validar que  accountType y inputlevel no esten vacios
     if (accountType == "" || inputLevel == ""){
-        event.preventDefault();
-        event.stopPropagation();
-        alert("Debe seleccionar un tipo de cuenta y un nivel");
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Debes seleccionar un tipo de cuenta y un nivel de seguridad',
+        })
     }
-}, false);
+    //validar que los campos no esten vacios
+    else if (inputCountName == "" || inputUsername == "" || inputPassword == "" ){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Debes llenar todos los campos',
+        })
+    }
+    //validar que todos los campos sean alfanumericos
+    else if (regex.test(inputCountName) || regex.test(inputUsername) || regex.test(inputPassword) || regex.test(inputAdditionaInfo)){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Los campos no deben contener emojis',
+        })
+    }
+    //validar que los campos de inputCountName, inputUsername, inputPassword y inputAdditionaInfo sean menores a 150 caracteres
+    else if (inputCountName.length > maxLength || inputUsername.length > maxLength || inputPassword.length > maxLength || inputAdditionaInfo.length > maxLength){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Los campos deben tener menos de ' + maxLength + ' caracteres',
+        })
+    }
 
+    else{
+        //enviar el formulario
+        formNewAccountPassword.submit();
+    }
+
+
+
+
+})
+
+function validateEditPassword(id){
+    //prevenir que se envie el formulario
+    let editAccountTypeInput = document.getElementById("editAccountTypeInput"+id).value;
+    let editAccountNameInput = document.getElementById("editAccountNameInput"+id).value;
+    let editUsernameInput = document.getElementById("editUsernameInput"+id).value;
+    let editLevelInput = document.getElementById("editLevelInput"+id).value;
+    let editAdditionalInfoInput = document.getElementById("editAdditionalInfoInput"+id).value;
+    let editPasswordInput = document.getElementById("editPasswordInput"+id).value;
+    let editConfirmPasswordInput = document.getElementById("editConfirmPasswordInput"+id).value;
+    let maxLength = 120;
+    //no permitir emojis /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu
+    let regex = /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/gu;
+    //validar que  accountType y inputlevel no esten vacios
+    if (editAccountTypeInput == "" || editLevelInput == ""){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Debes seleccionar un tipo de cuenta y un nivel de seguridad',
+        })
+        return false;
+    }
+    //validar que los campos no esten vacios
+    else if (editAccountNameInput == "" || editUsernameInput == "" || editPasswordInput == "" ){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Debes llenar todos los campos',
+        })
+        return false;
+    }
+    //validar que todos los campos sean alfanumericos
+    else if (regex.test(editAccountNameInput) || regex.test(editUsernameInput) || regex.test(editPasswordInput) || regex.test(editAdditionalInfoInput)){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Los campos no deben contener emojis',
+        })
+        return false;
+    }
+    else if (editPasswordInput != editConfirmPasswordInput){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Las contraseñas no coinciden',
+        })
+        return false;
+    }
+    else if (editAccountNameInput.length > maxLength || editUsernameInput.length > maxLength || editPasswordInput.length > maxLength || editAdditionalInfoInput.length > maxLength){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Los campos deben tener menos de ' + maxLength + ' caracteres',
+        })
+        return false;
+    }
+    //enviar el formulario
+    return true;
+
+
+}
 
 
 

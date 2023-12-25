@@ -468,15 +468,18 @@ class UserController extends BaseController
                     'username' => $this->request->getPost('username'),
                     'password' => $this->request->getPost('password'),
                     'level' => $this->request->getPost('level'),
+                    'additionalInfo' => $this->request->getPost('additionalInfo'),
                 ];
                 // validar los datos
                 $validation = \Config\Services::validation();
+                //validar que los campos no esten vacios y que sean de maximo 120 caracteres
                 $validation->setRules([
-                    'typeAccount' => 'required',
-                    'accountName' => 'required',
-                    'username' => 'required',
-                    'password' => 'required',
-                    'level' => 'required',
+                    'typeAccount' => 'required|max_length[120]',
+                    'accountName' => 'required|max_length[120]',
+                    'username' => 'required|max_length[120]',
+                    'password' => 'required|max_length[120]',
+                    'additionalInfo' => 'max_length[120]',
+                    'level' => 'required|max_length[120]',
                 ]);
                 if (!$validation->run($data)) {
                     $session->setFlashdata('error', 'Los datos ingresados no son correctos');
@@ -516,6 +519,7 @@ class UserController extends BaseController
                     'username' => $this->request->getPost('edit-username'),
                     'password' => $this->request->getPost('edit-password'),
                     'level' => $this->request->getPost('edit-level'),
+                    'additionalInfo' => $this->request->getPost('edit-additional-info'),
                 ];
                 // validar los datos
                 $validation = \Config\Services::validation();
@@ -561,6 +565,7 @@ class UserController extends BaseController
         $uniquePassword = $session->getTempdata('uniquePassword');
         $token = $session->getTempdata('token');
         $id_user = $session->id_user;
+        
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
             if(password_verify($id_user.$uniquePassword, $token)){
                 $model = model('PasswordsModel');

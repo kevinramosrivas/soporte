@@ -93,6 +93,12 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                 </div>
                             </div>
                             <div class="mb-3 inputFormAccount d-none">
+                                <label for="inputAdditionaInfo" class="form-label" id ="labelAdditionaInfo">
+                                    Información adicional
+                                </label>
+                                <textarea class="form-control" name="additionalInfo" id="inputAdditionaInfo" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3 inputFormAccount d-none">
                                 <label for="inputLevel" class="form-label" id ="labelLevel">
                                     Nivel de autorización
                                 </label>
@@ -133,8 +139,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
                         <tr>
                             <th scope="col">Tipo</th>
                             <th scope="col">Descripción</th>
-                            <th scope="col">Nivel de autorización</th>
                             <th scope="col">Usuario</th>
+                            <th scope="col">+ Información</th>
                             <th scope="col">Contraseña</th>
                             <th scope="col">Acciones</th>
                         </tr>
@@ -144,46 +150,92 @@ if($session->type == 'ADMINISTRADOR'): ?>
                             <tr  id="rowPassword<?=$password['id_password']?>" class="rowPassword">
                                 <td>
                                     <?php if($password['typeAccount'] == 'DATABASE'): ?>
-                                        <button type="button" class="btn btn-secondary"
+                                        <button type="button" class="btn btn-secondary m-1"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
                                                 data-bs-title="Base de datos de prueba">
                                             <i class="bi bi-database"></i>
                                         </button>
                                     <?php elseif($password['typeAccount'] == 'EMAIL'): ?>
-                                        <button type="button" class="btn btn-primary"
+                                        <button type="button" class="btn btn-primary m-1"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
                                                 data-bs-title="Correo electrónico">
                                             <i class="bi bi-envelope-fill"></i>
                                         </button>
                                     <?php elseif($password['typeAccount'] == 'WIFI'): ?>
-                                        <button type="button" class="btn btn-success"
+                                        <button type="button" class="btn btn-success m-1"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
                                                 data-bs-title="Wifi">
                                             <i class="bi bi-wifi"></i>
                                         </button>
                                     <?php elseif($password['typeAccount'] == 'DOMAIN'): ?>
-                                        <button type="button" class="btn btn-dark"
+                                        <button type="button" class="btn btn-dark m-1"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
                                                 data-bs-title="Dominio">
                                             <i class="bi bi-globe"></i>
                                         </button>
                                     <?php elseif($password['typeAccount'] == 'OTHER'): ?>
-                                        <button type="button" class="btn btn-warning"
+                                        <button type="button" class="btn btn-warning m-1"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
                                                 data-bs-title="Otro">
                                             <i class="bi bi-key-fill"></i>
                                         </button>
                                     <?php endif; ?>
+                                    <?php if($password['level'] == 'ADMINISTRADOR'): ?>
+                                        <button type="button" class="btn btn-danger m-1"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Acceso solo para administradores">
+                                            <i class="bi bi-person-fill-lock"></i>
+                                        </button>
+                                    <?php elseif($password['level'] == 'BOLSISTA'): ?>
+                                        <button type="button" class="btn btn-info m-1"
+                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                data-bs-custom-class="custom-tooltip"
+                                                data-bs-title="Acceso para bolsistas y administradores">
+                                                <i class="bi bi-people-fill"></i>
+                                        </button>
+                                    <?php endif; ?>
                                 </td>
                                 <td><?=$password['accountName']?></td>
-                                <td><?=$password['level']?></td>
                                 <td><?=$password['username']?></td>
-                                <td><input type="password" class="form-control" value="<?=$password['password']?>" readonly id="password<?=$password['id_password']?>"></td>
+                                <td>
+                                    <!--modal para mostrar informacion adicional-->
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#infoPasswordModal<?=$password['id_password']?>">
+                                    <i class="bi bi-info-circle"></i>
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="infoPasswordModal<?=$password['id_password']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="infoPasswordModalLabel">Información adicional</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <?php if($password['additionalInfo'] == null):?>
+                                                <span class="badge bg-danger">No hay información adicional</span>
+                                            <?php endif; ?>
+                                            <p id="additionalInfoTable<?=$password['id_password']?>">
+                                                <?=$password['additionalInfo']?>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <!--fin modal para mostrar informacion adicional-->
+                                </td>
+                                <td><input type="password" class="form-control" value="<?=$password['password']?>" readonly id="passwordTable<?=$password['id_password']?>">
+
                                 <td>
                                     <button type="button" class="btn btn-secondary m-1"
                                             data-bs-toggle="tooltip" data-bs-placement="top"
@@ -214,7 +266,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                             </div>
                                             <div class="modal-body">
                                                 <!-- formulario para editar contraseña guardada -->
-                                                <form class="edit-password-form" action="<?=base_url('user/editPassword')?>" method="post" id="formEditAccountPassword<?=$password['id_password']?>">
+                                                <form class="edit-password-form" action="<?=base_url('user/editPassword')?>" method="post" id="formEditAccountPassword<?=$password['id_password']?>" onsubmit="return validateEditPassword('<?=$password['id_password']?>')">
                                                     <input type="hidden" name="id_password" value="<?=$password['id_password']?>">
                                                     <div class="mb-3">
                                                         <label for="editAccountTypeInput<?=$password['id_password']?>" class="form-label">Tipo de cuenta</label>
@@ -244,9 +296,13 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         </select>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="edit-password<?=$password['id_password']?>"class="form-label">Nueva contraseña</label>
+                                                        <label for="editAdditionalInfoInput<?=$password['id_password']?>" class="form-label">Información adicional</label>
+                                                        <textarea class="form-control" name="edit-additional-info" id="editAdditionalInfoInput<?=$password['id_password']?>" rows="3"><?=$password['additionalInfo']?></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="editPasswordInput<?=$password['id_password']?>"class="form-label">Nueva contraseña</label>
                                                         <div class="input-group">
-                                                            <input type="password" class="form-control" id="edit-password<?=$password['id_password']?>" name="edit-password">
+                                                            <input type="password" class="form-control" id="editPasswordInput<?=$password['id_password']?>" name="edit-password">
                                                             <button class="btn btn-outline-secondary" type="button"  onclick="showEditPassword('<?=$password['id_password']?>')">
                                                                 <i class="bi bi-eye-fill" id="iconShowPassword<?=$password['id_password']?>"></i>
                                                             </button>
@@ -259,8 +315,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         </div>
                                                     </div>
                                                     <div class="mb-3">
-                                                        <label for="confirm-password<?=$password['id_password']?>" class="form-label">Confirmar contraseña</label>
-                                                        <input type="password" class="form-control" id="confirm-password<?=$password['id_password']?>" name="confirm-password">
+                                                        <label for="editConfirmPasswordInput<?=$password['id_password']?>" class="form-label">Confirmar contraseña</label>
+                                                        <input type="password" class="form-control" id="editConfirmPasswordInput<?=$password['id_password']?>" name="confirm-password">
                                                     </div>
                                                 </form>
                                             </div>
@@ -271,6 +327,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                             </div>
                                         </div>
                                         </div>
+                                        <!-- fin modal para editar contraseña guardada -->
                                     <?php endif; ?>
                                     <!-- boton para generar qr -->
                                     <button type="button" class="btn btn-dark m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>"
@@ -288,7 +345,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                     >
                                         <i class="bi bi-qr-code"></i>
                                     </button>
-                                    <!-- Modal -->
+                                    <!-- Modal donde se muestra el qr -->
                                     <div class="modal fade" id="qrAccountPasswordModal<?=$password['id_password']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
@@ -336,6 +393,10 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                             <?php endif; ?>
                                                         </span>
                                                         <p><?=$password['username']?></p>
+                                                        <?php if($password['additionalInfo'] != null):?>
+                                                            <span class="fw-bold">Información adicional:</span>
+                                                            <p><?=$password['additionalInfo']?></p>
+                                                        <?php endif; ?>
                                                         <span class="fw-bold">Contraseña:</span>
                                                         <p><?=$password['password']?></p>
                                                     </div>
@@ -369,7 +430,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
 
                                         </div>
                                     </div>
-
+                                </div>
+                                <!-- fin modal donde se muestra el qr -->
                                 </td>
                             </tr>
                             <?php endforeach; ?>     
@@ -390,5 +452,6 @@ if($session->type == 'ADMINISTRADOR'): ?>
 <script src="<?=base_url('assets/js/libs/html2canvas.js')?>"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="<?=base_url('assets/js/user/password_manager.js')?>"></script>
 <?=$this->endSection()?>
