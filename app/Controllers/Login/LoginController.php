@@ -17,6 +17,15 @@ class LoginController extends BaseController
      */
     public function index()
     {
+        #verificar si es que es la primera vez que se accede al sistema y si hay usuarios registrados
+        $userModel = model('UserModel');
+        $users = $userModel->findAll();
+        //si es que no hay usuarios registrados crear un usuario administrador
+        if(empty($users)){
+            $this->register();
+            //redireccionar al login
+            return view('Login/login');
+        }
         $session = session();
         if(isset($session->isLoggedIn)){
             if($session->type == 'ADMINISTRADOR' && $session->user_status == 1){
@@ -46,6 +55,9 @@ class LoginController extends BaseController
             else{
                 //crear la sesion
                 $session = session();
+                //regenerar la sesion
+                session_regenerate_id();
+                //crear y guardar la sesion
                 $session->set([
                     'id_user' => $user['id_user'],
                     'type' => $user['type'],
@@ -71,7 +83,7 @@ class LoginController extends BaseController
     public function register()
     {
         $data = [
-            'id_user' => '6',
+            'id_user' => '',
             'type' => 'ADMINISTRADOR',
             'username' => 'ADM_SOPORTE',
             'email' => 'admin_soporte@unmsm.edu.pe',	

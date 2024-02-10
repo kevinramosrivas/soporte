@@ -104,9 +104,9 @@ Usuarios
                     <?php
                     foreach ($users as $user) : ?>
                         <tr id="user_<?= $user['id_user'] ?>">
-                            <th scope="row">
-                                <?= $user['id_user'] ?>
-                            </th>
+                            <td scope="row">
+                                USR-<?= $user['id_user'] ?>
+                            </td>
                             <td>
                                 <?php if ($user['user_status'] == 1) : ?>
                                     <span class="badge bg-primary">Activo</span>

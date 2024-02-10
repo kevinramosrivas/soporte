@@ -186,7 +186,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         </button>
                                     <?php endif; ?>
                                     <?php if($password['level'] == 'ADMINISTRADOR'): ?>
-                                        <button type="button" class="btn btn-danger m-1"
+                                        <button type="button" class="btn btn-dark m-1"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"
                                                 data-bs-custom-class="custom-tooltip"
                                                 data-bs-title="Acceso solo para administradores">
@@ -404,7 +404,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         <div class="container">
                                                             <div class="row">
                                                                 <div class="col-6 d-flex justify-content-center align-items-center">
-                                                                    <h6 class="text-center">SGST-FISI UNMSM</h6>
+                                                                    <h6 class="text-center"><?=APP_NAME;?></h6>
                                                                 </div>
                                                                 <div class="col-6">
                                                                     <canvas id="signatureQr<?=$password['id_password']?>">

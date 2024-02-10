@@ -10,8 +10,8 @@ class Labs extends Migration
     {
         $this->forge->addField([
             'id_lab' => [
-                'type' => 'INT',
-                'constraint' => 10,
+                'type' => 'VARCHAR',
+                'constraint' => '10',
             ],
 
             'num_laboratorio' => [
@@ -40,77 +40,78 @@ class Labs extends Migration
         // añadir fila de laboratorios en la tabla de laboratorios 12 lab con capacidad de 30
         $data = [
             [
-                'id_lab' => '1',
-                'num_laboratorio' => 'Lab 1',
+                'id_lab' => 'LAB-1-AP',
+                'num_laboratorio' => 'Lab. 1 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '2',
-                'num_laboratorio' => 'Lab 2',
+                'id_lab' => 'LAB-2-AP',
+                'num_laboratorio' => 'Lab. 2 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '3',
-                'num_laboratorio' => 'Lab 3',
+                'id_lab' => 'LAB-3-AP',
+                'num_laboratorio' => 'Lab. 3 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '4',
-                'num_laboratorio' => 'Lab 4',
+                'id_lab' => 'LAB-4-AP',
+                'num_laboratorio' => 'Lab. 4 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '5',
-                'num_laboratorio' => 'Lab 5',
+                'id_lab' => 'LAB-5-AP',
+                'num_laboratorio' => 'Lab. 5 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '6',
-                'num_laboratorio' => 'Lab 6',
+                'id_lab' => 'LAB-6-AP',
+                'num_laboratorio' => 'Lab. 6 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '7',
-                'num_laboratorio' => 'Lab 7',
+                'id_lab' => 'LAB-7-AP',
+                'num_laboratorio' => 'Lab. 7 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '8',
-                'num_laboratorio' => 'Lab 8',
+                'id_lab' => 'LAB-8-AP',
+                'num_laboratorio' => 'Lab. 8 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '9',
-                'num_laboratorio' => 'Lab 9',
+                'id_lab' => 'LAB-9-AP',
+                'num_laboratorio' => 'Lab. 9 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '10',
-                'num_laboratorio' => 'Lab 10',
+                'id_lab' => 'LAB-10-AP',
+                'num_laboratorio' => 'Lab. 10 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '11',
-                'num_laboratorio' => 'Lab 11',
+                'id_lab' => 'LAB-11-AP',
+                'num_laboratorio' => 'Lab. 11 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
             [
-                'id_lab' => '12',
-                'num_laboratorio' => 'Lab 12',
+                'id_lab' => 'LAB-12-AP',
+                'num_laboratorio' => 'Lab. 12 AP',
                 'capacity_max' => '30',
                 'created_at' => date('Y-m-d H:i:s'),
             ],
+
         ];
         $this->db->table('laboratories')->insertBatch($data);
     }

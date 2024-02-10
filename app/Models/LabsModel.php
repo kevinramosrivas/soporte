@@ -12,5 +12,11 @@ class LabsModel extends Model
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
 
+    public function getAllLabs()
+    {
+        //obtener todos los laboratorios ordenados por id_lab
+        return $this->orderBy('id_lab', 'ASC')->findAll();
+    }
+
 
 }

@@ -17,7 +17,7 @@ Iniciar sesión
 
                 <div class="d-flex justify-content-center py-4">
                     <div class="logo d-flex align-items-center w-auto">
-                        <span class="d-lg-block d-xl-block text-white ms-2">Sistema de soporte - FISI</span>
+                        <span class="d-lg-block d-xl-block text-white ms-2"><?=APP_NAME;?></span>
                     </div>
                 </div><!-- End Logo -->
 

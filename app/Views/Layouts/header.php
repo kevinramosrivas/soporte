@@ -12,7 +12,8 @@
       ?>"
       class="logo d-flex align-items-center">
         <img src="<?=base_url('assets/img/logo.png')?>" alt="">
-        <span class="d-lg-block">SGST-FISI</span>
+        <!-- usar la variable global de  nombre definida en el archivo constant.php -->
+        <span class="d-lg-block"><?=APP_NAME;?></span>
       </a>
       <i class="bi toggle-sidebar-btn"></i>
     </div><!-- End Logo -->

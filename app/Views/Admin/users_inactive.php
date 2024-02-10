@@ -25,6 +25,7 @@ Usuarios
                 <table class="table table-striped table-hover text-start" id="table_users">
                     <thead>
                         <tr>
+                            <th scope="col">ID</th>
                             <th scope="col">Estado</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Tipo</th>
@@ -36,6 +37,9 @@ Usuarios
                         <?php foreach ($users as $user) : ?>
 
                                 <tr id="user_<?= $user['id_user'] ?>">
+                                    <td scope="row">
+                                        USR-<?= $user['id_user'] ?>
+                                    </td>
                                     <td>
                                         <span class="badge bg-danger">Inactivo</span>
                                     <td>

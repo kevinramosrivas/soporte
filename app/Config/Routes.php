@@ -23,7 +23,6 @@ $routes->group('/', ['namespace' => 'App\Controllers\Login'], function ($routes)
 $routes->group('login', ['namespace' => 'App\Controllers\Login'], function ($routes) {
     $routes->get('', 'LoginController::index');
     $routes->post('login', 'LoginController::login');
-    $routes->get('register', 'LoginController::register');
 });
 
 
@@ -32,6 +31,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function ($rou
     $routes->get('users', 'AdminController::users');
     $routes->get('usersInactive', 'AdminController::usersInactive');
     $routes->get('logout', 'AdminController::logout');
+    $routes->get('manageDocumentation', 'AdminController::manageDocumentation');
+    $routes->get('manageCategories', 'AdminController::manageCategories');
+    $routes->post('addManual', 'AdminController::addManual');
     $routes->post('registerUser', 'AdminController::registerNewUser');
     $routes->post('userDelete', 'AdminController::deleteUser');
     $routes->post('editUser', 'AdminController::editUser');

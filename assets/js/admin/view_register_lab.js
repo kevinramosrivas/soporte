@@ -1,4 +1,5 @@
-
+const appName = document.getElementById('app-name').content;
+const appNameComplete = document.getElementById('app-name-complete').content;
 $(document).ready(function() {
     $('#table-register-entry-lab').DataTable({
         order: [[3, 'desc']],
@@ -86,7 +87,7 @@ btnPrint.addEventListener('click', function() {
             
             // añadir el header
             doc.setFontSize(20);
-            doc.text('Sistema de Gestión y Soporte Técnico - FISI', data.settings.margin.left, 30);
+            doc.text(appNameComplete, data.settings.margin.left, 30);
             doc.setFontSize(10);
             doc.text('Reporte generado el ' + new Date().toLocaleDateString(), data.settings.margin.left, 45);
             doc.text('Hora: ' + new Date().toLocaleTimeString(), data.settings.margin.left, 55);

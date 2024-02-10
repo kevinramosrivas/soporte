@@ -16,8 +16,8 @@ class PrestamosLab extends Migration
                 'auto_increment' => true,
             ],
             'num_lab' => [
-                'type' => 'INT',
-                'constraint' => 10,
+                'type' => 'VARCHAR',
+                'constraint' => '10',
             ],
             'num_doc' => [
                 'type' => 'INT',

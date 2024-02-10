@@ -63,17 +63,10 @@ if($session->type == 'ADMINISTRADOR'): ?>
                         <label for="num_laboratorio" class="col-sm-2 col-form-label">Número de laboratorio 💻</label>
                         <div class="col-sm-10">
                             <select name="num_laboratorio" id="num_laboratorio" class="form-select">
-                                <option value="1">Laboratorio 1</option>
-                                <option value="2">Laboratorio 2</option>
-                                <option value="3">Laboratorio 3</option>
-                                <option value="4">Laboratorio 4</option>
-                                <option value="5">Laboratorio 5</option>
-                                <option value="6" selected>Laboratorio 6</option>
-                                <option value="7">Laboratorio 7</option>
-                                <option value="8">Laboratorio 8</option>
-                                <option value="9">Laboratorio 9</option>
-                                <option value="10">Laboratorio 10</option>
-                                <option value="11">Laboratorio 11</option>
+                                <?php foreach($labs as $lab): ?>
+                                    <!-- si es el laboratorio 6 seleciionarlo -->
+                                    <option value="<?=$lab['id_lab']?>" <?php if($lab['id_lab'] == 'LAB-6-AP') echo 'selected'; ?>><?=$lab['num_laboratorio']?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>

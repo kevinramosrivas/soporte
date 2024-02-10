@@ -14,7 +14,13 @@ class UserController extends BaseController
     {
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) { 
-            return view('User/register_entry_lab');
+            // obtener todos los laboratorios
+            $model = model('LabsModel');
+            $labs = $model->getAllLabs();
+            $data = [
+                'labs' => $labs,
+            ];
+            return view('User/register_entry_lab', $data);
         } else {
             return redirect()->to(site_url('login'));
         }
@@ -37,7 +43,7 @@ class UserController extends BaseController
             // validar los datos
             $validation = \Config\Services::validation();
             $validation->setRules([
-                'num_lab' => 'required|integer|max_length[2]',
+                'num_lab' => 'required',
                 'type_doc' => 'required' ,
                 'num_doc' => 'required|exact_length[8]',
             ]);

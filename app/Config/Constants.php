@@ -14,7 +14,8 @@
  | existing namespaces of App\* namespaced-classes.
  */
 defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
-
+defined('APP_NAME') || define('APP_NAME', 'SGIS- FISI');
+defined('APP_NAME_COMPLETE') || define('APP_NAME_COMPLETE', 'Sistema Gestor Integral de soporte-FISI');
 /*
  | --------------------------------------------------------------------------
  | Composer Path

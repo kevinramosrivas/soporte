@@ -401,7 +401,7 @@ function printQr(cardQr,id, id_user){
         //añadir la fecha y hora de impresion
         let date = new Date();
         doc.setFontSize(10);
-        doc.text('Generado por SGST - FISI', 10, 10);
+        doc.text('Generado por SGIS - FISI', 10, 10);
         doc.text(date.toLocaleDateString()+" "+date.toLocaleTimeString(), 10, 15);
         doc.save('qr_'+date.toLocaleDateString()+'_'+date.toLocaleTimeString()+'.pdf');
         spinner.classList.add("d-none");
@@ -490,7 +490,7 @@ function validateEditPassword(id){
         return false;
     }
     //validar que los campos no esten vacios
-    else if (editAccountNameInput == "" || editUsernameInput == "" || editPasswordInput == "" ){
+    else if (editAccountNameInput == "" || editUsernameInput == "" ){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',

@@ -60,13 +60,35 @@
             </a>
           </li>
         </ul>
-      </li>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#manuals-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-bookmark-fill"></i><span>Documentación</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="manuals-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="<?=base_url('admin/manageDocumentation')?>">
+              <span>Gestionar documentación</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('admin/manageCategories')?>">
+              <span>Gestionar categorías</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('user/showManuals')?>">
+              <span>Ver documentos</span>
+            </a>
+          </li>
+        </ul>
+    </li>
       
       
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url('user/profile')?>">
-          <i class="bi bi-person"></i>
+          <i class="bi bi-person-fill"></i>
           <span>Mi perfil</span>
         </a>
       </li>
