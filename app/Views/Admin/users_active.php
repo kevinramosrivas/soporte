@@ -10,7 +10,7 @@ Usuarios
         <h1>Usuarios</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=base_url('admin/home')?>">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url('dashboard/admin')?>">Inicio</a></li>
             <li class="breadcrumb-item inactive">Usuarios</li>
             </ol>
         </nav>
@@ -31,7 +31,7 @@ Usuarios
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="<?=base_url('admin/registerUser')?>" method="post" id="formNewUser">
+                    <form action="<?=base_url('users/registerUser')?>" method="post" id="formNewUser">
                         <div class="mb-3">
                             <label for="type_user" class="form-label">Tipo de usuario</label>
                             <select name="type" id="type_user" class="form-select" required>
@@ -161,7 +161,7 @@ Usuarios
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                                <form action="<?=base_url('admin/editUser')?>" method="post" id="formEditUser_<?= $user['id_user'] ?>" class="edit_user_form">
+                                                <form action="<?=base_url('users/editUser')?>" method="post" id="formEditUser_<?= $user['id_user'] ?>" class="edit_user_form">
                                                     <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
                                                     <div class="mb-3">
                                                         <label for="type_user_<?= $user['id_user']?>" class="form-label">Tipo de usuario</label>
@@ -205,7 +205,7 @@ Usuarios
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-danger btn-delete m-1" form="deleteUser_<?= $user['id_user'] ?>"><i class="bi bi-trash"></i></button>
-                                <form id="deleteUser_<?= $user['id_user'] ?>" action="<?= base_url('admin/userDelete') ?>" method="post" class="delete_form d-inline">
+                                <form id="deleteUser_<?= $user['id_user'] ?>" action="<?= base_url('users/userDelete') ?>" method="post" class="delete_form d-inline">
                                         <input type="hidden" name="id_user" value="<?= $user['id_user'] ?>">
                                 </form>      
                             </td>

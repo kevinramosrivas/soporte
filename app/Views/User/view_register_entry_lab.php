@@ -19,7 +19,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="
             <?php if($session->type == 'ADMINISTRADOR'): ?>
-                <?=base_url('admin/home')?>
+                <?=base_url('dashboard/admin')?>
             <?php  elseif($session->type == 'BOLSISTA'): ?>
                 <?=base_url('student/home')?>
             <?php  endif; ?>
@@ -32,7 +32,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
     <div class="row">
         <h3 class="text col-12">Filtrar por:</h3>
         <div class="col-12 col-md-6">
-            <form action="<?=base_url('user/searchEntryLabByDocLab')?>" method="post" class="p-3">
+            <form action="<?=base_url('labs/searchEntryLabByDocLab')?>" method="post" class="p-3">
                 <div class="input-group">
                     <select name="type_doc" id="type_doc" class="form-select" placeholder="Tipo de documento">
                         <option value="0">Tipo doc.🪪</option>
@@ -62,7 +62,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
 
         <!-- boton para generar reporte -->
         <div class="col-12 col-md-6">
-            <form action="<?=base_url('user/searchEntryLabByDatetime')?>" method="post" class="p-3">
+            <form action="<?=base_url('labs/searchEntryLabByDatetime')?>" method="post" class="p-3">
                 <div class="input-group">
                     <!-- por hora y fecha de entrada -->
                     <input type="date" name="date_begin" id="hour_entry" class="form-control" value="<?=date('Y-m-d')?>">

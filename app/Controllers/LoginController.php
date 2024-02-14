@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\Login;
+namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Entities\User;
 
@@ -29,7 +29,7 @@ class LoginController extends BaseController
         $session = session();
         if(isset($session->isLoggedIn)){
             if($session->type == 'ADMINISTRADOR' && $session->user_status == 1){
-                return redirect()->to(base_url('admin/home'));
+                return redirect()->to(base_url('dashboard/admin'));
             }else if($session->type == 'BOLSISTA' && $session->user_status == 1){
                 return redirect()->to(base_url('student/home'));
             }
@@ -67,7 +67,7 @@ class LoginController extends BaseController
                     'user_status' => $user['user_status']
                 ]);
                 if($user['type'] == 'ADMINISTRADOR'){
-                    return redirect()->to(base_url('admin/home'));
+                    return redirect()->to(base_url('dashboard/admin'));
                 }else if($user['type'] == 'BOLSISTA'){
                     return redirect()->to(base_url('student/home'));
                 }
@@ -80,7 +80,7 @@ class LoginController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
-    public function register()
+    private function register()
     {
         $data = [
             'id_user' => '',
@@ -93,6 +93,13 @@ class LoginController extends BaseController
         $user = new User($data);
         $model = model('UserModel');
         $model->insert($user);
+    }
+      
+    public function logout()
+    {
+        $session = session();
+        $session->destroy();
+        return redirect()->to(site_url('login'));
     }
 }
 

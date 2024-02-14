@@ -19,7 +19,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="
             <?php if($session->type == 'ADMINISTRADOR'): ?>
-                <?=base_url('admin/home')?>
+                <?=base_url('dashboard/admin')?>
             <?php  elseif($session->type == 'BOLSISTA'): ?>
                 <?=base_url('student/home')?>
             <?php  endif; ?>
@@ -76,7 +76,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
 
                     <div class="tab-pane fade pt-3" id="profile-change-password">
                         <!-- Change Password Form -->
-                        <form action="<?=base_url('user/updateProfile')?>" method="post" id="formChangePassword">
+                        <form action="<?=base_url('profiles/updateProfile')?>" method="post" id="formChangePassword">
 
                         <div class="row mb-3">
                             <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña actual</label>

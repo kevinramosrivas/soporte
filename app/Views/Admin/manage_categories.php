@@ -10,7 +10,7 @@ Gestión de categorias
         <h1>Gestión de categorias</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=base_url('admin/home')?>">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url('dashboard/admin')?>">Inicio</a></li>
             <li class="breadcrumb-item inactive">Manuales</li>
             <li class="breadcrumb-item inactive">Gestión de categorias
             </ol>

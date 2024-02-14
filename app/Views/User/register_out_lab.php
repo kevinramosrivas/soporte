@@ -19,7 +19,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="
             <?php if($session->type == 'ADMINISTRADOR'): ?>
-                <?=base_url('admin/home')?>
+                <?=base_url('dashboard/admin')?>
             <?php  elseif($session->type == 'BOLSISTA'): ?>
                 <?=base_url('student/home')?>
             <?php  endif; ?>
@@ -58,7 +58,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             </div>
         </div>
         <div class="col-12">
-            <form action="<?=site_url('user/registerNewExitLab')?>" method="post" id="form_register_entry_lab">
+            <form action="<?=site_url('labs/registerNewExitLab')?>" method="post" id="form_register_entry_lab">
                 <div class="row mb-3">
                     <label for="num_doc" class="col-sm-2 col-form-label">Número de documento 🔢</label>
                     <div class="col-sm-10">

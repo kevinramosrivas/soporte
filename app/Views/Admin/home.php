@@ -13,7 +13,7 @@ Dashboard
 <h1>Dashboard</h1>
 <nav>
     <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="<?=base_url('admin/home')?>">Inicio</a></li>
+    <li class="breadcrumb-item"><a href="<?=base_url('dashboard/admin')?>">Inicio</a></li>
     <li class="breadcrumb-item active">Dashboard</li>
     </ol>
 </nav>
@@ -44,7 +44,7 @@ Dashboard
             </div> -->
 
             <div class="card-body">
-            <a href="<?=base_url('admin/users')?>"><h5 class="card-title">Usuarios</h5></a>
+            <a href="<?=base_url('users/users')?>"><h5 class="card-title">Usuarios</h5></a>
             <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                 <i class="bi bi-people"></i>
@@ -76,7 +76,7 @@ Dashboard
             </div> -->
 
             <div class="card-body">
-            <a href="<?=base_url('user/viewRegisterEntryLab')?>"><h5 class="card-title">Alumnos en laboratorios</h5></a>
+            <a href="<?=base_url('labs/viewRegisterEntryLab')?>"><h5 class="card-title">Alumnos en laboratorios</h5></a>
             <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                 <i class="bi bi-person-workspace"></i>

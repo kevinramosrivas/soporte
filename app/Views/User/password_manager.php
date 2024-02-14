@@ -18,7 +18,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="
             <?php if($session->type == 'ADMINISTRADOR'): ?>
-                <?=base_url('admin/home')?>
+                <?=base_url('dashboard/admin')?>
             <?php  elseif($session->type == 'BOLSISTA'): ?>
                 <?=base_url('student/home')?>
             <?php  endif; ?>
@@ -48,7 +48,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Crear nueva contraseña</h1>
                     </div>
                     <div class="modal-body">
-                        <form action="<?=base_url('user/createNewAccountPassword')?>" method="post" id="formNewAccountPassword">
+                        <form action="<?=base_url('passwords/createNewAccountPassword')?>" method="post" id="formNewAccountPassword">
                             <label for="accountType" class="form-label">Tipo de cuenta</label>
                             <div class="mb-3 input-group">
                                 <i class="bi input-group-text bg-primary text-white d-none" id="iconTypeAccountSelect">
@@ -119,7 +119,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             </div>
             </div>
             <div class="col-12 col-md-6 p-2">
-                <a type="button" class="btn btn-danger" href="<?=base_url('user/closeTemporarySession')?>">
+                <a type="button" class="btn btn-danger" href="<?=base_url('passwords/closeTemporarySession')?>">
                     <i class="bi bi-lock-fill"></i> Bloquear gestor
                 </a>
             </div>
@@ -244,7 +244,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         <i class="bi bi-eye" id="iconShowCredentials<?=$password['id_password']?>"></i>
                                     </button>
                                     <?php if($session->type == 'ADMINISTRADOR' || $session->id_user == $password['registrar_id']): ?>
-                                        <a href="<?=base_url('user/deletePassword/'.$password['id_password'])?>" class="btn btn-danger m-1">
+                                        <a href="<?=base_url('passwords/deletePassword/'.$password['id_password'])?>" class="btn btn-danger m-1">
                                             <i class="bi bi-trash-fill"></i>
                                         </a>
                                     <?php endif; ?> 
@@ -266,7 +266,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                             </div>
                                             <div class="modal-body">
                                                 <!-- formulario para editar contraseña guardada -->
-                                                <form class="edit-password-form" action="<?=base_url('user/editPassword')?>" method="post" id="formEditAccountPassword<?=$password['id_password']?>" onsubmit="return validateEditPassword('<?=$password['id_password']?>')">
+                                                <form class="edit-password-form" action="<?=base_url('passwords/editPassword')?>" method="post" id="formEditAccountPassword<?=$password['id_password']?>" onsubmit="return validateEditPassword('<?=$password['id_password']?>')">
                                                     <input type="hidden" name="id_password" value="<?=$password['id_password']?>">
                                                     <div class="mb-3">
                                                         <label for="editAccountTypeInput<?=$password['id_password']?>" class="form-label">Tipo de cuenta</label>

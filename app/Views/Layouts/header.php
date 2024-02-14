@@ -5,9 +5,9 @@
     <div class="d-flex align-items-center justify-content-between">
       <a href="<?php
       if($session->type == 'ADMINISTRADOR'){
-        echo base_url('admin/home');
+        echo base_url('dashboard/admin');
       }elseif($session->type == 'BOLSISTA'){
-        echo base_url('student/home');
+        echo base_url('dashboard/user');
       }
       ?>"
       class="logo d-flex align-items-center">
@@ -214,7 +214,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="<?=base_url('admin/logout');?>">
+              <a class="dropdown-item d-flex align-items-center" href="<?=base_url('login/logout');?>">
                 <i class="bi bi-box-arrow-right text-dangerr"></i>
                 <span>Salir</span>
               </a>

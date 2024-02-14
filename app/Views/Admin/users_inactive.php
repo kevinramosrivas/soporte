@@ -10,7 +10,7 @@ Usuarios
         <h1>Usuarios inactivos</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=base_url('admin/home')?>">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url('dashboard/admin')?>">Inicio</a></li>
             <li class="breadcrumb-item inactive">Usuarios inactivos</li>
             </ol>
         </nav>
@@ -77,7 +77,7 @@ Usuarios
                                                 </div>
                                             </div>
                                         </div>
-                                        <form action="<?=base_url('admin/restoreUser')?>" method="POST" class="d-inline">
+                                        <form action="<?=base_url('users/restoreUser')?>" method="POST" class="d-inline">
                                             <input type="hidden" name="id_user" value="<?=$user['id_user']?>">
                                             <button type="submit" class="btn btn-success"><i class="bi bi-arrow-clockwise"></i></button>
                                         </form>

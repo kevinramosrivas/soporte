@@ -19,7 +19,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="
             <?php if($session->type == 'ADMINISTRADOR'): ?>
-                <?=base_url('admin/home')?>
+                <?=base_url('dashboard/admin')?>
             <?php  elseif($session->type == 'BOLSISTA'): ?>
                 <?=base_url('student/home')?>
             <?php  endif; ?>
@@ -35,7 +35,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
     </div>
     <div class="row p-3 d-flex justify-content-center align-items-center">
         <!-- formulario de verificacion de contraseña antes de entrar al gestor de contraseñas -->
-        <form class="col-12 col-md-6  text-center" id="formPassword" method="POST" action="<?=base_url('user/verifyIdentity')?>">
+        <form class="col-12 col-md-6  text-center" id="formPassword" method="POST" action="<?=base_url('passwords/verifyIdentity')?>">
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" id="password" name="password" required>
