@@ -54,7 +54,7 @@ class DashboardController extends BaseController
                 'users' => $users,
                 'students_using_lab' => $students_using_lab,
             ];
-            return view('Student/home', $data);
+            return view('User/home', $data);
         } else {
             return redirect()->to(site_url('login'));
         }

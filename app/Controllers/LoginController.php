@@ -31,7 +31,7 @@ class LoginController extends BaseController
             if($session->type == 'ADMINISTRADOR' && $session->user_status == 1){
                 return redirect()->to(base_url('dashboard/admin'));
             }else if($session->type == 'BOLSISTA' && $session->user_status == 1){
-                return redirect()->to(base_url('student/home'));
+                return redirect()->to(base_url('dashboard/user'));
             }
         }
         return view('Login/login');
@@ -69,7 +69,7 @@ class LoginController extends BaseController
                 if($user['type'] == 'ADMINISTRADOR'){
                     return redirect()->to(base_url('dashboard/admin'));
                 }else if($user['type'] == 'BOLSISTA'){
-                    return redirect()->to(base_url('student/home'));
+                    return redirect()->to(base_url('dashboard/user'));
                 }
             }
         }else{

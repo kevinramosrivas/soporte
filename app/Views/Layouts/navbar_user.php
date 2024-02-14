@@ -4,7 +4,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="<?=base_url('student/home')?>">
+        <a class="nav-link " href="<?=base_url('dashboard/user')?>">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -15,17 +15,17 @@
         </a>
         <ul id="labs-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="<?=base_url('user/registerEntryLab')?>">
+            <a href="<?=base_url('labs/registerEntryLab')?>">
               <span>Registrar entrada</span>
             </a>
           </li>
           <li>
-            <a href="<?=base_url('user/registerExitLab')?>">
+            <a href="<?=base_url('labs/registerExitLab')?>">
               <span>Registrar salida</span>
             </a>
           </li>
           <li>
-            <a href="<?=base_url('user/viewRegisterEntryLab')?>">
+            <a href="<?=base_url('labs/viewRegisterEntryLab')?>">
               <span>Ver registro de ingresos</span>
             </a>
           </li>
@@ -37,14 +37,14 @@
         </a>
         <ul id="password-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="<?=base_url('user/intermediary')?>">
+            <a href="<?=base_url('passwords/intermediary')?>">
               <span>Contraseñas</span>
             </a>
           </li>
         </ul>
       </li>
       <li class="nav-item">
-        <a class="nav-link collapsed" href="<?=base_url('user/profile')?>">
+        <a class="nav-link collapsed" href="<?=base_url('profiles/profile')?>">
           <i class="bi bi-person"></i>
           <span>Mi perfil</span>
         </a>

@@ -21,7 +21,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <?php if($session->type == 'ADMINISTRADOR'): ?>
                 <?=base_url('dashboard/admin')?>
             <?php  elseif($session->type == 'BOLSISTA'): ?>
-                <?=base_url('student/home')?>
+                <?=base_url('dashboard/user')?>
             <?php  endif; ?>
             ">Inicio</a></li>
             <li class="breadcrumb-item inactive">Gestor de contraseñas</li>

@@ -78,11 +78,6 @@ $routes->group('users', ['namespace' => 'App\Controllers'], function ($routes) {
 });
 
 
-$routes->group('student', ['namespace' => 'App\Controllers\Student'], function ($routes) {
-    $routes->get('home', 'StudentController::index');
-    $routes->get('logout', 'StudentController::logout');
-});
-
 
 
 
