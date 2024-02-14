@@ -43,7 +43,9 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <button type="submit" class="btn btn-primary">Verificar</button>
         </form>
         <div class="col-12 col-md-6 p-4 text-center">
-            <img src="https://cdn-icons-png.flaticon.com/512/891/891399.png" alt="security" width="200px">
+        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" fill="#FFD700" class="bi bi-lock-fill" viewBox="0 0 16 16">
+            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
+        </svg>
         </div>
         <?php 
         $session = session();

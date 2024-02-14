@@ -3,3 +3,4 @@ writable/debugbar
 writable/logs
 writable/session
 .env
+uploads

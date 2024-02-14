@@ -34,22 +34,22 @@ Gestión de Manuales
                 </div>
                 <div class="modal-body">
                     <!--Formulario para agregar un nuevo manual-->
-                    <form action="<?=base_url('admin/addManual')?>" method="post" id="addManualForm" enctype="multipart/form-data">
+                    <form action="<?=base_url('documents/addManual')?>" method="post" id="addManualForm" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="category" class="form-label">Categoría</label>
-                            <select class="form-select" aria-label="Default select example" name="category">
+                            <label for="category-add_manual" class="form-label">Categoría</label>
+                            <select class="form-select" aria-label="Default select example" name="category" id="category-add_manual">
                                 <?php foreach($categories as $category):?>
                                     <option value="<?=$category['id_category']?>"><?=$category['categoryName']?></option>
                                 <?php endforeach;?>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nombre del documento</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Nombre del Manual">
+                            <label for="name-add_manual" class="form-label">Nombre del documento</label>
+                            <input type="text" class="form-control" id="name-add_manual" name="name" placeholder="Nombre del Manual">
                         </div>
                         <div class="mb-3">
-                            <label for="description" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            <label for="description-add_manual" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="description-add_manual" name="description" rows="3"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="file" class="form-label">Subir documento</label>
@@ -67,6 +67,97 @@ Gestión de Manuales
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12 container-table table-responsive">
+        <?php if(empty($documents)): ?>
+                <div class="alert alert-warning" role="alert">
+                    No hay documentos registrados
+                </div>
+            <?php else: ?>	
+            <table class="table table-striped table-hover text-start" id="table-documents">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    foreach ($documents as $document) : ?>
+                        <tr id="row_<?=$document['id_document']?>">
+                            <td>D-<?=$document['id_document']?></td>
+                            <td><?=$document['documentName']?></td>
+                            <td><?=$document['categoryName']?></td>
+                            <td><?=$document['documentDescription']?></td>
+                            <td>
+                                <!-- boton para abrir modal de visualizar documento -->
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#PreviewDocument<?=$document['id_document']?>">
+                                <i class="bi bi-eye"></i>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="PreviewDocument<?=$document['id_document']?>" tabindex="-1" aria-labelledby="PreviewDocumentLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="PreviewDocumentLabel">Visualizar Documento</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <embed src="<?=base_url($document['documentPath'])?>" type="application/pdf" width="100%" height="600rem">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <!--  Fin boton para abrir modal de visualizar documento -->
+                                 <!-- boton para abrir modal de informacion de documento -->
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#InfoDocument<?=$document['id_document']?>">
+                                <i class="bi bi-info-circle"></i>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="InfoDocument<?=$document['id_document']?>" tabindex="-1" aria-labelledby="InfoDocumentLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="InfoDocumentLabel">Información del Documento</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Fecha de creación: <span class="badge bg-primary"><?=$document['created_at']?></span></p>
+                                        <p>Fecha de actualización: <span class="badge text-bg-dark"><?=$document['updated_at']?></span></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <!--  Fin boton para abrir modal de informacion de documento -->
+                                <button type="button" class="btn btn-danger m-1" title="Eliminar" onclick="deleteDocument(<?=$document['id_document']?>)"><i class="bi bi-trash"></i></button>
+                                <a href="<?=base_url('documents/edit/'.$document['id_document'])?>" class="btn btn-warning m-1" title="Editar"><i class="bi bi-pencil"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?php endif; ?>
+        </div>
+    </div>
 </main><!-- End #main -->
 <?=$this->include('Layouts/footer')?>
+<?=$this->endSection()?>
+<?=$this->section('js')?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
+<script src="<?=base_url('assets/js/admin/manage_documentation.js')?>"></script>
 <?=$this->endSection()?>

@@ -129,7 +129,7 @@ Usuarios
                             <!-- separar la fecha y hora -->
                             <td>
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#modalDateDetails<?= $user['id_user'] ?>">
+                                <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#modalDateDetails<?= $user['id_user'] ?>">
                                     <i class="bi bi-info-circle"></i>
                                 </button>
                                 <!-- Modal -->
