@@ -20,7 +20,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <?php if (isset($session->type) && $session->type == 'ADMINISTRADOR') : ?>
             <li class="breadcrumb-item"><a href="<?=base_url('dashboard/admin')?>">Inicio</a></li>
             <?php else : ?>
-            <li class="breadcrumb-item"><a href="<?=base_url('dashboard/bolsista')?>">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="<?=base_url('dashboard/user')?>">Inicio</a></li>
             <?php endif; ?>
             <li class="breadcrumb-item inactive">Documentación</li>
             <li class="breadcrumb-item inactive">Ver documentación
