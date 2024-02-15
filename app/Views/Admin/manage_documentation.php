@@ -89,8 +89,8 @@ Gestión de Manuales
                     foreach ($documents as $document) : ?>
                         <tr id="row_<?=$document['id_document']?>">
                             <td>D-<?=$document['id_document']?></td>
-                            <td><?=$document['documentName']?></td>
                             <td><?=$document['categoryName']?></td>
+                            <td><?=$document['documentName']?></td>
                             <td><?=$document['documentDescription']?></td>
                             <td>
                                 <!-- boton para abrir modal de visualizar documento -->
@@ -117,6 +117,8 @@ Gestión de Manuales
                                 </div>
                                 </div>
                                 <!--  Fin boton para abrir modal de visualizar documento -->
+
+                                
                                  <!-- boton para abrir modal de informacion de documento -->
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#InfoDocument<?=$document['id_document']?>">
@@ -142,8 +144,56 @@ Gestión de Manuales
                                 </div>
                                 </div>
                                 <!--  Fin boton para abrir modal de informacion de documento -->
-                                <button type="button" class="btn btn-danger m-1" title="Eliminar" onclick="deleteDocument(<?=$document['id_document']?>)"><i class="bi bi-trash"></i></button>
-                                <a href="<?=base_url('documents/edit/'.$document['id_document'])?>" class="btn btn-warning m-1" title="Editar"><i class="bi bi-pencil"></i></a>
+                                <!-- boton para editar documento -->
+                                                                 <!-- boton para abrir modal de informacion de documento -->
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#editDocument<?=$document['id_document']?>">
+                                <i class="bi bi-pencil-square"></i>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="editDocument<?=$document['id_document']?>" tabindex="-1" aria-labelledby="editDocumentLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editDocumentLabel">Editar Documento</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="<?=base_url('documents/edit/'.$document['id_document'])?>" method="post" id="editDocumentForm<?=$document['id_document']?>" enctype="multipart/form-data">
+                                            <div class="mb-3">
+                                                <label for="category-edit_document" class="form-label">Categoría</label>
+                                                <select class="form-select" aria-label="Default select example" name="category" id="category-edit_document">
+                                                <?php foreach($categories as $category):?>
+                                                    <option value="<?=$category['id_category']?>"><?=$category['categoryName']?></option>
+                                                <?php endforeach;?>
+                                                </select>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="name-edit_document" class="form-label">Nombre del documento</label>
+                                                <input type="text" class="form-control" id="name-edit_document" name="name" placeholder="Nombre del Manual" value="<?=$document['documentName']?>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="description-edit_document" class="form-label">Descripción</label>
+                                                <textarea class="form-control" id="description-edit_document" name="description" rows="3"><?=$document['documentDescription']?></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="file" class="form-label">Subir documento</label>
+                                                <!--solo se pueden subir archivos pdf-->
+                                                <input class="form-control" type="file" id="file" name="file" accept="application/pdf" value="<?=$document['documentPath']?>">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <input type="submit" class="btn btn-primary" value="Guardar" form="editDocumentForm<?=$document['id_document']?>">
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <!--  Fin boton para abrir modal de informacion de documento -->
+                                <!-- boton para eliminar documento -->
+                                <a href="<?=base_url('documents/delete/'.$document['id_document'])?>" class="btn btn-danger m-1 delete-button" title="Eliminar"><i class="bi bi-trash"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -159,5 +209,6 @@ Gestión de Manuales
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="<?=base_url('assets/js/admin/manage_documentation.js')?>"></script>
 <?=$this->endSection()?>

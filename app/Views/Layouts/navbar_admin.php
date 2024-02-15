@@ -77,7 +77,7 @@
             </a>
           </li>
           <li>
-            <a href="<?=base_url('documents/showManuals')?>">
+            <a href="<?=base_url('documents/showDocuments')?>">
               <span>Ver documentos</span>
             </a>
           </li>

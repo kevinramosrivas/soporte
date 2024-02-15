@@ -12,7 +12,7 @@ class UsersLog extends Migration
         $this->forge->addField([
             'id_log' => [
                 'type' => 'INT',
-                'constraint' => 11,
+                'constraint' => 20,
                 'auto_increment' => true,
             ],
             'id_user' => [

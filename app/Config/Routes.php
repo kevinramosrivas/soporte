@@ -31,6 +31,12 @@ $routes->group('documents',['namespace' =>'App\Controllers'], function($routes){
     $routes->get('manageDocumentation', 'DocumentsController::manageDocumentation');
     $routes->get('manageCategories', 'DocumentsController::manageCategories');
     $routes->post('addManual', 'DocumentsController::addManual');
+    $routes->get('delete/(:num)', 'DocumentsController::deleteDocument/$1');
+    $routes->post('edit/(:num)', 'DocumentsController::editDocument/$1');
+    $routes->post('addCategory', 'DocumentsController::addCategory');
+    $routes->get('deleteCategory/(:num)', 'DocumentsController::deleteCategory/$1');
+    $routes->post('editCategory/(:num)', 'DocumentsController::editCategory/$1');
+    $routes->get('showDocuments', 'DocumentsController::showDocuments');
 });
 #Rutas para LabsController
 $routes->group('labs',['namespace' =>'App\Controllers'], function($routes){

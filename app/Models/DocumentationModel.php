@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 class DocumentationModel extends Model
 {
     protected $table = 'documentation';
-    protected $primaryKey = 'id_documentation';
+    protected $primaryKey = 'id_document';
     protected $allowedFields = ['id_document', 'id_category', 'documentName', 'documentDescription', 'documentPath', 'registrar_id', 'created_at', 'updated_at'];
 
     protected $useTimestamps = true;
@@ -18,6 +18,10 @@ class DocumentationModel extends Model
     {
         $this->insert($data);
     }
+    public function getDocument($id_document)
+    {
+        return $this->where('id_document', $id_document)->first();
+    }
 
     public function getDocuments()
     {
@@ -26,6 +30,16 @@ class DocumentationModel extends Model
         FROM documentation d INNER JOIN documentation_categories c ON d.id_category = c.id_category";
         $query = $this->db->query($sql);
         return $query->getResultArray();
+    }
+
+    public function deleteDocument($id_document)
+    {
+        $this->where('id_document', $id_document)->delete();
+    }
+
+    public function updateDocumentation($id_document, $data)
+    {
+        $this->update($id_document, $data);
     }
 
 
