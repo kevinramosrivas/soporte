@@ -148,3 +148,10 @@ Gestión de categorias
 </main><!-- End #main -->
 <?=$this->include('Layouts/footer')?>
 <?=$this->endSection()?>
+<?=$this->section('js')?>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link href="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<?=base_url('assets/js/admin/manage_categories.js')?>"></script>
+<?=$this->endSection()?>

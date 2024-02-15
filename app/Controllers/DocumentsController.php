@@ -166,6 +166,7 @@ class DocumentsController extends BaseController
                     //eliminar el archivo anterior
                     $model = model('DocumentationModel');
                     $document = $model->getDocument($id);
+                    //si no se sube un archivo, se mantiene el mismo
                     unlink($document['documentPath']);
                     //subir el nuevo archivo
                     $documentPath = $this->uploadFile($file);
@@ -189,6 +190,23 @@ class DocumentsController extends BaseController
                     return redirect()->to(site_url('documents/manageDocumentation'));
                 }
             }
+            //si no se sube un archivo, se mantiene el mismo
+            $model = model('DocumentationModel');
+            $document = $model->getDocument($id);
+            $data['documentPath'] = $document['documentPath'];
+            //guardar el archivo en la base de datos
+            $model = model('DocumentationModel');
+            $documentation = new Documentation($data);
+            $model->updateDocumentation($id, $documentation);
+            //añadir al user log
+            $log_model = model('UserLogModel');
+            $log = [
+                'id_user' => $session->id_user,
+                'action' => 'Editó el manual con el nombre '.$data['documentName'],
+            ];
+            $log_model->insert($log);
+            session()->setFlashdata('message', 'Manual editado correctamente');
+            return redirect()->to(site_url('documents/manageDocumentation'));
         } else {
             return redirect()->to(site_url('login'));
         }

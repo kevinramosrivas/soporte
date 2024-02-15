@@ -160,10 +160,10 @@ Gestión de Manuales
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="<?=base_url('documents/edit/'.$document['id_document'])?>" method="post" id="editDocumentForm<?=$document['id_document']?>" enctype="multipart/form-data">
+                                        <form action="<?=base_url('documents/edit/'.$document['id_document'])?>" method="post" id="editDocumentForm<?=$document['id_document']?>" enctype="multipart/form-data" onsubmit="return validateEditDocument(<?=$document['id_document']?>)">
                                             <div class="mb-3">
                                                 <label for="category-edit_document" class="form-label">Categoría</label>
-                                                <select class="form-select" aria-label="Default select example" name="category" id="category-edit_document">
+                                                <select class="form-select" aria-label="Default select example" name="category" id="category_edit_document<?=$document['id_document']?>">
                                                 <?php foreach($categories as $category):?>
                                                     <option value="<?=$category['id_category']?>"><?=$category['categoryName']?></option>
                                                 <?php endforeach;?>
@@ -171,16 +171,20 @@ Gestión de Manuales
                                             </div>
                                             <div class="mb-3">
                                                 <label for="name-edit_document" class="form-label">Nombre del documento</label>
-                                                <input type="text" class="form-control" id="name-edit_document" name="name" placeholder="Nombre del Manual" value="<?=$document['documentName']?>">
+                                                <input type="text" class="form-control" id="name_edit_document<?=$document['id_document']?>" name="name" placeholder="Nombre del Manual" value="<?=$document['documentName']?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="description-edit_document" class="form-label">Descripción</label>
-                                                <textarea class="form-control" id="description-edit_document" name="description" rows="3"><?=$document['documentDescription']?></textarea>
+                                                <textarea class="form-control" id="description_edit_document<?=$document['id_document']?>" name="description" rows="3"><?=$document['documentDescription']?></textarea>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="file" class="form-label">Subir documento</label>
+                                                <!--alerta de que solo se pueden subir archivos pdf y que si no se sube un archivo, se mantendra el archivo actual-->
+                                                <div class="alert alert-warning" role="alert">
+                                                    Si no se sube un archivo, se mantendrá el archivo actual
+                                                </div>
                                                 <!--solo se pueden subir archivos pdf-->
-                                                <input class="form-control" type="file" id="file" name="file" accept="application/pdf" value="<?=$document['documentPath']?>">
+                                                <input class="form-control" type="file" id="file_edit_document<?=$document['id_document']?>" name="file" accept="application/pdf" value="<?=$document['documentPath']?>">
                                             </div>
                                         </form>
                                     </div>

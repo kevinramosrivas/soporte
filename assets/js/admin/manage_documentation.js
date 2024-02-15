@@ -47,3 +47,33 @@ document.querySelectorAll('.delete-button').forEach(item => {
     });
 });
 
+
+function validateEditDocument(id) {
+    let category_edit_document = document.getElementById('category_edit_document'.concat(id));
+    let name_edit_document = document.getElementById('name_edit_document'.concat(id));
+    let description_edit_document = document.getElementById('description_edit_document'.concat(id));
+    let file_edit_document = document.getElementById('file_edit_document'.concat(id));
+
+
+    //validar que los campos no esten vacios, excepto el archivo donde se le indicara al usuario que no esta subiendo un archivo y que se mantendra el archivo actual
+    if (category_edit_document.value === '' || name_edit_document.value === '' || description_edit_document.value === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Todos los campos son requeridos',
+        });
+        return false;
+    }
+    //verificar si no se subio ningun archivo, so se subio ningun archivo se le indicara al usuario que no esta subiendo un archivo y que se mantendra el archivo actual
+    if (file_edit_document.value === '') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No se subió archivo',
+            text: 'No se subió ningún archivo, se mantendrá el archivo actual',
+        });
+        return true;
+    }
+    return true;
+
+}
+
