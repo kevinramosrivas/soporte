@@ -44,6 +44,18 @@
         </ul>
       </li>
       <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#manuals-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-bookmark-fill"></i><span>Documentación</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="manuals-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="<?=base_url('documents/showDocuments')?>">
+              <span>Ver documentos</span>
+            </a>
+          </li>
+        </ul>
+    </li>
+      <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url('profiles/profile')?>">
           <i class="bi bi-person"></i>
           <span>Mi perfil</span>
