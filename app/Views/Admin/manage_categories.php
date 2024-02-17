@@ -58,6 +58,21 @@ Gestión de categorias
 
     </div>
     <div class="row">
+        <!-- hacer un mensaje de alerta por si hay errores , este menbsaje debe poder ser cerrado-->
+        <div class="col-12">
+            <?php if(session()->get('success')): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <?=session()->get('success')?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <?php if(session()->get('error')): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?=session()->get('error')?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+        </div>
         <div class="col-12 container-table table-responsive">
         <?php if(empty($categories)): ?>
                 <div class="alert alert-warning" role="alert">

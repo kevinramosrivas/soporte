@@ -279,7 +279,7 @@ class DocumentsController extends BaseController
         $verify = VerifyAdmin::verifyUser($session);
         if ($verify) {
             if($this->verifyIfCategoryHasDocuments($id)){
-                session()->setFlashdata('message', 'No se puede eliminar la categoría porque tiene documentos asociados');
+                session()->setFlashdata('error', 'No se puede eliminar la categoría porque tiene documentos asociados');
                 return redirect()->to(site_url('documents/manageCategories'));
             }
             $model = model('CategoriesModel');
