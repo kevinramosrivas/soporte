@@ -83,7 +83,7 @@ class DocumentsController extends BaseController
                     $log_model = model('UserLogModel');
                     $log = [
                         'id_user' => $session->id_user,
-                        'action' => 'Agregó un nuevo documento con el nombre '.$data['documentName'],
+                        'action' => 'agregó un nuevo documento con el nombre '.$data['documentName'],
                     ];
                     $log_entity = new UserLog($log);
                     //usar la entidad para insertar el log
@@ -134,7 +134,7 @@ class DocumentsController extends BaseController
                 $log_model = model('UserLogModel');
                 $log = [
                     'id_user' => $session->id_user,
-                    'action' => 'Eliminó el documento con el nombre '.$document['documentName']
+                    'action' => 'eliminó el documento con el nombre '.$document['documentName']
                 ];
                 $log_entity = new UserLog($log);
                 //usar la entidad para insertar el log
@@ -187,7 +187,7 @@ class DocumentsController extends BaseController
                     $log_model = model('UserLogModel');
                     $log = [
                         'id_user' => $session->id_user,
-                        'action' => 'Editó el documento con el nombre '.$data['documentName'],
+                        'action' => 'editó el documento con el nombre '.$data['documentName'],
                     ];
                     $log_entity = new UserLog($log);
                     //usar la entidad para insertar el log
@@ -237,7 +237,7 @@ class DocumentsController extends BaseController
             $log_model = model('UserLogModel');
             $log = [
                 'id_user' => $session->id_user,
-                'action' => 'Agregó una nueva categoría con el nombre '.$data['categoryName'],
+                'action' => 'agregó una nueva categoría con el nombre '.$data['categoryName'],
             ];
             $log_entity = new UserLog($log);
             //usar la entidad para insertar el log
@@ -263,7 +263,7 @@ class DocumentsController extends BaseController
             $log_model = model('UserLogModel');
             $log = [
                 'id_user' => $session->id_user,
-                'action' => 'Eliminó la categoría con el nombre '.$category['categoryName'],
+                'action' => 'eliminó la categoría con el nombre '.$category['categoryName'],
             ];
             $log_entity = new UserLog($log);
             //usar la entidad para insertar el log
@@ -298,7 +298,7 @@ class DocumentsController extends BaseController
             $log_model = model('UserLogModel');
             $log = [
                 'id_user' => $session->id_user,
-                'action' => 'Editó la categoría con el nombre '.$data['categoryName'],
+                'action' => 'editó la categoría con el nombre '.$data['categoryName'],
             ];
             $log_entity = new UserLog($log);
             //usar la entidad para insertar el log
