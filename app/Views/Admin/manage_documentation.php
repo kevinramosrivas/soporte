@@ -77,7 +77,7 @@ Gestión de Manuales
             <table class="table table-striped table-hover text-start" id="table-documents">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
+                        <th scope="col"></th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
@@ -88,7 +88,7 @@ Gestión de Manuales
                     <?php
                     foreach ($documents as $document) : ?>
                         <tr id="row_<?=$document['id_document']?>">
-                            <td>D-<?=$document['id_document']?></td>
+                            <td><img src="https://ui-avatars.com/api/?name=<?=$booksArray[rand(0,count($booksArray)-1)]?>&background=random" alt="<?=$document['documentName']?>" class="rounded-circle" width="40" height="40"></td>
                             <td><?=$document['categoryName']?></td>
                             <td><?=$document['documentName']?></td>
                             <td><?=$document['documentDescription']?></td>
@@ -134,6 +134,7 @@ Gestión de Manuales
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
+                                        <p>ID: <span class="badge bg-dark">DOC-<?=$document['id_document']?></span></p>
                                         <p>Fecha de creación: <span class="badge bg-primary"><?=$document['created_at']?></span></p>
                                         <p>Fecha de actualización: <span class="badge text-bg-dark"><?=$document['updated_at']?></span></p>
                                     </div>

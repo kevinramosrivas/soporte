@@ -184,7 +184,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle"></i>
+            <img src="https://ui-avatars.com/api/?name=<?=$session->username;?>&background=random" alt="" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2">
               <?=$session->username;?>
             </span>

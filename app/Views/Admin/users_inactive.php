@@ -25,8 +25,7 @@ Usuarios
                 <table class="table table-striped table-hover text-start" id="table_users">
                     <thead>
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Estado</th>
+                            <th scope="col"></th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Tipo</th>
                             <th scope="col">Correo electronico</th>
@@ -38,10 +37,8 @@ Usuarios
 
                                 <tr id="user_<?= $user['id_user'] ?>">
                                     <td scope="row">
-                                        USR-<?= $user['id_user'] ?>
+                                        <img src="https://ui-avatars.com/api/?name=<?= $user['username'] ?>&background=random" alt="<?= $user['username'] ?>" class="rounded-circle" width="40" height="40">
                                     </td>
-                                    <td>
-                                        <span class="badge bg-danger">Inactivo</span>
                                     <td>
                                         <?= $user['username'] ?>
                                     </td>
@@ -70,6 +67,7 @@ Usuarios
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
+                                                    <h6>ID: <span class="badge bg-dark">USR-<?= $user['id_user'] ?></span></h6>
                                                     <h6>Estado: <span class="badge bg-primary"><?= $user['user_status'] == 1 ? 'Activo' : 'Inactivo' ?></span></h6>
                                                     <h6>Fecha de creación: <span class="badge text-bg-dark"><?= date('d/m/Y h:i:s a', strtotime($user['created_at'])) ?></span></h6>
                                                     <h6>Fecha de actualización: <span class="badge text-bg-success"><?= date('d/m/Y h:i:s a', strtotime($user['updated_at'])) ?></span></h6>

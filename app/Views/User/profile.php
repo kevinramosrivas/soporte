@@ -50,7 +50,10 @@ if($session->type == 'ADMINISTRADOR'): ?>
 
                         <div class="row">
                             <div class="col-lg-3 col-md-4 label ">Nombre de usuario</div>
-                            <div class="col-lg-9 col-md-8"><?=$session->username;?></div>
+                            <div class="col-lg-9 col-md-8 p-3">
+                                <img src="https://ui-avatars.com/api/?name=<?=$session->username;?>&background=random" alt="<?=$session->username;?>" class="rounded-circle" width="30">
+                                <?=$session->username;?>
+                            </div>
                         </div>
 
                         <div class="row">

@@ -22,6 +22,7 @@ class DocumentsController extends BaseController
             $model = model('DocumentationModel');
             $documents = $model->getDocuments();
             $data = [
+                'booksArray' => ['📕','📗','📘','📙','📒','📔','📓'],
                 'categories' => $categories,
                 'documents' => $documents,
             ];
