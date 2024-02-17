@@ -11,6 +11,12 @@ class DocumentationCategories extends Migration
     {
         $this->forge->addField([
             'id_category' => [
+                'type' => 'INT',
+                'constraint' => 10,
+                'auto_increment' => true,
+                'null' => false,
+            ],
+            'id_category_uuid' => [
                 'type' => 'VARCHAR',
                 'constraint' => '36',
                 'null' => false,
@@ -39,7 +45,7 @@ class DocumentationCategories extends Migration
 
         #añadir categoria por defecto
         $data = [
-            'id_category' => (new Uuid())->v4(),
+            'id_category_uuid' => (new Uuid())->v4(),
             'categoryName' => 'General',
             'categoryDescription' => 'Documentación general',
             'created_at' => date('Y-m-d H:i:s'),

@@ -33,15 +33,15 @@ Gestión de categorias
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="<?=base_url('documents/addCategory')?>" method="post" id="addCategoryForm">
+                        <form action="<?=base_url('documents/addCategory')?>" method="post" id="addCategoryForm" onsubmit="return validateCategoryForm()">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nombre de la Categoría</label>
-                                <input type="text" class="form-control" id="name" name="name_category" placeholder="Nombre de la Categoría">
+                                <input type="text" class="form-control" id="name_add_category_form" name="name_category" placeholder="Nombre de la Categoría">
                             </div>
                             <!--añadir FAQ para explicar que es una categoria-->
                             <div class="mb-3">
                                 <label for="description" class="form-label">Descripción</label>
-                                <textarea class="form-control" id="description" name="description_category" rows="3"></textarea>
+                                <textarea class="form-control" id="description_add_category_form"" name="description_category" rows="3"></textarea>
                             </div>
                         </form>
                     </div>
@@ -83,7 +83,7 @@ Gestión de categorias
                             <td>
                             <!-- modal donde mostrara la descripcion, fecha de creacion y fecha de actualizacion de la categoria-->
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal_<?=$category['id_category']?>">
-                                    <i class="bi bi-eye"></i>
+                                    <i class="bi bi-info-circle"></i>
                                 </button>
                                 <div class="modal fade " id="categoryModal_<?=$category['id_category']?>" tabindex="-1" aria-labelledby="categoryModalLabel_<?=$category['id_category']?>" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -94,9 +94,10 @@ Gestión de categorias
                                         </div>
                                         <div class="modal-body
                                         ">
-                                            <p><?=$category['categoryDescription']?></p>
-                                            <p>Fecha de creación: <?=$category['created_at']?></p>
-                                            <p>Fecha de actualización: <?=$category['updated_at']?></p>
+                                            <p>Id de categoria: <span class="badge text-bg-info"><?=$category['id_category_uuid']?></span></p>
+                                            <p>Descripción: <span class="badge bg-primary"><?=$category['categoryDescription']?></span></p>
+                                            <p>Fecha de creación: <span class="badge text-bg-dark"><?=$category['created_at']?></span></p>
+                                            <p>Fecha de actualización: <sp class="badge text-bg-success"><?=$category['updated_at']?></span></p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -105,7 +106,7 @@ Gestión de categorias
                                     </div>
                                 </div>
                                 <!--modal para editar la categoria-->
-                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editCategoryModal_<?=$category['id_category']?>">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCategoryModal_<?=$category['id_category']?>">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <div class="modal fade " id="editCategoryModal_<?=$category['id_category']?>" tabindex="-1" aria-labelledby="editCategoryModalLabel_<?=$category['id_category']?>" aria-hidden="true">
@@ -117,14 +118,14 @@ Gestión de categorias
                                         </div>
                                         <div class="modal-body
                                         ">
-                                            <form action="<?=base_url('documents/editCategory/'.$category['id_category'])?>" method="post" id="editCategoryForm_<?=$category['id_category']?>">
+                                            <form action="<?=base_url('documents/editCategory/'.$category['id_category'])?>" method="post" id="editCategoryForm_<?=$category['id_category']?>" onsubmit="return validateEditCategoryForm(<?=$category['id_category']?>)">
                                                 <div class="mb-3">
                                                     <label for="name" class="form-label">Nombre de la Categoría</label>
-                                                    <input type="text" class="form-control" id="name" name="name_category" value="<?=$category['categoryName']?>">
+                                                    <input type="text" class="form-control" id="name_edit_category<?=$category['id_category']?>"name="name_category" value="<?=$category['categoryName']?>">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="description" class="form-label">Descripción</label>
-                                                    <textarea class="form-control" id="description" name="description_category" rows="3"><?=$category['categoryDescription']?></textarea>
+                                                    <textarea class="form-control" id="description_edit_category<?=$category['id_category']?>" name="description_category" rows="3"><?=$category['categoryDescription']?></textarea>
                                                 </div>
                                             </form>
                                         </div>
@@ -136,7 +137,8 @@ Gestión de categorias
                                     </div>
                                 </div>
                                 <!--boton para eliminar la categoria-->
-                                <a href="<?=base_url('documents/deleteCategory/'.$category['id_category'])?>" class="btn btn-danger" onclick="return confirm('¿Está seguro de eliminar esta categoría?')"><i class="bi bi-trash"></i></a>
+                                <a href="<?=base_url('documents/deleteCategory/'.$category['id_category'])?>" class="btn btn-danger btn_delete_category">
+                                    <i class="bi bi-trash"></i>
                             </td>
                         </tr>
                     <?php endforeach; ?>

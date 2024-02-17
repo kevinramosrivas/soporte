@@ -16,8 +16,8 @@ class Documentation extends Migration
                 'null' => false,
             ],
             'id_category' => [
-                'type' => 'VARCHAR',
-                'constraint' => '36',
+                'type' => 'INT',
+                'constraint' => 10,
                 'null' => false,
             ],
             'documentName' => [
@@ -33,8 +33,9 @@ class Documentation extends Migration
                 'constraint' => '300',
             ],
             'registrar_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => '36',
+                'type' => 'INT',
+                'constraint' => 10,
+                'auto_increment' => true,
                 'null' => false,
             ],
             'created_at' => [

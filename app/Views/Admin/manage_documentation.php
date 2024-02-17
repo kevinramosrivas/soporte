@@ -34,10 +34,10 @@ Gestión de Manuales
                 </div>
                 <div class="modal-body">
                     <!--Formulario para agregar un nuevo manual-->
-                    <form action="<?=base_url('documents/addManual')?>" method="post" id="addManualForm" enctype="multipart/form-data">
+                    <form action="<?=base_url('documents/addManual')?>" method="post" id="addDocumentForm" enctype="multipart/form-data" onsubmit="return validateAddDocumentForm()">
                         <div class="mb-3">
                             <label for="category-add_manual" class="form-label">Categoría</label>
-                            <select class="form-select" aria-label="Default select example" name="category" id="category-add_manual">
+                            <select class="form-select" aria-label="Default select example" name="category" id="category_add_document">
                                 <?php foreach($categories as $category):?>
                                     <option value="<?=$category['id_category']?>"><?=$category['categoryName']?></option>
                                 <?php endforeach;?>
@@ -45,22 +45,26 @@ Gestión de Manuales
                         </div>
                         <div class="mb-3">
                             <label for="name-add_manual" class="form-label">Nombre del documento</label>
-                            <input type="text" class="form-control" id="name-add_manual" name="name" placeholder="Nombre del Manual">
+                            <input type="text" class="form-control" id="name_add_document" name="name" placeholder="Nombre del Manual">
                         </div>
                         <div class="mb-3">
                             <label for="description-add_manual" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="description-add_manual" name="description" rows="3"></textarea>
+                            <textarea class="form-control" id="description_add_document" name="description" rows="3"></textarea>
                         </div>
                         <div class="mb-3">
+                            <!--alert de que solo se pueden subir archivos pdf de hasta 10MB-->
+                            <div class="alert alert-warning" id="alert_add_document" role="alert">
+                                Solo se pueden subir archivos pdf de hasta 10MB
+                            </div>
                             <label for="file" class="form-label">Subir documento</label>
                             <!--solo se pueden subir archivos pdf-->
-                            <input class="form-control" type="file" id="file" name="file" accept="application/pdf">
+                            <input class="form-control" type="file" name="file" accept="application/pdf" id = "file_add_document">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <input type="submit" class="btn btn-primary" value="Subir" form="addManualForm">
+                    <input type="submit" class="btn btn-primary" value="Subir" form="addDocumentForm">
                 </div>
                 </div>
             </div>
@@ -95,7 +99,7 @@ Gestión de Manuales
                             <td>
                                 <!-- boton para abrir modal de visualizar documento -->
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#PreviewDocument<?=$document['id_document']?>">
+                                <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#PreviewDocument<?=$document['id_document']?>">
                                 <i class="bi bi-eye"></i>
                                 </button>
 
@@ -121,7 +125,7 @@ Gestión de Manuales
                                 
                                  <!-- boton para abrir modal de informacion de documento -->
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#InfoDocument<?=$document['id_document']?>">
+                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#InfoDocument<?=$document['id_document']?>">
                                 <i class="bi bi-info-circle"></i>
                                 </button>
 
@@ -134,9 +138,9 @@ Gestión de Manuales
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <p>ID: <span class="badge bg-dark">DOC-<?=$document['id_document']?></span></p>
-                                        <p>Fecha de creación: <span class="badge bg-primary"><?=$document['created_at']?></span></p>
-                                        <p>Fecha de actualización: <span class="badge text-bg-dark"><?=$document['updated_at']?></span></p>
+                                        <p>ID: <span class="badge text-bg-info"><?=$document['id_document']?></span></p>
+                                        <p>Fecha de creación: <span class="badge text-bg-dark"><?=$document['created_at']?></span></p>
+                                        <p>Fecha de actualización: <span class="badge text-bg-success"><?=$document['updated_at']?></span></p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -148,7 +152,7 @@ Gestión de Manuales
                                 <!-- boton para editar documento -->
                                                                  <!-- boton para abrir modal de informacion de documento -->
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#editDocument<?=$document['id_document']?>">
+                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#editDocument<?=$document['id_document']?>">
                                 <i class="bi bi-pencil-square"></i>
                                 </button>
 
@@ -161,7 +165,7 @@ Gestión de Manuales
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="<?=base_url('documents/edit/'.$document['id_document'])?>" method="post" id="editDocumentForm<?=$document['id_document']?>" enctype="multipart/form-data" onsubmit="return validateEditDocument(<?=$document['id_document']?>)">
+                                        <form action="<?=base_url('documents/edit/'.$document['id_document'])?>" method="post" id="editDocumentForm<?=$document['id_document']?>" enctype="multipart/form-data" onsubmit="return validateEditDocumentForm('<?=$document['id_document']?>')">
                                             <div class="mb-3">
                                                 <label for="category-edit_document" class="form-label">Categoría</label>
                                                 <select class="form-select" aria-label="Default select example" name="category" id="category_edit_document<?=$document['id_document']?>">
@@ -181,7 +185,7 @@ Gestión de Manuales
                                             <div class="mb-3">
                                                 <label for="file" class="form-label">Subir documento</label>
                                                 <!--alerta de que solo se pueden subir archivos pdf y que si no se sube un archivo, se mantendra el archivo actual-->
-                                                <div class="alert alert-warning" role="alert">
+                                                <div class="alert alert-warning" id="alert_edit_document<?=$document['id_document']?>" role="alert">
                                                     Si no se sube un archivo, se mantendrá el archivo actual
                                                 </div>
                                                 <!--solo se pueden subir archivos pdf-->

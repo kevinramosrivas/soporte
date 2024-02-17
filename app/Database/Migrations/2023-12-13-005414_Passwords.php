@@ -39,9 +39,10 @@ class Passwords extends Migration
                 'constraint' => '300',
             ],
             'registrar_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => '36',
-                null => false,
+                'type' => 'INT',
+                'constraint' => 10,
+                'auto_increment' => true,
+                'null' => false,
 
             ],
             'created_at' => [

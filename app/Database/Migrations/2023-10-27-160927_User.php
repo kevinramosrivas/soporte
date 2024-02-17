@@ -11,6 +11,12 @@ class User extends Migration
     {
         $this->forge->addField([
             'id_user' => [
+                'type' => 'INT',
+                'constraint' => 10,
+                'auto_increment' => true,
+                'null' => false,
+            ],
+            'id_user_uuid' => [
                 'type' => 'VARCHAR',
                 'constraint' => '36',
                 'null' => false,

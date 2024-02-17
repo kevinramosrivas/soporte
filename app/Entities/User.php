@@ -43,6 +43,6 @@ class User extends Entity
     protected function setUUID()
     {
         $uuid = new Uuid();
-        $this->attributes['id_user'] = $uuid->v4();
+        $this->attributes['id_user_uuid'] = $uuid->v4();
     }
 }

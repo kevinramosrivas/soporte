@@ -48,12 +48,47 @@ document.querySelectorAll('.delete-button').forEach(item => {
 });
 
 
-function validateEditDocument(id) {
+function validateAddDocumentForm() {
+    let category_add_document = document.getElementById('category_add_document');
+    let name_add_document = document.getElementById('name_add_document');
+    let description_add_document = document.getElementById('description_add_document');
+    let file_add_document = document.getElementById('file_add_document');
+    let addDocumentForm = document.getElementById('addDocumentForm');
+
+    console.log(category_add_document.value);
+    console.log(name_add_document.value);
+    console.log(description_add_document.value);
+    console.log(file_add_document.value);
+    
+
+    //validar que los campos no esten vacios
+    if (category_add_document.value === '' || name_add_document.value === '' || description_add_document.value === '' || file_add_document.value === '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Todos los campos son requeridos',
+        });
+        return false;
+    }
+    //valirad que el nombre y la descripcion no sean mayores a 255 caracteres
+    if (name_add_document.value.length > 255 || description_add_document.value.length > 255) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El nombre y la descripción no pueden ser mayores a 255 caracteres',
+        });
+        return false;
+    }
+    return true;
+}
+
+
+function validateEditDocumentForm(id) {
     let category_edit_document = document.getElementById('category_edit_document'.concat(id));
     let name_edit_document = document.getElementById('name_edit_document'.concat(id));
     let description_edit_document = document.getElementById('description_edit_document'.concat(id));
     let file_edit_document = document.getElementById('file_edit_document'.concat(id));
-
+    let editDocumentForm = document.getElementById('editDocumentForm'.concat(id));
 
     //validar que los campos no esten vacios, excepto el archivo donde se le indicara al usuario que no esta subiendo un archivo y que se mantendra el archivo actual
     if (category_edit_document.value === '' || name_edit_document.value === '' || description_edit_document.value === '') {
@@ -64,14 +99,14 @@ function validateEditDocument(id) {
         });
         return false;
     }
-    //verificar si no se subio ningun archivo, so se subio ningun archivo se le indicara al usuario que no esta subiendo un archivo y que se mantendra el archivo actual
-    if (file_edit_document.value === '') {
+    //valirad que el nombre y la descripcion no sean mayores a 255 caracteres
+    if (name_edit_document.value.length > 255 || description_edit_document.value.length > 255) {
         Swal.fire({
-            icon: 'warning',
-            title: 'No se subió archivo',
-            text: 'No se subió ningún archivo, se mantendrá el archivo actual',
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El nombre y la descripción no pueden ser mayores a 255 caracteres',
         });
-        return true;
+        return false;
     }
     return true;
 

@@ -58,6 +58,7 @@ class DocumentsController extends BaseController
         $session = session();
         $verify = VerifyAdmin::verifyUser($session);
         if ($verify) {
+            //realizar la validacion de los datos recibidos con las reglas de validacion
             $data = [
                 'id_category' => $this->request->getPost('category'),
                 'documentName' => $this->request->getPost('name'),
@@ -66,6 +67,15 @@ class DocumentsController extends BaseController
                 'documentPath' => '',
                 'registrar_id' => $session->id_user,
             ];
+            //usar reglas de validacion
+            if(!$this->validate([
+                'category' => 'required',
+                'name' => 'required',
+                'description' => 'required',
+                'file' => 'uploaded[file]|max_size[file,10240]|ext_in[file,pdf]',
+            ])){
+                return redirect()->to(site_url('documents/manageDocumentation'))->withInput()->with('errors', $this->validator->getErrors());
+            }
         
 
             //subir el archivo a la carpeta uploads y asignarle un nombre aleatorio
@@ -167,6 +177,14 @@ class DocumentsController extends BaseController
                 'documentPath' => '',
                 'registrar_id' => $session->id_user,
             ];
+            //usar reglas de validacion
+            if(!$this->validate([
+                'category' => 'required',
+                'name' => 'required',
+                'description' => 'required',
+            ])){
+                return redirect()->to(site_url('documents/manageDocumentation'))->withInput()->with('errors', $this->validator->getErrors());
+            }
             //subir el archivo a la carpeta uploads y asignarle un nombre aleatorio
             $file = $data['file'];
             if($file->isValid() && !$file->hasMoved()){
@@ -231,6 +249,13 @@ class DocumentsController extends BaseController
                 'categoryName' => $this->request->getPost('name_category'),
                 'categoryDescription' => $this->request->getPost('description_category'),
             ];
+            //usar reglas de validacion
+            if(!$this->validate([
+                'name_category' => 'required',
+                'description_category' => 'required',
+            ])){
+                return redirect()->to(site_url('documents/manageCategories'))->withInput()->with('errors', $this->validator->getErrors());
+            }
             $model = model('CategoriesModel');
             $entity_category = new Categories($data);
             $model->saveCategory($entity_category);
@@ -293,6 +318,13 @@ class DocumentsController extends BaseController
                 'categoryName' => $this->request->getPost('name_category'),
                 'categoryDescription' => $this->request->getPost('description_category'),
             ];
+            //usar reglas de validacion
+            if(!$this->validate([
+                'name_category' => 'required',
+                'description_category' => 'required',
+            ])){
+                return redirect()->to(site_url('documents/manageCategories'))->withInput()->with('errors', $this->validator->getErrors());
+            }
             $model = model('CategoriesModel');
             $model->update($id, $data);
             //añadir al user log

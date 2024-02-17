@@ -39,10 +39,10 @@ class PrestamosLab extends Migration
                 'constraint' => 10,
             ],
             'registrar_id' => [
-                'type' => 'VARCHAR',
-                'constraint' => '36',
-                null => false,
-
+                'type' => 'INT',
+                'auto_increment' => true,
+                'constraint' => 10,
+                'null' => false,
             ],
         ]);
         $this->forge->addKey('id_prestamo', true);

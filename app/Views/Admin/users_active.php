@@ -121,7 +121,7 @@ Usuarios
                             </td>
                             <td>
                                 <!-- Boton para mostrar los detalles del usuario -->
-                                <button type="button" class="btn btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#modalDateDetails<?= $user['id_user'] ?>">
+                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#modalDateDetails<?= $user['id_user'] ?>">
                                     <i class="bi bi-info-circle"></i>
                                 </button>
                                 <!-- Modal -->
@@ -133,7 +133,7 @@ Usuarios
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <h6>ID: <span class="badge bg-primary">USR-<?= $user['id_user'] ?></span></h6>
+                                            <h6>ID: <span class="badge text-bg-info"><?= $user['id_user_uuid'] ?></span></h6>
                                             <h6>Estado: <span class="badge bg-primary"><?= $user['user_status'] == 1 ? 'Activo' : 'Inactivo' ?></span></h6>
                                             <h6>Fecha de creación: <span class="badge text-bg-dark"><?= date('d/m/Y h:i:s a', strtotime($user['created_at'])) ?></span></h6>
                                             <h6>Fecha de actualización: <span class="badge text-bg-success"><?= date('d/m/Y h:i:s a', strtotime($user['updated_at'])) ?></span></h6>

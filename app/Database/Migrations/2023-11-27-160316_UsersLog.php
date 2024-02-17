@@ -16,8 +16,10 @@ class UsersLog extends Migration
                 'null' => false,
             ],
             'id_user' => [
-                'type' => 'VARCHAR',
-                'constraint' => '36',
+                'type' => 'INT',
+                'auto_increment' => true,
+                'constraint' => 10,
+                'null' => false,
             ],
             'action' => [
                 'type' => 'VARCHAR',

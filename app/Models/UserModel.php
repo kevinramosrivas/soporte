@@ -7,7 +7,7 @@ class UserModel extends Model
 {
     protected $table = 'user';
     protected $primaryKey = 'id_user';
-    protected $allowedFields = ['id_user','type', 'username', 'email', 'password', 'user_status', 'created_at', 'updated_at'];
+    protected $allowedFields = ['id_user','id_user_uuid','type', 'username', 'email', 'password', 'user_status', 'created_at', 'updated_at'];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';

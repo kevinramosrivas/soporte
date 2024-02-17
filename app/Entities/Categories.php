@@ -11,9 +11,9 @@ use App\Libraries\Uuid;
 
 class Categories extends Entity
 {
-    protected $datamap = ['id_category', 'categoryName', 'categoryDescription', 'created_at', 'updated_at'];
+    protected $datamap = ['id_category','id_category_uuid', 'categoryName', 'categoryDescription', 'created_at', 'updated_at'];
     protected $dates   = ['created_at', 'updated_at'];
-    protected $allowedFields = ['id_category', 'categoryName', 'categoryDescription', 'created_at', 'updated_at'];
+    protected $allowedFields = ['id_category','id_category_uuid', 'categoryName', 'categoryDescription', 'created_at', 'updated_at'];
     protected $casts   = [];
 
     public function __construct($data)
@@ -43,7 +43,7 @@ class Categories extends Entity
     protected function setUUID()
     {
         $uuid = new Uuid();
-        $this->attributes['id_category'] = $uuid->v4();
+        $this->attributes['id_category_uuid'] = $uuid->v4();
     }
     
 }
