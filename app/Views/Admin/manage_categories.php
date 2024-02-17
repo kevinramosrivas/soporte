@@ -97,7 +97,7 @@ Gestión de categorias
                             <td><?=$category['num_documents']?></td>
                             <td>
                             <!-- modal donde mostrara la descripcion, fecha de creacion y fecha de actualizacion de la categoria-->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal_<?=$category['id_category']?>">
+                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#categoryModal_<?=$category['id_category']?>">
                                     <i class="bi bi-info-circle"></i>
                                 </button>
                                 <div class="modal fade " id="categoryModal_<?=$category['id_category']?>" tabindex="-1" aria-labelledby="categoryModalLabel_<?=$category['id_category']?>" aria-hidden="true">
@@ -121,7 +121,7 @@ Gestión de categorias
                                     </div>
                                 </div>
                                 <!--modal para editar la categoria-->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCategoryModal_<?=$category['id_category']?>">
+                                <button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#editCategoryModal_<?=$category['id_category']?>">
                                     <i class="bi bi-pencil"></i>
                                 </button>
                                 <div class="modal fade " id="editCategoryModal_<?=$category['id_category']?>" tabindex="-1" aria-labelledby="editCategoryModalLabel_<?=$category['id_category']?>" aria-hidden="true">
@@ -152,7 +152,7 @@ Gestión de categorias
                                     </div>
                                 </div>
                                 <!--boton para eliminar la categoria-->
-                                <a href="<?=base_url('documents/deleteCategory/'.$category['id_category'])?>" class="btn btn-danger btn_delete_category">
+                                <a href="<?=base_url('documents/deleteCategory/'.$category['id_category'])?>" class="btn btn-danger btn_delete_category m-1">
                                     <i class="bi bi-trash"></i>
                             </td>
                         </tr>

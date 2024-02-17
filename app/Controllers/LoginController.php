@@ -60,6 +60,7 @@ class LoginController extends BaseController
                 //crear y guardar la sesion
                 $session->set([
                     'id_user' => $user['id_user'],
+                    'id_user_uuid' => $user['id_user_uuid'],
                     'type' => $user['type'],
                     'username' => $user['username'],
                     'email' => $user['email'],

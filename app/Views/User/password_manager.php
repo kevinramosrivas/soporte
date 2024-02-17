@@ -332,15 +332,15 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                     <!-- boton para generar qr -->
                                     <button type="button" class="btn btn-dark m-1" data-bs-toggle="modal" data-bs-target="#qrAccountPasswordModal<?=$password['id_password']?>"
                                     <?php if($password['typeAccount'] == 'WIFI'): ?>
-                                        onclick="generateQrWifi('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>', '<?=$session->id_user?>')"
+                                        onclick="generateQrWifi('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>', '<?=$session->id_user_uuid?>')"
                                     <?php elseif($password['typeAccount'] == 'EMAIL'): ?>
-                                        onclick="generateQrEmail('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user?>')"
+                                        onclick="generateQrEmail('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user_uuid?>')"
                                     <?php elseif($password['typeAccount'] == 'DOMAIN'): ?>
-                                        onclick="generateQrDomain('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user?>')"
+                                        onclick="generateQrDomain('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user_uuid?>')"
                                     <?php elseif($password['typeAccount'] == 'DATABASE'): ?>
-                                        onclick="generateQrDatabase('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user?>')"
+                                        onclick="generateQrDatabase('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user_uuid?>')"
                                     <?php elseif($password['typeAccount'] == 'OTHER'): ?>
-                                        onclick="generateQrOther('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user?>')"
+                                        onclick="generateQrOther('<?=$password['id_password']?>' ,  '<?=$password['username']?>' , '<?=$password['password']?>' , '<?=$password['accountName']?>' , '<?=$session->id_user_uuid?>')"
                                     <?php endif; ?>
                                     >
                                         <i class="bi bi-qr-code"></i>
