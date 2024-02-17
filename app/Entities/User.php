@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
+use App\Libraries\Uuid;
 helper('date');
 
 class User extends Entity
@@ -10,6 +11,13 @@ class User extends Entity
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [];
+
+    //ejectuar el metodo para crear un id unico cuando se cree un nuevo objeto de la clase
+    public function __construct(array $data = null)
+    {
+        parent::__construct($data);
+        $this->setUUID();
+    }
 
     public function encriptPassword(string $password)
     {
@@ -30,5 +38,11 @@ class User extends Entity
     protected function setUpdatedAt()
     {
         $this->attributes['updated_at'] = now('America/Los_Angeles', 'datetime');
+    }
+
+    protected function setUUID()
+    {
+        $uuid = new Uuid();
+        $this->attributes['id_user'] = $uuid->v4();
     }
 }

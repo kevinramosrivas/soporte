@@ -31,11 +31,12 @@ $routes->group('documents',['namespace' =>'App\Controllers'], function($routes){
     $routes->get('manageDocumentation', 'DocumentsController::manageDocumentation');
     $routes->get('manageCategories', 'DocumentsController::manageCategories');
     $routes->post('addManual', 'DocumentsController::addManual');
-    $routes->get('delete/(:num)', 'DocumentsController::deleteDocument/$1');
-    $routes->post('edit/(:num)', 'DocumentsController::editDocument/$1');
+    $routes->get('delete/(.*)', 'DocumentsController::deleteDocument/$1');
+    $routes->post('edit/(.*)', 'DocumentsController::editDocument/$1');
     $routes->post('addCategory', 'DocumentsController::addCategory');
-    $routes->get('deleteCategory/(:num)', 'DocumentsController::deleteCategory/$1');
-    $routes->post('editCategory/(:num)', 'DocumentsController::editCategory/$1');
+    //se pasa el id de la categoria a eliminar que es un string que es un uuid v4 10fd259d-2733-4bf5-8e58-ce36ecfaf1cb
+    $routes->get('deleteCategory/(.*)', 'DocumentsController::deleteCategory/$1');
+    $routes->post('editCategory/(.*)', 'DocumentsController::editCategory/$1');
     $routes->get('showDocuments', 'DocumentsController::showDocuments');
 });
 #Rutas para LabsController
@@ -62,7 +63,7 @@ $routes->group('passwords',['namespace' =>'App\Controllers'], function($routes){
     $routes->post('verifyIdentity', 'PasswordsController::verifyIdentity');
     $routes->post('createNewAccountPassword','PasswordsController::createNewAccountPassword');
     $routes->post('editPassword','PasswordsController::editPassword');
-    $routes->get('deletePassword/(:num)','PasswordsController::deletePassword/$1');
+    $routes->get('deletePassword/(.*)','PasswordsController::deletePassword/$1');
     $routes->get('intermediary','PasswordsController::intermediary');
 });
 #Rutas para ProfilesController

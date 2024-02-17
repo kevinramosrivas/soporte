@@ -7,7 +7,7 @@ class UserLogModel extends Model
 {
     protected $table = 'users_log';
     protected $primaryKey = 'id_log';
-    protected $allowedFields = ['id_user', 'action', 'created_at', 'updated_at'];
+    protected $allowedFields = ['id_log','id_user', 'action', 'created_at', 'updated_at'];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';

@@ -2,15 +2,24 @@
 
 namespace App\Models;
 use CodeIgniter\Model;
+//importar el entity 
+use App\Entities\PrestamosLab;
 
 class PrestamosLabModel extends Model
 {
     protected $table = 'prestamos_lab';
     protected $primaryKey = 'id_prestamo';
-    protected $allowedFields = ['num_lab', 'num_doc', 'type_doc', 'hour_entry', 'hour_exit', 'interval_num', 'registrar_id'];
+    protected $allowedFields = ['id_prestamo','num_lab', 'num_doc', 'type_doc', 'hour_entry', 'hour_exit', 'interval_num', 'registrar_id'];
     protected $useTimestamps = true;
     protected $createdField = 'hour_entry';
     protected $updatedField = 'hour_exit';
+
+    public function insertNewEntry($prestamo)
+    {
+        //insertar el registro
+        $this->insert($prestamo);
+    }
+    
     
     public function getLab($num_lab)
     {
@@ -24,8 +33,8 @@ class PrestamosLabModel extends Model
 
     public function getAllRegisterEntryLab()
     {
-        // hacer un join con la tabla de usuarios para obtener el nombre del usuario que registro la entrada
-        $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user ORDER BY hour_entry DESC")->getResultArray();
+        // hacer un join con la tabla de usuarios para obtener el nombre del usuario que registro la entrada, solo obtener los registros de la semana actual
+        $registerEntryLab = $this->query("SELECT * FROM prestamos_lab INNER JOIN user ON prestamos_lab.registrar_id = user.id_user WHERE WEEKOFYEAR(hour_entry) = WEEKOFYEAR(NOW())")->getResultArray();
 
         if($registerEntryLab != null){
             return $registerEntryLab;

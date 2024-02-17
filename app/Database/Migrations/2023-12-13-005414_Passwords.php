@@ -10,10 +10,9 @@ class Passwords extends Migration
     {
         $this->forge->addField([
             'id_password' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                //auto_increment
-                'auto_increment' => true,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
+                'null' => false,
             ],
             'typeAccount' => [
                 'type' => 'VARCHAR',
@@ -40,8 +39,8 @@ class Passwords extends Migration
                 'constraint' => '300',
             ],
             'registrar_id' => [
-                'type' => 'INT',
-                'constraint' => 10,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
                 null => false,
 
             ],

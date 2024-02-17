@@ -8,7 +8,7 @@ class PasswordsModel extends Model
 {
     protected $table = 'passwords';
     protected $primaryKey = 'id_password';
-    protected $allowedFields = ['typeAccount', 'accountName', 'username', 'password', 'level','registrar_id', 'additionalInfo','created_at', 'updated_at'];
+    protected $allowedFields = ['id_password','typeAccount', 'accountName', 'username', 'password', 'level','registrar_id', 'additionalInfo','created_at', 'updated_at'];
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';

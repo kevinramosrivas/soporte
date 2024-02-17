@@ -126,7 +126,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                 </button>
                                 <?php //si el usuario es de tipo admin mostrale un bton para eliminar el registro
                                 if($session->type == 'ADMINISTRADOR'):?>
-                                    <form action="<?=base_url('admin/deleteRegisterEntryLab')?>" method="post" class="d-inline form-delete-register-lab" id="<?=$registerEntryLab['id_prestamo']?>">
+                                    <form action="<?=base_url('labs/deleteRegisterEntryLab')?>" method="post" class="d-inline form-delete-register-lab" id="<?=$registerEntryLab['id_prestamo']?>">
                                         <input type="hidden" name="id_prestamo" value="<?=$registerEntryLab['id_prestamo']?>">
                                         <button type="submit" class="btn btn-danger"
                                                 data-bs-toggle="tooltip" data-bs-placement="top"

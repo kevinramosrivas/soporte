@@ -3,6 +3,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Entities\User;
 use App\Helpers\VerifyAdmin;
+use App\Entities\UserLog;
 use Exception;
 
 
@@ -72,7 +73,8 @@ class UsersController extends BaseController
                 'id_user' => $session->id_user,
                 'action' => 'creó un nuevo usuario con el correo '.$data['email'],
             ];
-            $log_model->insert($log);
+            $log_entity = new UserLog($log);
+            $log_model->insert($log_entity);
             return redirect()->to(site_url('users/users'));
         } else {
             return redirect()->to(site_url('login'));
@@ -98,7 +100,8 @@ class UsersController extends BaseController
                 'id_user' => $session->id_user,
                 'action' => 'puso en estado inactivo al usuario con el correo '.$user['email'],
             ];
-            $log_model->insert($log);
+            $log_entity = new UserLog($log);
+            $log_model->insert($log_entity);
             return redirect()->to(site_url('users/users'));
         } else {
             return redirect()->to(site_url('login'));
@@ -121,15 +124,15 @@ class UsersController extends BaseController
                 unset($data['password']);
             }
             $model = model('UserModel');
-            $user = new User($data);
-            $model->update($data['id_user'], $user);
+            $model->update($data['id_user'], $data);
             //añadir al user log
             $log_model = model('UserLogModel');
             $log = [
                 'id_user' => $session->id_user,
                 'action' => 'editó el usuario con el correo '.$data['email'],
             ];
-            $log_model->insert($log);
+            $log_entity = new UserLog($log);
+            $log_model->insert($log_entity);
             return redirect()->to(site_url('users/users'));
         }else{
             return redirect()->to(site_url('login'));
@@ -166,7 +169,8 @@ class UsersController extends BaseController
                 'id_user' => $session->id_user,
                 'action' => 'puso en estado activo al usuario con el correo '.$user['email'],
             ];
-            $log_model->insert($log);
+            $log_entity = new UserLog($log);
+            $log_model->insert($log_entity);
             return redirect()->to(site_url('users/users'));
         } else {
             return redirect()->to(site_url('login'));

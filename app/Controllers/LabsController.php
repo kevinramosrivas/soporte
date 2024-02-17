@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Entities\PrestamosLab;
 use App\Helpers\VerifyAdmin;
+use App\Entities\UserLog;
 
 
 class LabsController extends BaseController{
@@ -76,7 +77,9 @@ class LabsController extends BaseController{
                 'id_user' => $session->id_user,
                 'action' => 'registro la entrada del usuario con el documento '.$data['num_doc'].' en el laboratorio '.$data['num_lab'],
             ];
-            $model_log->insert($log);
+            $log_entity = new UserLog($log);
+            //usar la entidad para insertar el log
+            $model_log->insert($log_entity);
             // retornar mensaje de exito
             $session->setFlashdata('success', 'El usuario se registro correctamente');
             return redirect()->to(site_url('labs/registerEntryLab'));
@@ -133,7 +136,9 @@ class LabsController extends BaseController{
                         'id_user' => $session->id_user,
                         'action' => 'registro la salida del usuario con el documento '.$data['num_doc'].' en el laboratorio '.$prestamo['num_lab'],
                     ];
-                    $model_log->insert($log);
+                    $log_entity = new UserLog($log);
+                    //usar la entidad para insertar el log
+                    $model_log->insert($log_entity);
                     // retornar mensaje de exito
                     $session->setFlashdata('success', 'El usuario se registro correctamente');
                     return redirect()->to(site_url('labs/registerExitLab'));

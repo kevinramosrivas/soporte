@@ -10,10 +10,9 @@ class PrestamosLab extends Migration
     {
         $this->forge->addField([
             'id_prestamo' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                'unsigned' => true,
-                'auto_increment' => true,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
+                'null' => false,
             ],
             'num_lab' => [
                 'type' => 'VARCHAR',
@@ -40,8 +39,8 @@ class PrestamosLab extends Migration
                 'constraint' => 10,
             ],
             'registrar_id' => [
-                'type' => 'INT',
-                'constraint' => 10,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
                 null => false,
 
             ],

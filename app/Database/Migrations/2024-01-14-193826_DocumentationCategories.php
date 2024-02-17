@@ -3,6 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
+use App\Libraries\Uuid;
 
 class DocumentationCategories extends Migration
 {
@@ -10,10 +11,9 @@ class DocumentationCategories extends Migration
     {
         $this->forge->addField([
             'id_category' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                //auto_increment
-                'auto_increment' => true,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
+                'null' => false,
             ],
             'categoryName' => [
                 'type' => 'VARCHAR',
@@ -39,6 +39,7 @@ class DocumentationCategories extends Migration
 
         #añadir categoria por defecto
         $data = [
+            'id_category' => (new Uuid())->v4(),
             'categoryName' => 'General',
             'categoryDescription' => 'Documentación general',
             'created_at' => date('Y-m-d H:i:s'),

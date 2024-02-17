@@ -11,13 +11,13 @@ class Documentation extends Migration
         //crear la tabla
         $this->forge->addField([
             'id_document' => [
-                'type' => 'INT',
-                'constraint' => 10,
-                'auto_increment' => true,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
+                'null' => false,
             ],
             'id_category' => [
-                'type' => 'INT',
-                'constraint' => 10,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
                 'null' => false,
             ],
             'documentName' => [
@@ -33,8 +33,8 @@ class Documentation extends Migration
                 'constraint' => '300',
             ],
             'registrar_id' => [
-                'type' => 'INT',
-                'constraint' => 10,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
                 'null' => false,
             ],
             'created_at' => [

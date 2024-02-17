@@ -4,6 +4,7 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 use App\Helpers\Encryptor;
+use App\Libraries\Uuid;
 
 
 
@@ -26,6 +27,7 @@ class Passwords extends Entity
         $this->encryptUsername($this->attributes['username']);
         $this->encryptPassword($this->attributes['password']);
         $this->encryptAdditionalInfo($this->attributes['additionalInfo']);
+        $this->setUUID();
 
     }
 
@@ -49,6 +51,12 @@ class Passwords extends Entity
     protected function encryptAdditionalInfo(string $additionalInfo)
     {
         $this->attributes['additionalInfo'] = $this->encryptor->encrypt($additionalInfo);
+    }
+
+    protected function setUUID()
+    {
+        $uuid = new Uuid();
+        $this->attributes['id_password'] = $uuid->v4();
     }
 
 

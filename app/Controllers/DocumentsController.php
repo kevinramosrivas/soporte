@@ -1,10 +1,12 @@
 <?php
 namespace App\Controllers;
 use App\Controllers\BaseController;
+use App\Entities\Categories;
 use App\Helpers\VerifyAdmin;
 use App\Helpers\VerifyUser;
 use Exception;
 use App\Entities\Documentation;
+use App\Entities\UserLog;
 
 
 class DocumentsController extends BaseController
@@ -81,10 +83,12 @@ class DocumentsController extends BaseController
                     $log_model = model('UserLogModel');
                     $log = [
                         'id_user' => $session->id_user,
-                        'action' => 'Agregó un nuevo manual con el nombre '.$data['documentName'],
+                        'action' => 'Agregó un nuevo documento con el nombre '.$data['documentName'],
                     ];
-                    $log_model->insert($log);
-                    session()->setFlashdata('message', 'Manual agregado correctamente');
+                    $log_entity = new UserLog($log);
+                    //usar la entidad para insertar el log
+                    $log_model->insert($log_entity);
+                    session()->setFlashdata('message', 'Documento agregado correctamente');
                     return redirect()->to(site_url('documents/manageDocumentation'));
                 } catch (Exception $e) {
                     session()->setFlashdata('message', $e->getMessage());
@@ -130,12 +134,15 @@ class DocumentsController extends BaseController
                 $log_model = model('UserLogModel');
                 $log = [
                     'id_user' => $session->id_user,
-                    'action' => 'Eliminó el manual con el nombre '.$document['documentName']
+                    'action' => 'Eliminó el documento con el nombre '.$document['documentName']
                 ];
-                $log_model->insert($log);
+                $log_entity = new UserLog($log);
+                //usar la entidad para insertar el log
+                $log_model->insert($log_entity);
+
                 //eliminar el archivo de la carpeta uploads
                 unlink($document['documentPath']);
-                session()->setFlashdata('message', 'Manual eliminado correctamente');
+                session()->setFlashdata('message', 'Documento eliminado correctamente');
                 return redirect()->to(site_url('documents/manageDocumentation'));
 
             }catch(Exception $e){
@@ -180,10 +187,12 @@ class DocumentsController extends BaseController
                     $log_model = model('UserLogModel');
                     $log = [
                         'id_user' => $session->id_user,
-                        'action' => 'Editó el manual con el nombre '.$data['documentName'],
+                        'action' => 'Editó el documento con el nombre '.$data['documentName'],
                     ];
-                    $log_model->insert($log);
-                    session()->setFlashdata('message', 'Manual editado correctamente');
+                    $log_entity = new UserLog($log);
+                    //usar la entidad para insertar el log
+                    $log_model->insert($log_entity);
+                    session()->setFlashdata('message', 'Documento editado correctamente');
                     return redirect()->to(site_url('documents/manageDocumentation'));
                 } catch (Exception $e) {
                     session()->setFlashdata('message', $e->getMessage());
@@ -202,10 +211,12 @@ class DocumentsController extends BaseController
             $log_model = model('UserLogModel');
             $log = [
                 'id_user' => $session->id_user,
-                'action' => 'Editó el manual con el nombre '.$data['documentName'],
+                'action' => 'Editó el documento con el nombre '.$data['documentName'],
             ];
-            $log_model->insert($log);
-            session()->setFlashdata('message', 'Manual editado correctamente');
+            $log_entity = new UserLog($log);
+            //usar la entidad para insertar el log
+            $log_model->insert($log_entity);
+            session()->setFlashdata('message', 'Documento editado correctamente');
             return redirect()->to(site_url('documents/manageDocumentation'));
         } else {
             return redirect()->to(site_url('login'));
@@ -220,14 +231,17 @@ class DocumentsController extends BaseController
                 'categoryDescription' => $this->request->getPost('description_category'),
             ];
             $model = model('CategoriesModel');
-            $model->saveCategory($data);
+            $entity_category = new Categories($data);
+            $model->saveCategory($entity_category);
             //añadir al user log
             $log_model = model('UserLogModel');
             $log = [
                 'id_user' => $session->id_user,
                 'action' => 'Agregó una nueva categoría con el nombre '.$data['categoryName'],
             ];
-            $log_model->insert($log);
+            $log_entity = new UserLog($log);
+            //usar la entidad para insertar el log
+            $log_model->insert($log_entity);
             session()->setFlashdata('message', 'Categoría agregada correctamente');
             return redirect()->to(site_url('documents/manageCategories'));
         } else {
@@ -239,7 +253,7 @@ class DocumentsController extends BaseController
         $verify = VerifyAdmin::verifyUser($session);
         if ($verify) {
             if($this->verifyIfCategoryHasDocuments($id)){
-                session()->setFlashdata('message', 'No se puede eliminar la categoría porque tiene manuales asociados');
+                session()->setFlashdata('message', 'No se puede eliminar la categoría porque tiene documentos asociados');
                 return redirect()->to(site_url('documents/manageCategories'));
             }
             $model = model('CategoriesModel');
@@ -251,7 +265,9 @@ class DocumentsController extends BaseController
                 'id_user' => $session->id_user,
                 'action' => 'Eliminó la categoría con el nombre '.$category['categoryName'],
             ];
-            $log_model->insert($log);
+            $log_entity = new UserLog($log);
+            //usar la entidad para insertar el log
+            $log_model->insert($log_entity);
             session()->setFlashdata('message', 'Categoría eliminada correctamente');
             return redirect()->to(site_url('documents/manageCategories'));
         } else {
@@ -284,7 +300,9 @@ class DocumentsController extends BaseController
                 'id_user' => $session->id_user,
                 'action' => 'Editó la categoría con el nombre '.$data['categoryName'],
             ];
-            $log_model->insert($log);
+            $log_entity = new UserLog($log);
+            //usar la entidad para insertar el log
+            $log_model->insert($log_entity);
             session()->setFlashdata('message', 'Categoría editada correctamente');
             return redirect()->to(site_url('documents/manageCategories'));
         } else {

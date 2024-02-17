@@ -11,13 +11,13 @@ class UsersLog extends Migration
         //crea la tabla de log de las acciones de los usuarios
         $this->forge->addField([
             'id_log' => [
-                'type' => 'INT',
-                'constraint' => 20,
-                'auto_increment' => true,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
+                'null' => false,
             ],
             'id_user' => [
-                'type' => 'INT',
-                'constraint' => 10,
+                'type' => 'VARCHAR',
+                'constraint' => '36',
             ],
             'action' => [
                 'type' => 'VARCHAR',

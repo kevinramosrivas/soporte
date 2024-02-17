@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Entities\Passwords;
+use App\Entities\UserLog;
 
 
 class PasswordsController extends BaseController{
@@ -145,7 +146,8 @@ class PasswordsController extends BaseController{
                     'id_user' => $session->id_user,
                     'action' => 'registro una nueva cuenta de '.$data['typeAccount'].' con el nombre de '.$data['accountName'],
                 ];
-                $model_log->insert($log);
+                $log_entity = new UserLog($log);
+                $model_log->insert($log_entity);
                 $session->setFlashdata('success', 'La cuenta se registro correctamente');
                 return redirect()->to(site_url('passwords/passwordManager'));
             }
@@ -199,7 +201,8 @@ class PasswordsController extends BaseController{
                     'id_user' => $session->id_user,
                     'action' => 'edito la cuenta de '.$data['typeAccount'].' con el nombre de '.$data['accountName'],
                 ];
-                $model_log->insert($log);
+                $log_entity = new UserLog($log);
+                $model_log->insert($log_entity);
                 $session->setFlashdata('success', 'La cuenta se actualizo correctamente');
                 return redirect()->to(site_url('passwords/passwordManager'));
             }
@@ -212,6 +215,8 @@ class PasswordsController extends BaseController{
     }
     //UserController::deletePassword/$1
     public function deletePassword($id_password){
+        var_dump($id_password);
+        exit();
         $session = session();
         $uniquePassword = $session->getTempdata('uniquePassword');
         $token = $session->getTempdata('token');
@@ -228,7 +233,8 @@ class PasswordsController extends BaseController{
                     'id_user' => $session->id_user,
                     'action' => 'elimino la cuenta de '.$password['typeAccount'].' con el nombre de '.$password['accountName'],
                 ];
-                $model_log->insert($log);
+                $log_entity = new UserLog($log);
+                $model_log->insert($log_entity);
                 $session->setFlashdata('success', 'La cuenta se elimino correctamente');
                 return redirect()->to(site_url('passwords/passwordManager'));
             }
