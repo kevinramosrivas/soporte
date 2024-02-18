@@ -83,6 +83,24 @@
           </li>
         </ul>
     </li>
+    <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tasks-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-card-checklist"></i><span>Tareas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tasks-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="<?=base_url('tasks/tasks')?>">
+              <span>Tareas</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('tasks/tasksCompleted')?>">
+              <span>Tareas completadas</span>
+            </a>
+          </li>
+        </ul>
+    </li>
+
       
       
 

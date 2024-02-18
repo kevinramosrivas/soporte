@@ -145,7 +145,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
         </div>
     </div>
 
-</section>
+    </section>
+</main>
 
 <?=$this->include('Layouts/footer')?>
 <?=$this->endSection()?>

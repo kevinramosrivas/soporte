@@ -124,7 +124,8 @@ class UsersController extends BaseController
                 unset($data['password']);
             }
             $model = model('UserModel');
-            $model->update($data['id_user'], $data);
+            $user = new User($data);
+            $model->update($data['id_user'], $user);
             //añadir al user log
             $log_model = model('UserLogModel');
             $log = [

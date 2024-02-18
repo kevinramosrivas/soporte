@@ -85,6 +85,38 @@ $routes->group('users', ['namespace' => 'App\Controllers'], function ($routes) {
 });
 
 
+#Rutas para TasksController
+$routes->group('tasks', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('hola', 'TasksController::hola');
+    $routes->get('tasks', 'TasksController::tasks');
+    $routes->post('registerTask', 'TasksController::registerTask');
+    $routes->post('editTask', 'TasksController::editTask');
+    $routes->post('deleteTask', 'TasksController::deleteTask');
+    $routes->post('searchTask', 'TasksController::searchTask');
+    $routes->post('restoreTask', 'TasksController::restoreTask');
+    $routes->post('registerComment', 'TasksController::registerComment');
+    $routes->post('deleteComment', 'TasksController::deleteComment');
+    $routes->post('editComment', 'TasksController::editComment');
+    $routes->post('searchComment', 'TasksController::searchComment');
+    $routes->post('restoreComment', 'TasksController::restoreComment');
+    $routes->post('changeStatus', 'TasksController::changeStatus');
+    $routes->post('searchTaskByStatus', 'TasksController::searchTaskByStatus');
+    $routes->post('searchTaskByUser', 'TasksController::searchTaskByUser');
+    $routes->post('searchTaskByDate', 'TasksController::searchTaskByDate');
+    $routes->post('searchTaskByTitle', 'TasksController::searchTaskByTitle');
+    $routes->post('searchTaskByDescription', 'TasksController::searchTaskByDescription');
+    $routes->post('searchTaskByAssignedTo', 'TasksController::searchTaskByAssignedTo');
+    $routes->post('searchTaskByFollowupCode', 'TasksController::searchTaskByFollowupCode');
+    $routes->post('searchTaskByUserAndStatus', 'TasksController::searchTaskByUserAndStatus');
+    $routes->post('searchTaskByUserAndDate', 'TasksController::searchTaskByUserAndDate');
+    $routes->post('searchTaskByUserAndTitle', 'TasksController::searchTaskByUserAndTitle');
+    $routes->post('searchTaskByUserAndDescription', 'TasksController::searchTaskByUserAndDescription');
+    $routes->post('searchTaskByUserAndAssignedTo', 'TasksController::searchTaskByUserAndAssignedTo');
+    $routes->post('searchTaskByUserAndFollowupCode', 'TasksController::searchTaskByUserAndFollowupCode');
+
+});
+
+
 
 
 
