@@ -91,7 +91,8 @@ $routes->group('tasks', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->get('tasks', 'TasksController::tasks');
     $routes->post('registerTask', 'TasksController::registerTask');
     $routes->post('editTask', 'TasksController::editTask');
-    $routes->post('deleteTask', 'TasksController::deleteTask');
+    //se pasa el id de la tarea a eliminar que es un string que es un id numerico
+    $routes->get('deleteTask/(:num)', 'TasksController::deleteTask/$1');
     $routes->post('searchTask', 'TasksController::searchTask');
     $routes->post('restoreTask', 'TasksController::restoreTask');
     $routes->post('registerComment', 'TasksController::registerComment');

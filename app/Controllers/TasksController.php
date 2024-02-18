@@ -24,10 +24,6 @@ class TasksController extends BaseController
             $tasks_open = $model->getTasksOpen();
             $tasks_closed = $model->getTasksClosed();
             $tasks_in_progress = $model->getTasksInProgress();
-            //separar en un array todos los usuarios de las tareas abiertas, ya que estos estan separados por comas
-            foreach ($tasks_open as $task) {
-                $task['username'] = explode(',', $task['username']);
-            }
 
             $data = [
                 'users' => $users,
@@ -95,13 +91,16 @@ class TasksController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
-    public function deleteTask()
+    public function deleteTask($id_task)
     {
         $session = session();
         $verify = VerifyAdmin::verifyUser($session);
         if ($verify){
+            //borrar primero de la tabla task_user
+            $model = model('TaskUserModel');
+            $model->where('id_task', $id_task)->delete();
             $model = model('TaskModel');
-            $model->delete($this->request->getPost('id_task'));
+            $model->delete($id_task);
             return redirect()->to(site_url('tasks/tasks'));
         } else {
             return redirect()->to(site_url('login'));

@@ -142,7 +142,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                 <div class="list-group">
                                                     <p class="card-subtitle mb-1">Creado: <span class="badge bg-primary"><?=$task['created_at']?></span></p>
                                                     <p class="card-subtitle mb-1">Actualizado: <span class="badge bg-success"><?=$task['updated_at']?></span></p>
-                                                    <p class="card-subtitle mb-1"><span class="badge bg-info"><?=$task['requesting_unit']?></span></p>
+                                                    <p class="card-subtitle mb-1"><span class="badge bg-dark"><?=$task['requesting_unit']?></span></p>
                                                 </div>
                                                 <p class="card-text"><?=$task['description']?></p>
                                                 <h6 class="card-subtitle mb-2 text-body-secondary">Asignado a:
@@ -187,7 +187,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                     <p><?=$task['description']?></p>
                                                                 </li>
                                                                 <li class="list-group-item">Estado: <span class="badge bg-secondary">Pendiente</span></li>
-                                                                <li class="list-group-item">Unidad solicitante: <span class="badge bg-info"><?=$task['requesting_unit']?></span></li>
+                                                                <li class="list-group-item">Unidad solicitante: <span class="badge bg-dark"><?=$task['requesting_unit']?></span></li>
                                                                 <li class="list-group-item">Fecha de creación: <span class="badge bg-primary"><?=$task['created_at']?></span></li>
                                                                 <li class="list-group-item">Fecha de actualización: <span class="badge bg-success"><?=$task['updated_at']?></span></li>
                                                                 <li class="list-group-item">
@@ -234,6 +234,10 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         </div>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
+                            <?php else:?>
+                                <div class="alert alert-warning" role="alert">
+                                    No hay tareas pendientes
+                                </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -264,7 +268,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                 <div class="list-group">
                                                     <p class="card-subtitle mb-1">Creado: <span class="badge bg-primary"><?=$task['created_at']?></span></p>
                                                     <p class="card-subtitle mb-1">Actualizado: <span class="badge bg-success"><?=$task['updated_at']?></span></p>
-                                                    <p class="card-subtitle mb-1"><span class="badge bg-info"><?=$task['requesting_unit']?></span></p>
+                                                    <p class="card-subtitle mb-1"><span class="badge bg-dark"><?=$task['requesting_unit']?></span></p>
                                                 </div>
                                                 <p class="card-text"><?=$task['description']?></p>
                                                 <h6 class="card-subtitle mb-2 text-body-secondary">Asignado a:
@@ -311,7 +315,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <p><?=$task['description']?></p>
                                                                     </li>
                                                                     <li class="list-group-item">Estado: <span class="badge bg-secondary">Pendiente</span></li>
-                                                                    <li class="list-group-item">Unidad solicitante: <span class="badge bg-info"><?=$task['requesting_unit']?></span></li>
+                                                                    <li class="list-group-item">Unidad solicitante: <span class="badge bg-dark"><?=$task['requesting_unit']?></span></li>
                                                                     <li class="list-group-item">Fecha de creación: <span class="badge bg-primary"><?=$task['created_at']?></span></li>
                                                                     <li class="list-group-item">Fecha de actualización: <span class="badge bg-success"><?=$task['updated_at']?></span></li>
                                                                     <li class="list-group-item">
@@ -391,7 +395,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                 <div class="list-group">
                                                     <p class="card-subtitle mb-1">Creado: <span class="badge bg-primary"><?=$task['created_at']?></span></p>
                                                     <p class="card-subtitle mb-1">Actualizado: <span class="badge bg-success"><?=$task['updated_at']?></span></p>
-                                                    <p class="card-subtitle mb-1"><span class="badge bg-info"><?=$task['requesting_unit']?></span></p>
+                                                    <p class="card-subtitle mb-1"><span class="badge bg-dark"><?=$task['requesting_unit']?></span></p>
                                                 </div>
                                                 <p class="card-text"><?=$task['description']?></p>
                                                 <h6 class="card-subtitle mb-2 text-body-secondary">Asignado a:
@@ -435,15 +439,15 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <p><?=$task['description']?></p>
                                                                     </li>
                                                                     <li class="list-group-item">Estado: <span class="badge bg-secondary">Pendiente</span></li>
-                                                                    <li class="list-group-item">Unidad solicitante: <span class="badge bg-info"><?=$task['requesting_unit']?></span></li>
+                                                                    <li class="list-group-item">Unidad solicitante: <span class="badge bg-dark"><?=$task['requesting_unit']?></span></li>
                                                                     <li class="list-group-item">Fecha de creación: <span class="badge bg-primary"><?=$task['created_at']?></span></li>
                                                                     <li class="list-group-item">Fecha de actualización: <span class="badge bg-success"><?=$task['updated_at']?></span></li>
                                                                     <li class="list-group-item">
                                                                         Asignado a:
                                                                         <br>
-                                                                        <?php foreach ($task_inprogress_users as $task_inprogress_user) :?>
-                                                                            <button type="button" class="btn btn-link p-0 m-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="<?=$task_inprogress_user?>">
-                                                                                <img src="https://ui-avatars.com/api/?name=<?=$task_inprogress_user?>&background=random" alt="" class="rounded-circle" width="30" heigth="30">
+                                                                        <?php foreach ($task_closed_users  as $task_closed_user) :?>
+                                                                            <button type="button" class="btn btn-link p-0 m-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="<?=$task_closed_user?>">
+                                                                                <img src="https://ui-avatars.com/api/?name=<?=$task_closed_user?>&background=random" alt="" class="rounded-circle" width="30" heigth="30">
                                                                             </button>
                                                                         <?php endforeach; ?>
                                                                     </li>
