@@ -200,11 +200,14 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                     <?php endforeach; ?>
                                                                 </li>
                                                                 <div class="row text-center">
-                                                                        <div class="col-6 p-3">
+                                                                    <div class="col-4 p-3">
                                                                             <a href="<?=base_url('tasks/editTask/'.$task['id_task'])?>" class="btn btn-primary">Editar</a>
                                                                         </div>
-                                                                        <div class="col-6 p-3">
+                                                                        <div class="col-4 p-3">
                                                                             <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger">Eliminar</a>
+                                                                        </div>
+                                                                        <div class="col-4 p-3">
+                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary">Comentarios</a>
                                                                         </div>
                                                                 </div>
                     
@@ -321,11 +324,14 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <?php endforeach; ?>
                                                                     </li>
                                                                     <div class="row text-center">
-                                                                        <div class="col-6 p-3">
+                                                                        <div class="col-4 p-3">
                                                                             <a href="<?=base_url('tasks/editTask/'.$task['id_task'])?>" class="btn btn-primary">Editar</a>
                                                                         </div>
-                                                                        <div class="col-6 p-3">
+                                                                        <div class="col-4 p-3">
                                                                             <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger">Eliminar</a>
+                                                                        </div>
+                                                                        <div class="col-4 p-3">
+                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary">Comentarios</a>
                                                                         </div>
                                                                     </div>
                         
@@ -442,11 +448,14 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <?php endforeach; ?>
                                                                     </li>
                                                                     <div class="row text-center">
-                                                                        <div class="col-6 p-3">
+                                                                        <div class="col-4 p-3">
                                                                             <a href="<?=base_url('tasks/editTask/'.$task['id_task'])?>" class="btn btn-primary">Editar</a>
                                                                         </div>
-                                                                        <div class="col-6 p-3">
+                                                                        <div class="col-4 p-3">
                                                                             <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger">Eliminar</a>
+                                                                        </div>
+                                                                        <div class="col-4 p-3">
+                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary">Comentarios</a>
                                                                         </div>
                                                                     </div>
                         
