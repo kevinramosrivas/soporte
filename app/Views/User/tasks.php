@@ -108,6 +108,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                     </ul>
                                     </div>
                                 </div>
+                            </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -199,15 +200,18 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         </button>
                                                                     <?php endforeach; ?>
                                                                 </li>
-                                                                <div class="row text-center">
-                                                                    <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/editTask/'.$task['id_task'])?>" class="btn btn-primary">Editar</a>
+                                                                <div class="row text-center p-2">
+                                                                        <div class="col-4 p-3">
+                                                                            <!-- Button trigger modal -->
+                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
+                                                                                <i class="bi bi-pencil-square"></i>
+                                                                            </button>
                                                                         </div>
                                                                         <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger">Eliminar</a>
+                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
                                                                         </div>
                                                                         <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary">Comentarios</a>
+                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                         </div>
                                                                 </div>
                     
@@ -217,11 +221,82 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         </div>
                                                         </div>
                                                     </div>
+                                                    <div class="modal fade" id="editTaskModal<?=$task['id_task']?>" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar tarea</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="<?=base_url('tasks/editTask/'.$task['id_task'])?>" method="post" id="editTaskForm<?=$task['id_task']?>">
+                                                                    <div class="mb-3">
+                                                                        <label for="title" class="form-label">Título</label>
+                                                                        <input type="text" class="form-control" id="title" name="title" value="<?=$task['title']?>" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="description" class="form-label">Descripción</label>
+                                                                        <textarea class="form-control" id="description" name="description" required><?=$task['description']?></textarea>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="requesting_unit" class="form-label">Unidad solicitante</label>
+                                                                        <select class="form-select" id="requesting_unit" name="requesting_unit" required>
+                                                                            <option value="Unidad de Posgrado">Unidad de Posgrado</option>
+                                                                            <option value="Instituto de Investigación">Instituto de Investigación</option>
+                                                                            <option value="Centro de Producción">Centro de Producción</option>
+                                                                            <option value="Dpto. Académico de Ingeniería de Software">Dpto. Académico de Ingeniería de Software</option>
+                                                                            <option value="Dpto. Académico de Ingeniería de Sistemas">Dpto. Académico de Ingeniería de Sistemas</option>
+                                                                            <option value="CERSEU">CERSEU</option>
+                                                                            <option value="DACC">DACC</option>
+                                                                            <option value="Dirección Administrativa">Dirección Administrativa</option>
+                                                                            <option value="Decanato">Decanato</option>
+                                                                            <option value="Unidad de Estadistica e Informática">Unidad de Estadistica e Informática</option>
+                                                                            <option value="Unidad de Matricula">Unidad de Matricula</option>
+                                                                            <!--unidad de publicaciones-->
+                                                                            <option value="Unidad de Publicaciones">Unidad de Publicaciones</option>
+                                                                            <!--unidad de bienestar universitario-->
+                                                                            <option value="Unidad de Bienestar Universitario">Unidad de Bienestar Universitario</option>
+                                                                            <!--unidad de personal-->
+                                                                            <option value="Unidad de Personal">Unidad de Personal</option>
+                                                                            <!--USGOM-->
+                                                                            <option value="USGOM">USGOM</option>
+                                                                            <!--UNIDAD DE BIBLIOTECA-->
+                                                                            <option value="Unidad de Biblioteca">Unidad de Biblioteca</option>
+                                                                            <!--UNAYOE-->
+                                                                            <option value="UNAYOE">UNAYOE</option>
+                                                                            <!-- UNIDAD DE PLANIFICACION -->
+                                                                            <option value="Unidad de Planificación">Unidad de Planificación</option>
+                                                                            <!--UNIDAD DE TRAMITE DOCUMENTARIO-->
+                                                                            <option value="Unidad de Trámite Documentario">Unidad de Trámite Documentario</option>
+                                                                            <!--UNIDAD DE ECONOMIA-->
+                                                                            <option value="Unidad de Economía">Unidad de Economía</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="assigned_to" class="form-label
+                                                                        ">Asignar a</label>
+                                                                        <select class="form-select" id="assigned_to" name="assigned_to[]" required multiple>
+                                                                            <?php foreach ($users as $user) : ?>
+                                                                                <option value="<?=$user['id_user']?>"><?=$user['username']?></option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary" form="editTaskForm<?=$task['id_task']?>">Guardar</button>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
                                                 </div>
                                                 <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
                                                 <div class="col-6">
                                                     <div class="m-2">
                                                         <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>)" required>
+                                                            <option value="value" selected>Estado</option>
                                                             <option value="open">Pendiente</option>
                                                             <option value="in_progress">En progreso</option>
                                                             <option value="closed">Terminada</option>
@@ -327,15 +402,18 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                             </button>
                                                                         <?php endforeach; ?>
                                                                     </li>
-                                                                    <div class="row text-center">
+                                                                    <div class="row text-center p-2">
                                                                         <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/editTask/'.$task['id_task'])?>" class="btn btn-primary">Editar</a>
+                                                                            <!-- Button trigger modal -->
+                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
+                                                                                <i class="bi bi-pencil-square"></i>
+                                                                            </button>
                                                                         </div>
                                                                         <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger">Eliminar</a>
+                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
                                                                         </div>
                                                                         <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary">Comentarios</a>
+                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                         </div>
                                                                     </div>
                         
@@ -345,11 +423,82 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                             </div>
                                                             </div>
                                                         </div>
+                                                        <div class="modal fade" id="editTaskModal<?=$task['id_task']?>" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar tarea</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="<?=base_url('tasks/editTask/'.$task['id_task'])?>" method="post" id="editTaskForm<?=$task['id_task']?>">
+                                                                    <div class="mb-3">
+                                                                        <label for="title" class="form-label">Título</label>
+                                                                        <input type="text" class="form-control" id="title" name="title" value="<?=$task['title']?>" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="description" class="form-label">Descripción</label>
+                                                                        <textarea class="form-control" id="description" name="description" required><?=$task['description']?></textarea>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="requesting_unit" class="form-label">Unidad solicitante</label>
+                                                                        <select class="form-select" id="requesting_unit" name="requesting_unit" required>
+                                                                            <option value="Unidad de Posgrado">Unidad de Posgrado</option>
+                                                                            <option value="Instituto de Investigación">Instituto de Investigación</option>
+                                                                            <option value="Centro de Producción">Centro de Producción</option>
+                                                                            <option value="Dpto. Académico de Ingeniería de Software">Dpto. Académico de Ingeniería de Software</option>
+                                                                            <option value="Dpto. Académico de Ingeniería de Sistemas">Dpto. Académico de Ingeniería de Sistemas</option>
+                                                                            <option value="CERSEU">CERSEU</option>
+                                                                            <option value="DACC">DACC</option>
+                                                                            <option value="Dirección Administrativa">Dirección Administrativa</option>
+                                                                            <option value="Decanato">Decanato</option>
+                                                                            <option value="Unidad de Estadistica e Informática">Unidad de Estadistica e Informática</option>
+                                                                            <option value="Unidad de Matricula">Unidad de Matricula</option>
+                                                                            <!--unidad de publicaciones-->
+                                                                            <option value="Unidad de Publicaciones">Unidad de Publicaciones</option>
+                                                                            <!--unidad de bienestar universitario-->
+                                                                            <option value="Unidad de Bienestar Universitario">Unidad de Bienestar Universitario</option>
+                                                                            <!--unidad de personal-->
+                                                                            <option value="Unidad de Personal">Unidad de Personal</option>
+                                                                            <!--USGOM-->
+                                                                            <option value="USGOM">USGOM</option>
+                                                                            <!--UNIDAD DE BIBLIOTECA-->
+                                                                            <option value="Unidad de Biblioteca">Unidad de Biblioteca</option>
+                                                                            <!--UNAYOE-->
+                                                                            <option value="UNAYOE">UNAYOE</option>
+                                                                            <!-- UNIDAD DE PLANIFICACION -->
+                                                                            <option value="Unidad de Planificación">Unidad de Planificación</option>
+                                                                            <!--UNIDAD DE TRAMITE DOCUMENTARIO-->
+                                                                            <option value="Unidad de Trámite Documentario">Unidad de Trámite Documentario</option>
+                                                                            <!--UNIDAD DE ECONOMIA-->
+                                                                            <option value="Unidad de Economía">Unidad de Economía</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="assigned_to" class="form-label
+                                                                        ">Asignar a</label>
+                                                                        <select class="form-select" id="assigned_to" name="assigned_to[]" required multiple>
+                                                                            <?php foreach ($users as $user) : ?>
+                                                                                <option value="<?=$user['id_user']?>"><?=$user['username']?></option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary" form="editTaskForm<?=$task['id_task']?>">Guardar</button>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
                                                     </div>
                                                     <div class="col-6">
                                                                                                         <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
                                                         <div class="m-2">
                                                             <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>)" required>
+                                                                <option value="value" selected>Estado</option>
                                                                 <option value="open">Pendiente</option>
                                                                 <option value="in_progress">En progreso</option>
                                                                 <option value="closed">Terminada</option>
@@ -420,7 +569,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskDetailModal<?=$task['followup_uuid_code']?>">
                                                             Ver detalles
                                                         </button>
-                                                        <div class="modal fade" id="taskDetailModal<?=$task['followup_uuid_code']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="taskDetailModal<?=$task['followup_uuid_code']?>" tabindex="-" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -451,15 +600,18 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                             </button>
                                                                         <?php endforeach; ?>
                                                                     </li>
-                                                                    <div class="row text-center">
+                                                                    <div class="row text-center p-2">
                                                                         <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/editTask/'.$task['id_task'])?>" class="btn btn-primary">Editar</a>
+                                                                            <!-- Button trigger modal -->
+                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
+                                                                                <i class="bi bi-pencil-square"></i>
+                                                                            </button>
                                                                         </div>
                                                                         <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger">Eliminar</a>
+                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
                                                                         </div>
                                                                         <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary">Comentarios</a>
+                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                         </div>
                                                                     </div>
                         
@@ -469,11 +621,84 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                             </div>
                                                             </div>
                                                         </div>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editTaskModal<?=$task['id_task']?>" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar tarea</h1>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form action="<?=base_url('tasks/editTask/'.$task['id_task'])?>" method="post" id="editTaskForm<?=$task['id_task']?>">
+                                                                            <div class="mb-3">
+                                                                                <label for="title" class="form-label">Título</label>
+                                                                                <input type="text" class="form-control" id="title" name="title" value="<?=$task['title']?>" required>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="description" class="form-label">Descripción</label>
+                                                                                <textarea class="form-control" id="description" name="description" required><?=$task['description']?></textarea>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="requesting_unit" class="form-label">Unidad solicitante</label>
+                                                                                <select class="form-select" id="requesting_unit" name="requesting_unit" required>
+                                                                                    <option value="Unidad de Posgrado">Unidad de Posgrado</option>
+                                                                                    <option value="Instituto de Investigación">Instituto de Investigación</option>
+                                                                                    <option value="Centro de Producción">Centro de Producción</option>
+                                                                                    <option value="Dpto. Académico de Ingeniería de Software">Dpto. Académico de Ingeniería de Software</option>
+                                                                                    <option value="Dpto. Académico de Ingeniería de Sistemas">Dpto. Académico de Ingeniería de Sistemas</option>
+                                                                                    <option value="CERSEU">CERSEU</option>
+                                                                                    <option value="DACC">DACC</option>
+                                                                                    <option value="Dirección Administrativa">Dirección Administrativa</option>
+                                                                                    <option value="Decanato">Decanato</option>
+                                                                                    <option value="Unidad de Estadistica e Informática">Unidad de Estadistica e Informática</option>
+                                                                                    <option value="Unidad de Matricula">Unidad de Matricula</option>
+                                                                                    <!--unidad de publicaciones-->
+                                                                                    <option value="Unidad de Publicaciones">Unidad de Publicaciones</option>
+                                                                                    <!--unidad de bienestar universitario-->
+                                                                                    <option value="Unidad de Bienestar Universitario">Unidad de Bienestar Universitario</option>
+                                                                                    <!--unidad de personal-->
+                                                                                    <option value="Unidad de Personal">Unidad de Personal</option>
+                                                                                    <!--USGOM-->
+                                                                                    <option value="USGOM">USGOM</option>
+                                                                                    <!--UNIDAD DE BIBLIOTECA-->
+                                                                                    <option value="Unidad de Biblioteca">Unidad de Biblioteca</option>
+                                                                                    <!--UNAYOE-->
+                                                                                    <option value="UNAYOE">UNAYOE</option>
+                                                                                    <!-- UNIDAD DE PLANIFICACION -->
+                                                                                    <option value="Unidad de Planificación">Unidad de Planificación</option>
+                                                                                    <!--UNIDAD DE TRAMITE DOCUMENTARIO-->
+                                                                                    <option value="Unidad de Trámite Documentario">Unidad de Trámite Documentario</option>
+                                                                                    <!--UNIDAD DE ECONOMIA-->
+                                                                                    <option value="Unidad de Economía">Unidad de Economía</option>
+
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="assigned_to" class="form-label
+                                                                                ">Asignar a</label>
+                                                                                <select class="form-select" id="assigned_to" name="assigned_to[]" required multiple>
+                                                                                    <?php foreach ($users as $user) : ?>
+                                                                                        <option value="<?=$user['id_user']?>"><?=$user['username']?></option>
+                                                                                    <?php endforeach; ?>
+                                                                                </select>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary" form="editTaskForm<?=$task['id_task']?>">Guardar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="col-6">
                                                                                                         <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
                                                         <div class="m-2">
                                                             <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>)" required>
+                                                                <!-- valor por defecto con la palabra seleccionar-->
+                                                                <option value="value" selected>Estado</option>
                                                                 <option value="open">Pendiente</option>
                                                                 <option value="in_progress">En progreso</option>
                                                                 <option value="closed">Terminada</option>
@@ -515,4 +740,5 @@ if($session->type == 'ADMINISTRADOR'): ?>
 <link href="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/v/bs5/dt-1.13.7/datatables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<?=base_url('assets/js/user/tasks.js')?>"></script>
 <?=$this->endSection()?>

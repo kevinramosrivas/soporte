@@ -72,21 +72,37 @@ class TasksController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
-    public function editTask()
+    public function editTask($id_task)
     {
         $session = session();
         $verify = VerifyAdmin::verifyUser($session);
         if ($verify){
-            $model = model('TaskModel');
+            //recuperar la información de la tarea de post
             $data = [
-                'id_task' => $this->request->getPost('id_task'),
                 'title' => $this->request->getPost('title'),
                 'description' => $this->request->getPost('description'),
-                'status' => $this->request->getPost('status'),
+                'requesting_unit' => $this->request->getPost('requesting_unit'),
                 'assigned_to' => $this->request->getPost('assigned_to'),
             ];
-            $model->save($data);
+            //actualizar la tarea
+            $model = model('TaskModel');
+            $model->update($id_task, $data);
+            //actualizar la tabla task_user
+            $model = model('TaskUserModel');
+            //borrar primero de la tabla task_user
+            $model->where('id_task', $id_task)->delete();
+            //descomponer el array de usuarios recibido em assigned_to
+            $assigned_to = $data['assigned_to'];
+            //recorrer el array de usuarios y guardarlos en la tabla task_user
+            foreach ($assigned_to as $id_user) {
+                $data = [
+                    'id_task' => $id_task,
+                    'id_user' => $id_user,
+                ];
+                $model->insert($data);
+            }
             return redirect()->to(site_url('tasks/tasks'));
+
         } else {
             return redirect()->to(site_url('login'));
         }
@@ -105,6 +121,16 @@ class TasksController extends BaseController
         } else {
             return redirect()->to(site_url('login'));
         }
+    }
+    public function changeStatus($id_task)
+    {
+        $session = session();
+        $model = model('TaskModel');
+        //recuperar el valor recibido en la petición
+        $status = $this->request->getPost('status');
+        //cambiar el estado de la tarea
+        $response = $model->changeStatus($id_task, $status);
+        return  $response;
     }
     public function searchTask()
     {

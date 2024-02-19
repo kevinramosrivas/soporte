@@ -12,6 +12,19 @@ class TaskModel extends Model
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
 
+    public function changeStatus($id_task, $status)
+    {
+        $task = $this->where('id_task', $id_task)->first();
+        if($task != null){
+            $task['status'] = $status;
+            $result = $this->save($task);
+            if($result){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public function getTasksOpen()
     {
