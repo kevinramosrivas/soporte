@@ -124,13 +124,20 @@ class TasksController extends BaseController
     }
     public function changeStatus($id_task)
     {
-        $session = session();
+        $data = [
+            'status' => $this->request->getPost('status'),
+        ];
         $model = model('TaskModel');
-        //recuperar el valor recibido en la petición
-        $status = $this->request->getPost('status');
-        //cambiar el estado de la tarea
-        $response = $model->changeStatus($id_task, $status);
-        return  $response;
+        //ver si existe la tarea con el id recibido
+        $task = $model->getTaskById($id_task);
+        if($task != null){
+            $model->update($id_task, $data);
+            //retornar valor de 200
+            return $this->response->setStatusCode(200);
+        } else {
+            //retornar valor de 404
+            return $this->response->setStatusCode(404);
+        }
     }
     public function searchTask()
     {

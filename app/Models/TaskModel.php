@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use CodeIgniter\Model;
+use App\Entities\Task;
 
 class TaskModel extends Model
 {
@@ -12,17 +13,13 @@ class TaskModel extends Model
     protected $createdField = 'created_at';
     protected $updatedField = 'updated_at';
 
-    public function changeStatus($id_task, $status)
+    public function getTaskByID($id_task)
     {
         $task = $this->where('id_task', $id_task)->first();
         if($task != null){
-            $task['status'] = $status;
-            $result = $this->save($task);
-            if($result){
-                return true;
-            }
+            return $task;
         }
-        return false;
+        return null;
     }
 
 
@@ -94,14 +91,7 @@ class TaskModel extends Model
         }
         return null;
     }
-    public function getTaskById($id_task)
-    {
-        $task = $this->where('id_task', $id_task)->first();
-        if($task != null){
-            return $task;
-        }
-        return null;
-    }
+
     public function getTaskByTitle($title)
     {
         $task = $this->where('title', $title)->first();

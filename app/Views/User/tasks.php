@@ -297,7 +297,6 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                     <div class="m-2">
                                                         <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>)" required>
                                                             <option value="value" selected>Estado</option>
-                                                            <option value="open">Pendiente</option>
                                                             <option value="in_progress">En progreso</option>
                                                             <option value="closed">Terminada</option>
                                                         </select>
@@ -500,7 +499,6 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                             <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>)" required>
                                                                 <option value="value" selected>Estado</option>
                                                                 <option value="open">Pendiente</option>
-                                                                <option value="in_progress">En progreso</option>
                                                                 <option value="closed">Terminada</option>
                                                             </select>
                                                         </div>
@@ -701,7 +699,6 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                 <option value="value" selected>Estado</option>
                                                                 <option value="open">Pendiente</option>
                                                                 <option value="in_progress">En progreso</option>
-                                                                <option value="closed">Terminada</option>
                                                             </select>
                                                         </div>
 
