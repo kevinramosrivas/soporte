@@ -26,12 +26,12 @@ class TaskModel extends Model
     public function getTasksOpen()
     {
         //obtener todas las tareas abiertas ordenadas por fecha de creación de forma descendente
-        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username , GROUP_CONCAT(user.id_user) as id_users
         FROM tasks
         INNER JOIN task_user ON tasks.id_task = task_user.id_task
         LEFT JOIN user ON task_user.id_user = user.id_user
         WHERE status = 'open'
-        GROUP BY tasks.id_task ORDER BY created_at DESC;
+        GROUP BY tasks.id_task ORDER BY created_at ASC;
         ";
         $tasks = $this->query($sql)->getResultArray();        
         if($tasks != null){
@@ -39,15 +39,17 @@ class TaskModel extends Model
         }
         return null;
     }
+    
+
     public function getTasksClosed()
     {
         //limitar la cantidad de tareas cerradas a 10 y que sean las más recientes ordenadas por fecha de creación de forma descendente
-        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
         FROM tasks
         INNER JOIN task_user ON tasks.id_task = task_user.id_task
         LEFT JOIN user ON task_user.id_user = user.id_user
         WHERE status = 'closed'
-        GROUP BY tasks.id_task ORDER BY created_at DESC LIMIT 10";
+        GROUP BY tasks.id_task ORDER BY created_at ASC LIMIT 5";
         $tasks = $this->query($sql)->getResultArray();        
         if($tasks != null){
             return $tasks;
@@ -57,14 +59,104 @@ class TaskModel extends Model
     public function getTasksInProgress()
     {
         //obtener todas las tareas en progreso
-        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
         FROM tasks
         INNER JOIN task_user ON tasks.id_task = task_user.id_task
         LEFT JOIN user ON task_user.id_user = user.id_user
         WHERE status = 'in_progress'
-        GROUP BY tasks.id_task ORDER BY created_at DESC;
+        GROUP BY tasks.id_task ORDER BY created_at ASC;
         ";
         $tasks = $this->query($sql)->getResultArray();        
+        if($tasks != null){
+            return $tasks;
+        }
+        return null;
+    }
+    public function searchClosedTaskByDate($data)
+    {
+        //separar la fecha en mes y año
+        $date = explode('-', $data['date']);
+        $data['year'] = $date[0];
+        $data['month'] = $date[1];
+        //buscar tareas cerradas que se hayan actualizado el mes y año especificado
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
+        FROM tasks
+        INNER JOIN task_user ON tasks.id_task = task_user.id_task
+        LEFT JOIN user ON task_user.id_user = user.id_user
+        WHERE status = 'closed' AND YEAR(tasks.updated_at) = ? AND MONTH(tasks.updated_at) = ?
+        GROUP BY tasks.id_task ORDER BY created_at ASC;
+        ";
+        $tasks = $this->query($sql, [$data['year'], $data['month']])->getResultArray();
+        if($tasks != null){
+            return $tasks;
+        }
+        return null;
+    }
+    public function getTasksOpenByUser($id_user)
+    {
+        //obtener todas las tareas abiertas asignadas a un usuario se pasa el uuid del usuario
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
+        FROM tasks
+        INNER JOIN task_user ON tasks.id_task = task_user.id_task
+        LEFT JOIN user ON task_user.id_user = user.id_user
+        WHERE status = 'open' AND task_user.id_user = ?
+        GROUP BY tasks.id_task ORDER BY created_at ASC;
+        ";
+        $tasks = $this->query($sql, [$id_user])->getResultArray();
+        if($tasks != null){
+            return $tasks;
+        }
+        return null;
+    }
+
+    public function getTasksClosedByUser($id_user)
+    {
+        //obtener todas las tareas cerradas asignadas a un usuario se pasa el uuid del usuario
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
+        FROM tasks
+        INNER JOIN task_user ON tasks.id_task = task_user.id_task
+        LEFT JOIN user ON task_user.id_user = user.id_user
+        WHERE status = 'closed' AND task_user.id_user = ?
+        GROUP BY tasks.id_task ORDER BY created_at ASC LIMIT 10;
+        ";
+        $tasks = $this->query($sql, [$id_user])->getResultArray();
+        if($tasks != null){
+            return $tasks;
+        }
+        return null;
+    }
+    public function searchClosedTaskByDateAndUser($data)
+    {
+        //separar la fecha en mes y año
+        $date = explode('-', $data['date']);
+        $data['year'] = $date[0];
+        $data['month'] = $date[1];
+        //buscar tareas cerradas que se hayan actualizado el mes y año especificado y que estén asignadas a un usuario
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
+        FROM tasks
+        INNER JOIN task_user ON tasks.id_task = task_user.id_task
+        LEFT JOIN user ON task_user.id_user = user.id_user
+        WHERE status = 'closed' AND YEAR(tasks.updated_at) = ? AND MONTH(tasks.updated_at) = ? AND task_user.id_user = ?
+        GROUP BY tasks.id_task ORDER BY created_at ASC;
+        ";
+        $tasks = $this->query($sql, [$data['year'], $data['month'], $data['id_user']])->getResultArray();
+        if($tasks != null){
+            return $tasks;
+        }
+        return null;
+    }
+
+    public function getTasksInProgressByUser($id_user)
+    {
+        //obtener todas las tareas en progreso asignadas a un usuario se pasa el uuid del usuario
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
+        FROM tasks
+        INNER JOIN task_user ON tasks.id_task = task_user.id_task
+        LEFT JOIN user ON task_user.id_user = user.id_user
+        WHERE status = 'in_progress' AND task_user.id_user = ?
+        GROUP BY tasks.id_task ORDER BY created_at ASC;
+        ";
+        $tasks = $this->query($sql, [$id_user])->getResultArray();
         if($tasks != null){
             return $tasks;
         }

@@ -54,7 +54,30 @@
             </a>
           </li>
         </ul>
-    </li>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#tasks-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-card-checklist"></i><span>Tareas</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="tasks-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="<?=base_url('tasks/tasks')?>">
+              <span>Tareas</span>
+            </a>
+          </li>
+          <li>
+            <!--pasar como enlace el id del usuario-->
+            <a href="<?=base_url('tasks/myTasks')?>/<?=session()->get('id_user')?>">
+              <span>Mis tareas</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('tasks/myClosedTasks')?>/<?=session()->get('id_user')?>">
+              <span>Tareas completadas</span>
+            </a>
+          </li>
+        </ul>
+      </li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="<?=base_url('profiles/profile')?>">
           <i class="bi bi-person"></i>

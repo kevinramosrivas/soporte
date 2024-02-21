@@ -126,11 +126,11 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        <h2><span class="badge bg-secondary">Pendientes</span></h2>
+                    <button class="accordion-button" id="button_collapse_open_tasks" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_open_tasks" aria-expanded="true" aria-controls="collapse_open_tasks">
+                        <h2><span class="badge bg-secondary">Pendientes 📍</span></h2>
                     </button>
                     </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div id="collapse_open_tasks" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <div class="tasks-container" id="pendingTasks">
                             <?php if (isset($tasks_open)):?>
@@ -139,8 +139,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         <div class="task">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h5 class="card-title"><?=$task['title']?></h5>
-                                                <div class="list-group">
+                                                <h5 class="card-title"><?=$task['title']?></h5> 
+                                                <div class="list-group my-2">
                                                     <p class="card-subtitle mb-1">Creado: <span class="badge bg-primary"><?=$task['created_at']?></span></p>
                                                     <p class="card-subtitle mb-1">Actualizado: <span class="badge bg-success"><?=$task['updated_at']?></span></p>
                                                     <p class="card-subtitle mb-1"><span class="badge bg-dark"><?=$task['requesting_unit']?></span></p>
@@ -167,7 +167,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                 <div class="row d-flex align-items-center">
                                                 <div class="col-6">
                                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskDetailModal<?=$task['followup_uuid_code']?>">
-                                                        Ver detalles
+                                                        Detalles
                                                     </button>
                                                     <div class="modal fade" id="taskDetailModal<?=$task['followup_uuid_code']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
@@ -201,18 +201,26 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                     <?php endforeach; ?>
                                                                 </li>
                                                                 <div class="row text-center p-2">
-                                                                        <div class="col-4 p-3">
-                                                                            <!-- Button trigger modal -->
-                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
-                                                                                <i class="bi bi-pencil-square"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
-                                                                        </div>
-                                                                        <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
-                                                                        </div>
+                                                                        <!-- solo el administrador puede editar y eliminar tareas-->
+                                                                        <!-- un ususario solo puede comentar las tareas-->
+                                                                        <?php if (isset($session->type) && $session->type == 'ADMINISTRADOR') : ?>
+                                                                            <div class="col-4 p-3">
+                                                                                <!-- Button trigger modal -->
+                                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
+                                                                                    <i class="bi bi-pencil-square"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="col-4 p-3">
+                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                                                            </div>
+                                                                            <div class="col-4 p-3">
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                            </div>
+                                                                        <?php else : ?>
+                                                                            <div class="col-12 p-3">
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                            </div>
+                                                                        <?php endif; ?>
                                                                 </div>
                     
                                                             </ul>
@@ -274,9 +282,12 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
+                                                                        <div class="alert alert-warning" role="alert">
+                                                                            Si no selecciona a nadie, las personas asignadas anteriormente se mantendrán
+                                                                        </div>
                                                                         <label for="assigned_to" class="form-label
                                                                         ">Asignar a</label>
-                                                                        <select class="form-select" id="assigned_to" name="assigned_to[]" required multiple>
+                                                                        <select class="form-select" id="assigned_to" name="assigned_to[]"  multiple>
                                                                             <?php foreach ($users as $user) : ?>
                                                                                 <option value="<?=$user['id_user']?>"><?=$user['username']?></option>
                                                                             <?php endforeach; ?>
@@ -294,13 +305,18 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                 </div>
                                                 <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
                                                 <div class="col-6">
-                                                    <div class="m-2">
-                                                        <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>)" required>
-                                                            <option value="value" selected>Estado</option>
-                                                            <option value="in_progress">En progreso</option>
-                                                            <option value="closed">Terminada</option>
-                                                        </select>
-                                                    </div>
+                                                        <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
+                                                        <!--este select solo se muestra si el usuario es un administrador y a los usuarios que se les asigno la tarea-->
+                                                        <!--si el usuario es un usuario normal, no se muestra el select-->
+                                                        <?php if (isset($session->type) && ($session->type == 'ADMINISTRADOR' || in_array($session->id_user, explode(',', $task['id_users'])))) : ?>
+                                                            <div class="m-2">
+                                                                <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>,'<?=$task['followup_uuid_code']?>')" required>
+                                                                    <option value="open"selected>Pendiente 📍</option>
+                                                                    <option value="in_progress">En progreso 🏃‍♂️</option>
+                                                                    <option value="closed">Terminada ✅</option>
+                                                                </select>
+                                                            </div>
+                                                        <?php endif; ?>
                                                 </div>
                                                 </div>
                                             </div>
@@ -325,8 +341,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <div class="accordion" id="accordionInProgressTasks">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_inprogress_tasks" aria-expanded="true" aria-controls="collapse_inprogress_tasks">
-                        <h2><span class="badge bg-warning">En progreso</span>
+                    <button class="accordion-button" id="button_collapse_inprogress_tasks" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_inprogress_tasks" aria-expanded="true" aria-controls="collapse_inprogress_tasks">
+                        <h2><span class="badge bg-warning">En progreso 🏃‍♂️</span>
                     </button>
                     </h2>
                     <div id="collapse_inprogress_tasks" class="accordion-collapse collapse show" data-bs-parent="#accordionInProgressTasks">
@@ -339,7 +355,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                             <div class="card-body">
                                         
                                                 <h5 class="card-title"><?=$task['title']?></h5>
-                                                <div class="list-group">
+                                                <div class="list-group my-2">
                                                     <p class="card-subtitle mb-1">Creado: <span class="badge bg-primary"><?=$task['created_at']?></span></p>
                                                     <p class="card-subtitle mb-1">Actualizado: <span class="badge bg-success"><?=$task['updated_at']?></span></p>
                                                     <p class="card-subtitle mb-1"><span class="badge bg-dark"><?=$task['requesting_unit']?></span></p>
@@ -368,7 +384,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                 <div class="row d-flex align-items-center">
                                                     <div class="col-6">
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskDetailModal<?=$task['followup_uuid_code']?>">
-                                                            Ver detalles
+                                                            Detalles
                                                         </button>
                                                         <div class="modal fade" id="taskDetailModal<?=$task['followup_uuid_code']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
@@ -402,18 +418,26 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <?php endforeach; ?>
                                                                     </li>
                                                                     <div class="row text-center p-2">
-                                                                        <div class="col-4 p-3">
-                                                                            <!-- Button trigger modal -->
-                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
-                                                                                <i class="bi bi-pencil-square"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
-                                                                        </div>
-                                                                        <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
-                                                                        </div>
+                                                                                                                                                <!-- solo el administrador puede editar y eliminar tareas-->
+                                                                        <!-- un ususario solo puede comentar las tareas-->
+                                                                        <?php if (isset($session->type) && $session->type == 'ADMINISTRADOR') : ?>
+                                                                            <div class="col-4 p-3">
+                                                                                <!-- Button trigger modal -->
+                                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
+                                                                                    <i class="bi bi-pencil-square"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="col-4 p-3">
+                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                                                            </div>
+                                                                            <div class="col-4 p-3">
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                            </div>
+                                                                        <?php else : ?>
+                                                                            <div class="col-12 p-3">
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                            </div>
+                                                                        <?php endif; ?>
                                                                     </div>
                         
                                                                 </ul>
@@ -475,9 +499,12 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         </select>
                                                                     </div>
                                                                     <div class="mb-3">
+                                                                        <div class="alert alert-warning" role="alert">
+                                                                            Si no selecciona a nadie, las personas asignadas anteriormente se mantendrán
+                                                                        </div>
                                                                         <label for="assigned_to" class="form-label
                                                                         ">Asignar a</label>
-                                                                        <select class="form-select" id="assigned_to" name="assigned_to[]" required multiple>
+                                                                        <select class="form-select" id="assigned_to" name="assigned_to[]" multiple>
                                                                             <?php foreach ($users as $user) : ?>
                                                                                 <option value="<?=$user['id_user']?>"><?=$user['username']?></option>
                                                                             <?php endforeach; ?>
@@ -494,15 +521,18 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
-                                                                                                        <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
-                                                        <div class="m-2">
-                                                            <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>)" required>
-                                                                <option value="value" selected>Estado</option>
-                                                                <option value="open">Pendiente</option>
-                                                                <option value="closed">Terminada</option>
-                                                            </select>
-                                                        </div>
-
+                                                        <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
+                                                        <!--este select solo se muestra si el usuario es un administrador y a los usuarios que se les asigno la tarea-->
+                                                        <!--si el usuario es un usuario normal, no se muestra el select-->
+                                                        <?php if (isset($session->type) && ($session->type == 'ADMINISTRADOR' || in_array($session->id_user, explode(',', $task['id_users'])))) : ?>
+                                                            <div class="m-2">
+                                                                <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>,'<?=$task['followup_uuid_code']?>')" required>
+                                                                    <option value="in_progress" selected>En progreso 🏃‍♂️</option>
+                                                                    <option value="open">Pendiente 📍</option>
+                                                                    <option value="closed">Terminada ✅</option>
+                                                                </select>
+                                                            </div>
+                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -525,8 +555,8 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <div class="accordion" id="accordionClosedTasks">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_closed_tasks" aria-expanded="true" aria-controls="collapse_closed_tasks">
-                        <h2><span class="badge bg-success">Terminadas</span>
+                    <button class="accordion-button" id="button_collapse_closed_tasks" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_closed_tasks" aria-expanded="true" aria-controls="collapse_closed_tasks">
+                        <h2><span class="badge bg-success">Terminadas ✅</span>
                     </button>
                     </h2>
                     <div id="collapse_closed_tasks" class="accordion-collapse collapse show" data-bs-parent="#accordionClosedTasks">
@@ -538,14 +568,18 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         <div class="task">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h5 class="card-title"><?=$task['title']?></h5>
-                                                <div class="list-group">
+                                                <del>
+                                                    <h5 class="card-title"><?=$task['title']?></h5>
+                                                </del>
+                                                <div class="list-group my-2">
                                                     <p class="card-subtitle mb-1">Creado: <span class="badge bg-primary"><?=$task['created_at']?></span></p>
                                                     <p class="card-subtitle mb-1">Actualizado: <span class="badge bg-success"><?=$task['updated_at']?></span></p>
                                                     <p class="card-subtitle mb-1"><span class="badge bg-dark"><?=$task['requesting_unit']?></span></p>
                                                 </div>
-                                                <p class="card-text"><?=$task['description']?></p>
-                                                <h6 class="card-subtitle mb-2 text-body-secondary">Asignado a:
+                                                <del>
+                                                    <p class="card-text"><?=$task['description']?></p>
+                                                </del>
+                                                <h6 class="card-subtitle mb-2 text-body-secondary">Completado por:
                                                     <?php $task_closed_users = explode(',', $task['username']);?>
                                                     <!--si es que son mas de 3 usuarios, mostrar solo 3 y un boton para ver mas-->
                                                     <?php if (count($task_closed_users ) > 3) : ?>
@@ -565,7 +599,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                             <div class="row d-flex align-items-center">
                                                     <div class="col-6">
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskDetailModal<?=$task['followup_uuid_code']?>">
-                                                            Ver detalles
+                                                            Detalles
                                                         </button>
                                                         <div class="modal fade" id="taskDetailModal<?=$task['followup_uuid_code']?>" tabindex="-" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
@@ -599,18 +633,26 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <?php endforeach; ?>
                                                                     </li>
                                                                     <div class="row text-center p-2">
-                                                                        <div class="col-4 p-3">
-                                                                            <!-- Button trigger modal -->
-                                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
-                                                                                <i class="bi bi-pencil-square"></i>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
-                                                                        </div>
-                                                                        <div class="col-4 p-3">
-                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
-                                                                        </div>
+                                                                                                                                                <!-- solo el administrador puede editar y eliminar tareas-->
+                                                                        <!-- un ususario solo puede comentar las tareas-->
+                                                                        <?php if (isset($session->type) && $session->type == 'ADMINISTRADOR') : ?>
+                                                                            <div class="col-4 p-3">
+                                                                                <!-- Button trigger modal -->
+                                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal<?=$task['id_task']?>">
+                                                                                    <i class="bi bi-pencil-square"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="col-4 p-3">
+                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                                                            </div>
+                                                                            <div class="col-4 p-3">
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                            </div>
+                                                                        <?php else : ?>
+                                                                            <div class="col-12 p-3">
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                            </div>
+                                                                        <?php endif; ?>
                                                                     </div>
                         
                                                                 </ul>
@@ -673,9 +715,12 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 </select>
                                                                             </div>
                                                                             <div class="mb-3">
+                                                                                <div class="alert alert-warning" role="alert">
+                                                                                    Si no selecciona a nadie, las personas asignadas anteriormente se mantendrán
+                                                                                </div>
                                                                                 <label for="assigned_to" class="form-label
                                                                                 ">Asignar a</label>
-                                                                                <select class="form-select" id="assigned_to" name="assigned_to[]" required multiple>
+                                                                                <select class="form-select" id="assigned_to" name="assigned_to[]" multiple>
                                                                                     <?php foreach ($users as $user) : ?>
                                                                                         <option value="<?=$user['id_user']?>"><?=$user['username']?></option>
                                                                                     <?php endforeach; ?>
@@ -692,15 +737,19 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
-                                                                                                        <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
-                                                        <div class="m-2">
-                                                            <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>)" required>
-                                                                <!-- valor por defecto con la palabra seleccionar-->
-                                                                <option value="value" selected>Estado</option>
-                                                                <option value="open">Pendiente</option>
-                                                                <option value="in_progress">En progreso</option>
-                                                            </select>
-                                                        </div>
+                                                        <!--un select con la propiedad onchage para cambiar el estado de la tarea-->
+                                                        <!--este select solo se muestra si el usuario es un administrador y a los usuarios que se les asigno la tarea-->
+                                                        <!--si el usuario es un usuario normal, no se muestra el select-->
+                                                        <?php if (isset($session->type) && ($session->type == 'ADMINISTRADOR' || in_array($session->id_user, explode(',', $task['id_users'])))) : ?>
+                                                            <div class="m-2">
+                                                                <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>,'<?=$task['followup_uuid_code']?>')" required>
+                                                                    <option value="closed"selected>Terminada ✅</option>
+                                                                    <option value="in_progress" >En progreso 🏃‍♂️</option>
+                                                                    <option value="open">Pendiente 📍</option>
+        
+                                                                </select>
+                                                            </div>
+                                                        <?php endif; ?>
 
                                                     </div>
                                                 </div>
@@ -710,6 +759,23 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         </div>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
+                                <!-- boton para ver mas tareas-->
+                                <!--si es administrador, mostrar boton para ver mas tareas-->
+                                <?php if (isset($session->type) && $session->type == 'ADMINISTRADOR' && !isset($is_admin_tasks)) : ?>
+                                    <div class="row d-flex justify-content-center">
+                                        <a href="<?=base_url('tasks/closedTasks')?>" class="btn btn-primary">Ver más</a>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if (isset($session->type) && $session->type == 'BOLSISTA') : ?>
+                                    <div class="row d-flex justify-content-center">
+                                        <a href="<?=base_url('tasks/myClosedTasks/'.$session->id_user)?>" class="btn btn-primary">Ver más</a>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if(isset($is_admin_tasks) && $is_admin_tasks == true):?>
+                                    <div class="row d-flex justify-content-center">
+                                        <a href="<?=base_url('tasks/myClosedTasks/'.$session->id_user)?>" class="btn btn-primary">Ver más</a>
+                                    </div>
+                                <?php endif;?>
                             <?php else:?>
                                 <div class="alert alert-warning" role="alert">
                                     No hay tareas terminadas

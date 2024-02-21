@@ -84,6 +84,13 @@ class TasksController extends BaseController
                 'requesting_unit' => $this->request->getPost('requesting_unit'),
                 'assigned_to' => $this->request->getPost('assigned_to'),
             ];
+            //si el campo assigned_to no se recibe, solo se actualiza la tarea
+            if($data['assigned_to'] == null){
+                $model = model('TaskModel');
+                $model->update($id_task, $data);
+                return redirect()->to(site_url('tasks/tasks'));
+            }
+            //si el campo assigned_to se recibe, se actualiza la tarea y la tabla task_user
             //actualizar la tarea
             $model = model('TaskModel');
             $model->update($id_task, $data);
@@ -126,17 +133,134 @@ class TasksController extends BaseController
     {
         $data = [
             'status' => $this->request->getPost('status'),
+            'followup_uuid_code' => $this->request->getPost('followup_uuid_code'),
         ];
+        //revisar que el status sea uno de los permitidos
+        $allowed_status = ['open', 'in_progress', 'closed'];
+        if(!in_array($data['status'], $allowed_status)){
+            //retornar valor de 404
+            return $this->response->setStatusCode(404);
+        }
         $model = model('TaskModel');
         //ver si existe la tarea con el id recibido
         $task = $model->getTaskById($id_task);
         if($task != null){
-            $model->update($id_task, $data);
-            //retornar valor de 200
-            return $this->response->setStatusCode(200);
+            if($data['followup_uuid_code'] == $task['followup_uuid_code']){
+                var_dump($data['followup_uuid_code']);
+                var_dump($task['followup_uuid_code']);
+                //quitar followup_uuid_code del array data
+                unset($data['followup_uuid_code']);
+                $model->update($id_task, $data);
+                //retornar valor de 200
+                return $this->response->setStatusCode(200);
+            } else {
+                //retornar valor de 404
+                return $this->response->setStatusCode(404);
+            }
         } else {
             //retornar valor de 404
             return $this->response->setStatusCode(404);
+        }
+    }
+    public function closedTasks()
+    {
+        $session = session();
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
+            //usar el metodo searchClosedTaskByDate con la fecha actual
+            $model = model('TaskModel');
+            $tasks = $model->searchClosedTaskByDate(['date' => date('Y-m')]);
+            //recuperar todos los usuarios
+            $model = model('UserModel');
+            $users = $model->findAll();
+            $data = [
+                'tasks_closed' => $tasks,
+                'users' => $users,
+                'date' => date('Y-m'),
+            ];
+            return view('User/closed_tasks', $data);
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+
+    public function myClosedTasks($id_user)
+    {
+        $session = session();
+        $verify = VerifyUser::verifyUserAndUser($session, $id_user);
+        if ($verify){
+            $data = [
+                'id_user' => $id_user,
+                'date' => date('Y-m'),
+            ];
+            //recuperar todos los usuarios
+            $model = model('UserModel');
+            $users = $model->findAll();
+            //recuperar todas las tareas cerradas
+            $model = model('TaskModel');
+            $tasks_closed = $model->searchClosedTaskByDateAndUser($data);
+            $data = [
+                'tasks_closed' => $tasks_closed,
+                'users' => $users,
+                'date' => date('Y-m'),
+                'is_my_closed_tasks' => true,
+            ];
+            return view('User/closed_tasks', $data);
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function searchClosedTaskByDate()
+    {
+        $session = session();
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
+            $data = [
+                //separar el mes y el año de la fecha recibida
+                'date' => $this->request->getPost('date'),
+
+            ];
+            //recuperar todos los usuarios
+            $model = model('UserModel');
+            $users = $model->findAll();
+            //recuperar todas las tareas cerradas
+            $model = model('TaskModel');
+            $tasks = $model->searchClosedTaskByDate($data);
+            $data = [
+                'tasks_closed' => $tasks,
+                'users' => $users,
+                'date' => $data['date'],
+            ];
+            return view('User/closed_tasks', $data);
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function searchClosedTaskByDateAndUser(){
+        $session = session();
+        $verify = verifyUser::verifyUser($session);
+        if ($verify){
+            $data = [
+                //separar el mes y el año de la fecha recibida
+                'date' => $this->request->getPost('date'),
+                'id_user' => $session->id_user,
+            ];
+            //recuperar todos los usuarios
+            $model = model('UserModel');
+            $users = $model->findAll();
+            //recuperar todas las tareas cerradas
+            $model = model('TaskModel');
+            $tasks = $model->searchClosedTaskByDateAndUser($data);
+            $data = [
+                'tasks_closed' => $tasks,
+                'users' => $users,
+                'date' => $data['date'],
+                'id_user' => $data['id_user'],
+                'is_my_closed_tasks' => true,
+            ];
+            return view('User/closed_tasks', $data);
+        } else {
+            return redirect()->to(site_url('login'));
         }
     }
     public function searchTask()
@@ -163,18 +287,39 @@ class TasksController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
-    public function restoreTask()
+    /**
+     * Retrieves the tasks for a specific user.
+     *
+     * @param int $id_user The ID of the user.
+     * @return \CodeIgniter\HTTP\RedirectResponse|\CodeIgniter\HTTP\ResponseInterface The view of the user's tasks or a redirect to the login page.
+     */
+    public function myTasks($id_user)
     {
         $session = session();
-        $verify = VerifyAdmin::verifyUser($session);
+        $verify = verifyUser::verifyUserAndUser($session, $id_user);
         if ($verify){
+            //recuperar todos los usuarios
+            $model = model('UserModel');
+            $users = $model->findAll();
+            //recuperar todas las tareas
             $model = model('TaskModel');
-            $model->restore($this->request->getPost('id_task'));
-            return redirect()->to(site_url('tasks/tasks'));
+            $tasks_open = $model->getTasksOpenByUser($id_user);
+            $tasks_closed = $model->getTasksClosedByUser($id_user);
+            $tasks_in_progress = $model->getTasksInProgressByUser($id_user);
+            $is_admin_task = $session->type == 'ADMINISTRADOR';
+            $data = [
+                'tasks_open' => $tasks_open,
+                'tasks_closed' => $tasks_closed,
+                'tasks_in_progress' => $tasks_in_progress,
+                'users' => $users,
+                'is_admin_tasks' =>  $is_admin_task,
+            ];
+            return view('User/tasks', $data);
         } else {
             return redirect()->to(site_url('login'));
         }
     }
+
 }
 
 ?>

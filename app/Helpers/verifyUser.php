@@ -19,5 +19,16 @@ class verifyUser{
             $session->destroy();
         }
     }
+    public static function verifyUserAndUser($session, $id_user){
+        if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR') && $session->user_status == 1 && $session->id_user == $id_user) {
+            return true;
+        } else {
+            //retornar a la pagina de login, mostrar mensaje de error y destruir la sesion
+            $session->setFlashdata('error', 'No tiene permisos para acceder a esta página');
+            $session->destroy();
+        }
+    }
 }
+
+
 ?>

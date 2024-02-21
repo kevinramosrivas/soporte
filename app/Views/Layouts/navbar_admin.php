@@ -94,8 +94,19 @@
             </a>
           </li>
           <li>
-            <a href="<?=base_url('tasks/tasksCompleted')?>">
+            <a href="<?=base_url('tasks/closedTasks')?>">
               <span>Tareas completadas</span>
+            </a>
+          </li>
+          <li>
+            <!--pasar como enlace el id del usuario-->
+            <a href="<?=base_url('tasks/myTasks')?>/<?=session()->get('id_user')?>">
+              <span>Mis tareas</span>
+            </a>
+          </li>
+          <li>
+            <a href="<?=base_url('tasks/myClosedTasks')?>/<?=session()->get('id_user')?>">
+              <span>Mis tareas completadas</span>
             </a>
           </li>
         </ul>
