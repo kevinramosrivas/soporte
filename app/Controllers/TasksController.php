@@ -4,13 +4,10 @@ use App\Controllers\BaseController;
 use App\Entities\Task;
 use App\Helpers\VerifyAdmin;
 use App\Helpers\verifyUser;
+use App\Entities\TaskComment;
 
 class TasksController extends BaseController
 {
-    public function hola()
-    {
-        echo "hola";
-    }
     public function tasks()
     {
         $session = session();
@@ -315,6 +312,86 @@ class TasksController extends BaseController
                 'is_admin_tasks' =>  $is_admin_task,
             ];
             return view('User/tasks', $data);
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+    public function commentsTask($id_task, $uuid_code)
+    {
+        $session = session();
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
+            //recuperar todos la informacion de la tarea
+            $model = model('TaskModel');
+            $task = $model->getTaskAndUsersByID($id_task);
+            //recuperar todos los usuarios
+            $model = model('UserModel');
+            $users = $model->findAll();
+            //recuperar todos los comentarios de la tarea
+            $model = model('TaskCommentModel');
+            $comments = $model->getComments($id_task);
+            $data = [
+                'id_task' => $id_task,
+                'uuid_code' => $uuid_code,
+                'task' => $task,
+                'users' => $users,
+                'comments' => $comments,
+            ];
+            return view('User/comments_tasks', $data);
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+
+    public function registerComment($id_task, $uuid_code)
+    {
+        $session = session();
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
+            $data = [
+                'id_task' => $id_task,
+                'created_by' => $session->id_user,
+                'comment' => $this->request->getPost('comment'),
+            ];
+            $model = model('TaskCommentModel');
+            //usar la entidad para guardar los datos
+            $comment = new TaskComment($data);
+            $model->insert($comment);
+            return redirect()->to(site_url('tasks/comments/'.$id_task.'/'.$uuid_code));
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+
+    public function editComment($uuid_comment,$id_task, $uuid_code)
+    {
+        $session = session();
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
+            $data = [
+                'comment' => $this->request->getPost('comment'),
+            ];
+            //revisar que el campo comment no este vacio
+            if($data['comment'] == null){
+                return redirect()->to(site_url('tasks/comments/'.$id_task.'/'.$uuid_code));
+            }
+            $model = model('TaskCommentModel');
+            $comment = new TaskComment($data);
+            $model->update($uuid_comment, $comment);
+            return redirect()->to(site_url('tasks/comments/'.$id_task.'/'.$uuid_code));
+        } else {
+            return redirect()->to(site_url('login'));
+        }
+    }
+
+    public function deleteComment($uuid_comment,$id_task, $uuid_code)
+    {
+        $session = session();
+        $verify = VerifyAdmin::verifyUser($session);
+        if ($verify){
+            $model = model('TaskCommentModel');
+            $model->delete($uuid_comment);
+            return redirect()->to(site_url('tasks/comments/'.$id_task.'/'.$uuid_code));
         } else {
             return redirect()->to(site_url('login'));
         }

@@ -214,11 +214,13 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
                                                                             </div>
                                                                             <div class="col-4 p-3">
-                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                             </div>
-                                                                        <?php else : ?>
+                                                                        <?php endif; ?>
+                                                                        <!-- mostrar solo el boton de comentarios si el usuario es parte de los usuarios asignados a la tarea y no es un administrador-->
+                                                                        <?php if(in_array($session->id_user, explode(',', $task['id_users'])) && $session->type != 'ADMINISTRADOR') : ?>
                                                                             <div class="col-12 p-3">
-                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                             </div>
                                                                         <?php endif; ?>
                                                                 </div>
@@ -404,7 +406,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <h5 class="card-title">Descripción:</h5>
                                                                         <p><?=$task['description']?></p>
                                                                     </li>
-                                                                    <li class="list-group-item">Estado: <span class="badge bg-secondary">Pendiente</span></li>
+                                                                    <li class="list-group-item">Estado: <span class="badge bg-warning">En progreso</span></li>
                                                                     <li class="list-group-item">Unidad solicitante: <span class="badge bg-dark"><?=$task['requesting_unit']?></span></li>
                                                                     <li class="list-group-item">Fecha de creación: <span class="badge bg-primary"><?=$task['created_at']?></span></li>
                                                                     <li class="list-group-item">Fecha de actualización: <span class="badge bg-success"><?=$task['updated_at']?></span></li>
@@ -431,11 +433,13 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
                                                                             </div>
                                                                             <div class="col-4 p-3">
-                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                             </div>
-                                                                        <?php else : ?>
+                                                                        <?php endif; ?>
+                                                                        <!-- mostrar solo el boton de comentarios si el usuario es parte de los usuarios asignados a la tarea y no es un administrador-->
+                                                                        <?php if(in_array($session->id_user, explode(',', $task['id_users'])) && $session->type != 'ADMINISTRADOR') : ?>
                                                                             <div class="col-12 p-3">
-                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                             </div>
                                                                         <?php endif; ?>
                                                                     </div>
@@ -619,7 +623,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <h5 class="card-title">Descripción:</h5>
                                                                         <p><?=$task['description']?></p>
                                                                     </li>
-                                                                    <li class="list-group-item">Estado: <span class="badge bg-secondary">Pendiente</span></li>
+                                                                    <li class="list-group-item">Estado: <span class="badge bg-success">Terminada</span></li>
                                                                     <li class="list-group-item">Unidad solicitante: <span class="badge bg-dark"><?=$task['requesting_unit']?></span></li>
                                                                     <li class="list-group-item">Fecha de creación: <span class="badge bg-primary"><?=$task['created_at']?></span></li>
                                                                     <li class="list-group-item">Fecha de actualización: <span class="badge bg-success"><?=$task['updated_at']?></span></li>
@@ -646,11 +650,13 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
                                                                             </div>
                                                                             <div class="col-4 p-3">
-                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                             </div>
-                                                                        <?php else : ?>
+                                                                        <?php endif; ?>
+                                                                        <!-- mostrar solo el boton de comentarios si el usuario es parte de los usuarios asignados a la tarea y no es un administrador-->
+                                                                        <?php if(in_array($session->id_user, explode(',', $task['id_users'])) && $session->type != 'ADMINISTRADOR') : ?>
                                                                             <div class="col-12 p-3">
-                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                             </div>
                                                                         <?php endif; ?>
                                                                     </div>

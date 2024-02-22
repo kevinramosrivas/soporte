@@ -109,6 +109,10 @@ $routes->group('tasks', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->get('myTasks/(:num)', 'TasksController::myTasks/$1');
     $routes->get('myClosedTasks/(:num)', 'TasksController::myClosedTasks/$1');
     $routes->post('searchClosedTaskByDateAndUser', 'TasksController::searchClosedTaskByDateAndUser');
+    $routes->get('comments/(:num)/(.*)', 'TasksController::commentsTask/$1/$2');
+    $routes->post('registerComment/(:num)/(.*)', 'TasksController::registerComment/$1/$2');
+    $routes->post('editComment/(.*)', 'TasksController::editComment/$1');
+    $routes->get('deleteComment/(.*)/(:num)/(.*)' , 'TasksController::deleteComment/$1/$2/$3');
 
 });
 

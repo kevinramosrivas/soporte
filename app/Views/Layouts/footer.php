@@ -8,6 +8,6 @@
         </span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-      Made with <i class="bi bi-heart-fill text-danger"></i> by <span>Team Soporte</span>
+      Made with <i class="bi bi-heart-fill text-danger"></i> by <span>support team</span>
     </div>
   </footer><!-- End Footer -->
