@@ -162,11 +162,11 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
                                                                             </div>
                                                                             <div class="col-4 p-3">
-                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                             </div>
                                                                         <?php else : ?>
                                                                             <div class="col-12 p-3">
-                                                                                <a href="<?=base_url('tasks/comments/'.$task['id_task'])?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
+                                                                            <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
                                                                             </div>
                                                                         <?php endif; ?>
                                                                     </div>
@@ -186,18 +186,18 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <form action="<?=base_url('tasks/editTask/'.$task['id_task'])?>" method="post" id="editTaskForm<?=$task['id_task']?>">
+                                                                        <form action="<?=base_url('tasks/editTask/'.$task['id_task'])?>" method="post" id="editTaskForm<?=$task['id_task']?>" onsubmit="return validateEditTaskForm(<?=$task['id_task']?>)">
                                                                             <div class="mb-3">
-                                                                                <label for="title" class="form-label">Título</label>
-                                                                                <input type="text" class="form-control" id="title" name="title" value="<?=$task['title']?>" required>
+                                                                                <label for="titleEditTask<?=$task['id_task']?>" class="form-label">Título</label>
+                                                                                <input type="text" class="form-control" id="titleEditTask<?=$task['id_task']?>" name="title" value="<?=$task['title']?>" required>
                                                                             </div>
                                                                             <div class="mb-3">
-                                                                                <label for="description" class="form-label">Descripción</label>
-                                                                                <textarea class="form-control" id="description" name="description" required><?=$task['description']?></textarea>
+                                                                                <label for="descriptionEditTask<?=$task['id_task']?>" class="form-label">Descripción</label>
+                                                                                <textarea class="form-control" id="descriptionEditTask<?=$task['id_task']?>" name="description" required><?=$task['description']?></textarea>
                                                                             </div>
                                                                             <div class="mb-3">
-                                                                                <label for="requesting_unit" class="form-label">Unidad solicitante</label>
-                                                                                <select class="form-select" id="requesting_unit" name="requesting_unit" required>
+                                                                                <label for="requesting_unitEditTask<?=$task['id_task']?>" class="form-label">Unidad solicitante</label>
+                                                                                <select class="form-select" id="requesting_unitEditTask<?=$task['id_task']?>" name="requesting_unit" required>
                                                                                     <option value="Unidad de Posgrado">Unidad de Posgrado</option>
                                                                                     <option value="Instituto de Investigación">Instituto de Investigación</option>
                                                                                     <option value="Centro de Producción">Centro de Producción</option>
@@ -234,9 +234,9 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 <div class="alert alert-warning" role="alert">
                                                                                     Si no selecciona a nadie, las personas asignadas anteriormente se mantendrán
                                                                                 </div>
-                                                                                <label for="assigned_to" class="form-label
+                                                                                <label for="assigned_toEditTask<?=$task['id_task']?>" class="form-label
                                                                                 ">Asignar a</label>
-                                                                                <select class="form-select" id="assigned_to" name="assigned_to[]" multiple>
+                                                                                <select class="form-select" id="assigned_toEditTask<?=$task['id_task']?>" name="assigned_to[]" multiple>
                                                                                     <?php foreach ($users as $user) : ?>
                                                                                         <option value="<?=$user['id_user']?>"><?=$user['username']?></option>
                                                                                     <?php endforeach; ?>
@@ -245,7 +245,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                         </form>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                                                         <button type="submit" class="btn btn-primary" form="editTaskForm<?=$task['id_task']?>">Guardar</button>
                                                                     </div>
                                                                 </div>
@@ -258,7 +258,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                         <!--si el usuario es un usuario normal, no se muestra el select-->
                                                         <?php if (isset($session->type) && ($session->type == 'ADMINISTRADOR' || in_array($session->id_user, explode(',', $task['id_users'])))) : ?>
                                                             <div class="m-2">
-                                                                <select class="form-select" id="status" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>,'<?=$task['followup_uuid_code']?>')" required>
+                                                                <select class="form-select" id="status_task<?=$task['id_task']?>" name="status" onchange="changeStatusTask(this, <?=$task['id_task']?>,'<?=$task['followup_uuid_code']?>')" required>
                                                                     <option value="closed"selected>Terminada ✅</option>
                                                                     <option value="in_progress" >En progreso 🏃‍♂️</option>
                                                                     <option value="open">Pendiente 📍</option>

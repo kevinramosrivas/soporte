@@ -41,3 +41,88 @@ if (window.innerWidth < 768) {
     button_collapse_inprogress_tasks.classList.add('collapsed');
     button_collapse_closed_tasks.classList.add('collapsed');
 }
+
+
+function validateEditTaskForm(id_task){
+    let editTaskForm = document.getElementById('editTaskForm'+id_task);
+    let titleEditTask = document.getElementById('titleEditTask'+id_task);
+    let descriptionEditTask = document.getElementById('descriptionEditTask'+id_task);
+    let requesting_unitEditTask = document.getElementById('requesting_unitEditTask'+id_task);
+    let assigned_toEditTask = document.getElementById('assigned_toEditTask'+id_task);
+
+    //validar que todos los campos esten llenos excepto el campo de asignado a
+    if(titleEditTask.value === '' || descriptionEditTask.value === '' || requesting_unitEditTask.value === ''){
+        //usar sweetalert para mostrar un mensaje de error
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Todos los campos son requeridos',
+        });
+        return false;
+    }
+    //verificar que los campos de titulo no excedan los 255 caracteres y que la descripcion no exceda los 900 caracteres
+    if(titleEditTask.value.length > 255){
+        //usar sweetalert para mostrar un mensaje de error
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El titulo no puede exceder los 255 caracteres',
+        });
+        return false;
+    }
+    if(descriptionEditTask.value.length > 900){
+        //usar sweetalert para mostrar un mensaje de error
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La descripcion no puede exceder los 900 caracteres',
+        });
+        return false;
+    }
+
+    return true;
+
+
+}
+
+function validateCreateTaskForm(){
+    console.log('validando formulario de creacion de tarea');
+    let createTaskForm = document.getElementById('createTaskForm');
+    let titleCreateTaskForm = document.getElementById('titleCreateTaskForm');
+    let descriptionCreateTaskForm = document.getElementById('descriptionCreateTaskForm');
+    let requesting_unitCreateTaskForm = document.getElementById('requesting_unitCreateTaskForm');
+    let assigned_toCreateTaskForm = document.getElementById('assigned_toCreateTaskForm');
+
+    //validar que todos los campos esten llenos
+    if(titleCreateTaskForm.value === '' || descriptionCreateTaskForm.value === '' || requesting_unitCreateTaskForm.value === '' || assigned_toCreateTaskForm.value === ''){
+        //usar sweetalert para mostrar un mensaje de error
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Todos los campos son requeridos',
+        });
+        return false;
+    }
+
+    //verificar que los campos de titulo no excedan los 255 caracteres y que la descripcion no exceda los 900 caracteres
+    if(titleCreateTaskForm.value.length > 255){
+        //usar sweetalert para mostrar un mensaje de error
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El titulo no puede exceder los 255 caracteres',
+        });
+        return false;
+    }
+    if(descriptionCreateTaskForm.value.length > 900){
+        //usar sweetalert para mostrar un mensaje de error
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'La descripcion no puede exceder los 900 caracteres',
+        });
+        return false;
+    }
+
+    return true;
+}

@@ -47,6 +47,16 @@ class TasksController extends BaseController
                 'created_by' => $session->id_user,
                 'assigned_to' => $this->request->getPost('assigned_to'),
             ];
+            //verificar que todos los campos esten llenos con las reglas de validación
+            $rules = [
+                'title' => 'required',
+                'description' => 'required',
+                'requesting_unit' => 'required',
+                'assigned_to' => 'required',
+            ];
+            if(!$this->validate($rules)){
+                return redirect()->to(site_url('tasks/tasks'));
+            }
             //usar la entidad para guardar los datos
             $task = new Task($data);
             $id_task = $model->insert($task);
@@ -81,6 +91,15 @@ class TasksController extends BaseController
                 'requesting_unit' => $this->request->getPost('requesting_unit'),
                 'assigned_to' => $this->request->getPost('assigned_to'),
             ];
+            //verificar que todos los campos esten llenos con las reglas de validación excepto assigned_to
+            $rules = [
+                'title' => 'required',
+                'description' => 'required',
+                'requesting_unit' => 'required',
+            ];
+            if(!$this->validate($rules)){
+                return redirect()->to(site_url('tasks/tasks'));
+            }
             //si el campo assigned_to no se recibe, solo se actualiza la tarea
             if($data['assigned_to'] == null){
                 $model = model('TaskModel');
@@ -319,7 +338,7 @@ class TasksController extends BaseController
     public function commentsTask($id_task, $uuid_code)
     {
         $session = session();
-        $verify = VerifyAdmin::verifyUser($session);
+        $verify = VerifyUser::verifyUser($session);
         if ($verify){
             //recuperar todos la informacion de la tarea
             $model = model('TaskModel');
@@ -346,7 +365,7 @@ class TasksController extends BaseController
     public function registerComment($id_task, $uuid_code)
     {
         $session = session();
-        $verify = VerifyAdmin::verifyUser($session);
+        $verify = verifyUser::verifyUser($session);
         if ($verify){
             $data = [
                 'id_task' => $id_task,
@@ -370,6 +389,7 @@ class TasksController extends BaseController
         if ($verify){
             $data = [
                 'comment' => $this->request->getPost('comment'),
+                'created_by' => $session->id_user,
             ];
             //revisar que el campo comment no este vacio
             if($data['comment'] == null){

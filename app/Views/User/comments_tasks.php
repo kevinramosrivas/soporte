@@ -1,6 +1,6 @@
 <?=$this->extend('Layouts/main')?>
 <?=$this->section('title')?>
-Mi perfil
+Comentarios de tarea
 <?=$this->endSection()?>
 
 <?=$this->section('content')?>
@@ -152,18 +152,18 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form action="<?=base_url('tasks/editTask/'.$task['id_task'])?>" method="post" id="editTaskForm<?=$task['id_task']?>">
+                                            <form action="<?=base_url('tasks/editTask/'.$task['id_task'])?>" method="post" id="editTaskForm<?=$task['id_task']?>" onsubmit=" return validateFormEditTask(<?=$task['id_task']?>)">
                                                 <div class="mb-3">
-                                                    <label for="title" class="form-label">Título</label>
-                                                    <input type="text" class="form-control" id="title" name="title" value="<?=$task['title']?>" required>
+                                                    <label for="titleEditTask<?=$task['id_task']?>" class="form-label">Título</label>
+                                                    <input type="text" class="form-control" id="titleEditTask<?=$task['id_task']?>" name="title" value="<?=$task['title']?>" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="description" class="form-label">Descripción</label>
-                                                    <textarea class="form-control" id="description" name="description" required><?=$task['description']?></textarea>
+                                                    <label for="descriptionEditTask<?=$task['id_task']?>" class="form-label">Descripción</label>
+                                                    <textarea class="form-control" id="descriptionEditTask<?=$task['id_task']?>" name="description" required><?=$task['description']?></textarea>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="requesting_unit" class="form-label">Unidad solicitante</label>
-                                                    <select class="form-select" id="requesting_unit" name="requesting_unit" required>
+                                                    <label for="requesting_unitEditTask<?=$task['id_task']?>" class="form-label">Unidad solicitante</label>
+                                                    <select class="form-select" id="requesting_unitEditTask<?=$task['id_task']?>" name="requesting_unit" required>
                                                         <option value="Unidad de Posgrado">Unidad de Posgrado</option>
                                                         <option value="Instituto de Investigación">Instituto de Investigación</option>
                                                         <option value="Centro de Producción">Centro de Producción</option>
@@ -200,9 +200,9 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                     <div class="alert alert-warning" role="alert">
                                                         Si no selecciona a nadie, las personas asignadas anteriormente se mantendrán
                                                     </div>
-                                                    <label for="assigned_to" class="form-label
+                                                    <label for="assigned_toEditTask<?=$task['id_task']?>" class="form-label
                                                     ">Asignar a</label>
-                                                    <select class="form-select" id="assigned_to" name="assigned_to[]" multiple>
+                                                    <select class="form-select" id="assigned_toEditTask<?=$task['id_task']?>" name="assigned_to[]" multiple>
                                                         <?php foreach ($users as $user) : ?>
                                                             <option value="<?=$user['id_user']?>"><?=$user['username']?></option>
                                                         <?php endforeach; ?>
@@ -263,16 +263,15 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body p-3">
-                                <form action="<?=base_url('tasks/registerComment').'/'.$task['id_task'].'/'.$task['followup_uuid_code']?>" method="post" id="addCommentForm">
-                                    <input type="hidden" name="id_task" value="<?=$task['id_task']?>">
+                                <form action="<?=base_url('tasks/registerComment').'/'.$task['id_task'].'/'.$task['followup_uuid_code']?>" method="post" id="addCommentForm" onsubmit="return validateFormAddComment()">
                                     <div class="mb-3">
-                                        <label for="comment" class="form-label">Comentario</label>
-                                        <textarea class="form-control" id="comment" name="comment" required></textarea>
+                                        <label for="comment_create" class="form-label">Comentario</label>
+                                        <textarea class="form-control" id="comment_create" name="comment"></textarea>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                 <button type="submit" class="btn btn-primary" form="addCommentForm">Guardar</button>
                             </div>
                         </div>
@@ -298,37 +297,44 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                         <h5 class="card-title"><img src="https://ui-avatars.com/api/?name=<?=$comment['username']?>&background=random" alt="" class="rounded-circle me-2" width="30" heigth="30"><?=$comment['username']?></h5>
                                         <p class="card-subtitle text-muted">Creado🕑: <?=$comment['created_at']?></p>
                                         <p class="card-subtitle text-muted">Actualizado🕑: <?=$comment['updated_at']?></p>
-                                        <p class="card-text"><?=$comment['comment']?></p>
+                                        <p class="card-text mt-4 mb-4"><?=$comment['comment']?></p>
                                     </div>
                                     <div class="col-6 mt-3">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCommentModal<?=$comment['id_comment_uuid']?>">
-                                            Editar
-                                        </button>
-                                        <div class="modal fade" id="editCommentModal<?=$comment['id_comment_uuid']?>" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar comentario</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <?php if (isset($session->type) && ($session->type == 'ADMINISTRADOR' || $session->id_user == $comment['created_by'])) : ?>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCommentModal<?=$comment['id_comment_uuid']?>">
+                                                Editar
+                                            </button>
+                                            <div class="modal fade" id="editCommentModal<?=$comment['id_comment_uuid']?>" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar comentario</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="<?=base_url('tasks/editComment').'/'.$comment['id_comment_uuid'].'/'.$task['id_task'].'/'.$task['followup_uuid_code']?>" method="post" id="editCommentForm<?=$comment['id_comment_uuid']?>"
+                                                            onsubmit="return validateFormEditComment('<?=$comment['id_comment_uuid']?>')"
+                                                            >
+                                                                <div class="mb-3">
+                                                                    <label for="commentEditComment<?=$comment['id_comment_uuid']?>" class="form-label">Comentario</label>
+                                                                    <textarea class="form-control" id="commentEditComment<?=$comment['id_comment_uuid']?>" name="comment"><?=$comment['comment']?></textarea>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                        <button type="submit" class="btn btn-primary" form="editCommentForm<?=$comment['id_comment_uuid']?>">Guardar</button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <form action="<?=base_url('tasks/editComment').'/'.$comment['id_comment_uuid'].'/'.$task['id_task'].'/'.$task['followup_uuid_code']?>" method="post" id="editCommentForm<?=$comment['id_comment_uuid']?>">
-                                                            <div class="mb-3">
-                                                                <label for="comment" class="form-label">Comentario</label>
-                                                                <textarea class="form-control" id="comment" name="comment" required><?=$comment['comment']?></textarea>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary" form="editCommentForm<?=$comment['id_comment_uuid']?>">Guardar</button>
                                                 </div>
+                                                </div>               
                                             </div>
-                                            </div>               
-                                        </div>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="col-6 mt-3">
-                                        <a href="<?=base_url('tasks/deleteComment/'.$comment['id_comment_uuid']).'/'.$task['id_task'].'/'.$task['followup_uuid_code']?>" class="btn btn-danger">Eliminar</a>
+                                        <!--mostrar el boton de eliminar solo si el usuario es un administrador o el usuario que creo el comentario-->
+                                        <?php if (isset($session->type) && ($session->type == 'ADMINISTRADOR' || $session->id_user == $comment['created_by'])) : ?>
+                                            <a href="<?=base_url('tasks/deleteComment/'.$comment['id_comment_uuid']).'/'.$task['id_task'].'/'.$task['followup_uuid_code']?>" class="btn btn-danger">Eliminar</a>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 

@@ -105,7 +105,7 @@ Dashboard
         <div class="card">
 
             <div class="card-body">
-            <h5 class="card-title">Tareas este mes</h5>
+            <h5 class="card-title">Tareas esta semana</h5>
 
             <!-- Line Chart -->
             <div id="reportsChart"></div>
