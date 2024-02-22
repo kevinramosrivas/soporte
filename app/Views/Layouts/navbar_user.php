@@ -62,18 +62,18 @@
         <ul id="tasks-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="<?=base_url('tasks/tasks')?>">
-              <span>Tareas</span>
+              <span>Tareas general</span>
             </a>
           </li>
           <li>
             <!--pasar como enlace el id del usuario-->
             <a href="<?=base_url('tasks/myTasks')?>/<?=session()->get('id_user')?>">
-              <span>Mis tareas</span>
+              <span>Mis tareas </span>
             </a>
           </li>
           <li>
             <a href="<?=base_url('tasks/myClosedTasks')?>/<?=session()->get('id_user')?>">
-              <span>Tareas completadas</span>
+              <span>Mis tareas completadas ✅</span>
             </a>
           </li>
         </ul>

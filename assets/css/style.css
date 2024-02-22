@@ -841,7 +841,10 @@ h6 {
   color: #ff771d;
   background: #ffecdf;
 }
-
+.dashboard .task_inprogress .card-icon {
+  color: #bb9f00;
+  background: #fcee9e;
+}
 /* Activity */
 .dashboard .activity {
   font-size: 14px;

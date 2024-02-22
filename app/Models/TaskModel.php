@@ -95,7 +95,7 @@ class TaskModel extends Model
     public function getTasksOpenByUser($id_user)
     {
         //obtener todas las tareas abiertas asignadas a un usuario se pasa el uuid del usuario
-        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
+        $sql = "SELECT tasks.*, user.username as username, user.id_user as id_users
         FROM tasks
         INNER JOIN task_user ON tasks.id_task = task_user.id_task
         LEFT JOIN user ON task_user.id_user = user.id_user
@@ -108,11 +108,28 @@ class TaskModel extends Model
         }
         return null;
     }
+    
+    public function getTasksInProgressByUser($id_user)
+    {
+        //obtener todas las tareas en progreso asignadas a un usuario se pasa el id del usuario
+        $sql = "SELECT tasks.*, user.username as username, user.id_user as id_users
+        FROM tasks
+        INNER JOIN task_user ON tasks.id_task = task_user.id_task
+        LEFT JOIN user ON task_user.id_user = user.id_user
+        WHERE status = 'in_progress' AND task_user.id_user = ?
+        GROUP BY tasks.id_task ORDER BY created_at ASC;
+        ";
+        $tasks = $this->query($sql, [$id_user])->getResultArray();
+        if($tasks != null){
+            return $tasks;
+        }
+        return null;
+    }
 
     public function getTasksClosedByUser($id_user)
     {
         //obtener todas las tareas cerradas asignadas a un usuario se pasa el uuid del usuario
-        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
+        $sql = "SELECT tasks.*, user.username as username, user.id_user as id_users
         FROM tasks
         INNER JOIN task_user ON tasks.id_task = task_user.id_task
         LEFT JOIN user ON task_user.id_user = user.id_user
@@ -146,22 +163,6 @@ class TaskModel extends Model
         return null;
     }
 
-    public function getTasksInProgressByUser($id_user)
-    {
-        //obtener todas las tareas en progreso asignadas a un usuario se pasa el uuid del usuario
-        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
-        FROM tasks
-        INNER JOIN task_user ON tasks.id_task = task_user.id_task
-        LEFT JOIN user ON task_user.id_user = user.id_user
-        WHERE status = 'in_progress' AND task_user.id_user = ?
-        GROUP BY tasks.id_task ORDER BY created_at ASC;
-        ";
-        $tasks = $this->query($sql, [$id_user])->getResultArray();
-        if($tasks != null){
-            return $tasks;
-        }
-        return null;
-    }
 
 
     public function searchTask($data)
@@ -231,6 +232,126 @@ class TaskModel extends Model
             return $task;
         }
         return null;
+    }
+
+    //obtener el numero de tareas abiertas
+    public function getNumberOfOpenTasks()
+    {
+        $sql = "SELECT COUNT(*) as number FROM tasks WHERE status = 'open'";
+        $number = $this->query($sql)->getResultArray();
+        if($number != null){
+            return $number[0]['number'];
+        }
+        return 0;
+    }
+
+    //obtener el numero de tareas cerradas
+    public function getNumberOfClosedTasks()
+    {
+        $sql = "SELECT COUNT(*) as number FROM tasks WHERE status = 'closed'";
+        $number = $this->query($sql)->getResultArray();
+        if($number != null){
+            return $number[0]['number'];
+        }
+        return 0;
+    }
+
+
+    //obtener el numero de tareas en progreso
+    public function getNumberOfInProgressTasks()
+    {
+        $sql = "SELECT COUNT(*) as number FROM tasks WHERE status = 'in_progress'";
+        $number = $this->query($sql)->getResultArray();
+        if($number != null){
+            return $number[0]['number'];
+        }
+        return 0;
+    }
+
+    //obtener el numero de tareas por dia de la semana, en caso en algun dia no existan tareas se debe mostrar 0
+    public function getOpenTasksByWeek()
+    {
+        $sql = "SELECT all_days.day_of_week, IFNULL(task_count.number, 0) as number
+        FROM (
+            SELECT 1 AS day_of_week UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7
+        ) AS all_days
+        LEFT JOIN (
+            SELECT DAYOFWEEK(created_at) as day, COUNT(*) as number
+            FROM tasks
+            WHERE YEARWEEK(created_at) = YEARWEEK(NOW()) AND status = 'open'
+            GROUP BY DAYOFWEEK(created_at)
+        ) AS task_count
+        ON all_days.day_of_week = task_count.day
+        ORDER BY all_days.day_of_week; ";
+
+        $tasks = $this->query($sql)->getResultArray();
+        if($tasks != null){
+            return $tasks;
+        }
+    }
+
+
+    //obtener el nombre del dia de la semana, la semana debe ser la actual para las tareas en progreso
+    public function getInProgressTasksByWeek()
+    {
+        $sql = "SELECT all_days.day_of_week, IFNULL(task_count.number, 0) as number
+        FROM (
+            SELECT 1 AS day_of_week UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7
+        ) AS all_days
+        LEFT JOIN (
+            SELECT DAYOFWEEK(created_at) as day, COUNT(*) as number
+            FROM tasks
+            WHERE YEARWEEK(created_at) = YEARWEEK(NOW()) AND status = 'in_progress'
+            GROUP BY DAYOFWEEK(created_at)
+        ) AS task_count
+        ON all_days.day_of_week = task_count.day
+        ORDER BY all_days.day_of_week; ";
+        $tasks = $this->query($sql)->getResultArray();
+        if($tasks != null){
+            return $tasks;
+        }
+        return null;
+    }
+
+    public function getClosedTasksByWeek()
+    {
+        $sql = "SELECT all_days.day_of_week, IFNULL(task_count.number, 0) as number
+        FROM (
+            SELECT 1 AS day_of_week UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7
+        ) AS all_days
+        LEFT JOIN (
+            SELECT DAYOFWEEK(created_at) as day, COUNT(*) as number
+            FROM tasks
+            WHERE YEARWEEK(created_at) = YEARWEEK(NOW()) AND status = 'closed'
+            GROUP BY DAYOFWEEK(created_at)
+        ) AS task_count
+        ON all_days.day_of_week = task_count.day
+        ORDER BY all_days.day_of_week; ";
+        $tasks = $this->query($sql)->getResultArray();
+        if($tasks != null){
+            return $tasks;
+        }
+        return null;
+    }
+    //obtener el numero de tareas open,in_progress y closed , si no existen tareas de algun tipo se debe mostrar 0
+    //por ejemplo open, in_progress, closed
+    //0,1,4
+    public function getNumberOfTasksByState()
+    {
+        $sql = "SELECT COUNT(*) as number, status
+        FROM tasks
+        WHERE YEARWEEK(created_at) = YEARWEEK(NOW())
+        GROUP BY status";
+        $tasks = $this->query($sql)->getResultArray();
+        if($tasks != null){
+            //devolver en un array asociativo el numero de tareas por estado
+            $status = ['open' => 0, 'in_progress' => 0, 'closed' => 0];
+            foreach($tasks as $task){
+                $status[$task['status']] = $task['number'];
+            }
+            return $status;
+        }
+        return null;        
     }
     
 }

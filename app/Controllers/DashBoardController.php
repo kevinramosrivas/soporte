@@ -25,11 +25,31 @@ class DashboardController extends BaseController
             $model_prestamos = model('PrestamosLabModel');
             $students_using_lab = count($model_prestamos->getStudentsUsingLab());
             //se calculo la diferencia entre la fecha actual y la fecha de creacion del registro
+            //obtenemos las tareas abiertas por semana
+            $model_task = model('TaskModel');
+            $numberOfTasksByState = $model_task->getNumberOfTasksByState();
+            //obtenemos las tareas abiertas por usuario
+            $task_open_user = $model_task->getTasksOpenByUser($session->id_user);
+            $tasksOpenByUser = count(isset($task_open_user) ? $task_open_user : []);
+            //obtenemos las tareas en proceso por usuario
+            $task_in_process_user = $model_task->getTasksInProgressByUser($session->id_user);
+            $tasksInProgressByUser = count(isset($task_in_process_user) ? $task_in_process_user : []);
+            //obtenemos las tareas finalizadas por usuario
+            $data = [
+                'id_user' => $session->id_user,
+                'date' => date('Y-m')
+            ];
+            $task_finished_user = $model_task->searchClosedTaskByDateAndUser($data);
+            $taskFinishedByUser = count(isset($task_finished_user) ? $task_finished_user : []);
             $data = [
                 'logs' => $logs,
                 'now' => date('Y-m-d H:i:s'),
                 'users' => $users,
                 'students_using_lab' => $students_using_lab,
+                'numberOfTasksByState' => $numberOfTasksByState ,
+                'tasksOpenByUser' => $tasksOpenByUser,
+                'tasksInProgressByUser' => $tasksInProgressByUser,
+                'taskFinishedByUser' => $taskFinishedByUser
             ];
             return view('Admin/home', $data);
         } else {
@@ -48,11 +68,31 @@ class DashboardController extends BaseController
             $model_prestamos = model('PrestamosLabModel');
             $students_using_lab = count($model_prestamos->getStudentsUsingLab());
             //se calculo la diferencia entre la fecha actual y la fecha de creacion del registro
+            $model_task = model('TaskModel');
+            $numberOfTasksByState = $model_task->getNumberOfTasksByState();
+            //obtenemos las tareas abiertas por usuario
+            $task_open_user = $model_task->getTasksOpenByUser($session->id_user);
+            $tasksOpenByUser = count(isset($task_open_user) ? $task_open_user : []);
+            //obtenemos las tareas en proceso por usuario
+            $task_in_process_user = $model_task->getTasksInProgressByUser($session->id_user);
+            $tasksInProgressByUser = count(isset($task_in_process_user) ? $task_in_process_user : []);
+            //obtenemos las tareas finalizadas por usuario
+            $data = [
+                'id_user' => $session->id_user,
+                'date' => date('Y-m')
+            ];
+            $task_finished_user = $model_task->searchClosedTaskByDateAndUser($data);
+            $taskFinishedByUser = count(isset($task_finished_user) ? $task_finished_user : []);
             $data = [
                 'logs' => $logs,
                 'now' => date('Y-m-d H:i:s'),
                 'users' => $users,
                 'students_using_lab' => $students_using_lab,
+                'numberOfTasksByState' => $numberOfTasksByState ,
+                'tasksOpenByUser' => $tasksOpenByUser,
+                'tasksInProgressByUser' => $tasksInProgressByUser,
+                'taskFinishedByUser' => $taskFinishedByUser
+                
             ];
             return view('User/home', $data);
         } else {
