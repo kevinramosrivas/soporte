@@ -75,8 +75,9 @@ Iniciar sesión
                 </div>
                 </div>
 
-                <div class="credits text-white ms-2">
-                    <p>Made by Team soporte FISI © 2023 with <i class="bi bi-heart-fill text-danger"></i></p>
+                <div class="credits text-white text-center ms-2">
+                    <p>© UEI FISI - UNMSM 2023</p>
+                    <p>v 1.0</p>
                 </div>
 
             </div>
