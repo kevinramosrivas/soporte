@@ -114,6 +114,12 @@ $routes->group('tasks', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->post('editComment/(.*)', 'TasksController::editComment/$1');
     $routes->get('deleteComment/(.*)/(:num)/(.*)' , 'TasksController::deleteComment/$1/$2/$3');
 
+    //hacer una ruta para el seguimiento de tareas con un parametro opcional que es el id de la tarea
+    $routes->get('followup/(.*)', 'TasksController::followup/$1');
+    //si es que no pone el id de la tarea, se redirige a una pagina con un form para ingresar el id de la tarea
+    $routes->get('followup', 'TasksController::followup');
+    $routes->post('searchMyUuid', 'TasksController::searchMyUuid');
+
 });
 
 

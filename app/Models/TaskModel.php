@@ -369,6 +369,22 @@ class TaskModel extends Model
         }
         return null;        
     }
+
+    public function getTaskAndUsersByUUID($uuid)
+    {
+        $sql = "SELECT tasks.*, GROUP_CONCAT(user.username) as username, GROUP_CONCAT(user.id_user) as id_users
+        FROM tasks
+        INNER JOIN task_user ON tasks.id_task = task_user.id_task
+        LEFT JOIN user ON task_user.id_user = user.id_user
+        WHERE tasks.followup_uuid_code = ?
+        GROUP BY tasks.id_task ORDER BY created_at ASC;
+        ";
+        $task = $this->query($sql, [$uuid])->getResultArray();
+        if($task != null){
+            return $task[0];
+        }
+        return null;
+    }
     
 }
 

@@ -416,6 +416,47 @@ class TasksController extends BaseController
             return redirect()->to(site_url('login'));
         }
     }
+    public function followup($uuid = null)
+    {
+
+        if(is_null($uuid)){
+            $data = [
+                'have_uuid' => false,
+            ];
+            return view('ExternUser/search_my_code', $data);
+        }
+        //recuperar todos la informacion de la tarea
+        $model = model('TaskModel');
+        $task = $model->getTaskAndUsersByUUID($uuid);
+        //si la tarea no existe, redirigir a la pagina de busqueda y mostrar un mensaje de error
+        if($task == null){
+            //mensaje temporal
+            $session = session();
+            $session->setFlashdata('error', 'No se encontró la tarea con el código de seguimiento ingresado');
+            return view('ExternUser/search_my_code');
+        }
+        //recuperar todos los usuarios
+        $model = model('UserModel');
+        $users = $model->findAll();
+        //recuperar todos los comentarios de la tarea
+        $model = model('TaskCommentModel');
+        $comments = $model->getComments($task['id_task']);
+        $data = [
+            'uuid' => $uuid,
+            'task' => $task,
+            'users' => $users,
+            'comments' => $comments,
+            'have_uuid' => true,
+        ];
+        return view('ExternUser/followup', $data);
+
+    }
+
+    public function searchMyUuid()
+    {
+        $uuid = $this->request->getPost('taskCode');
+        return redirect()->to(site_url('tasks/followup/'.$uuid));
+    }
 
 }
 

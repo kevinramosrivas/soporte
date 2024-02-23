@@ -247,7 +247,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                 </div>
 
             </div>
-            </div>
+        </div>
         </div>
         <!-- boton para añadir nuevo comentario -->
         <div class="row p-3">

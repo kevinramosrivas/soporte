@@ -25,8 +25,8 @@ function changeStatusTask(thisObj, taskId,followup_uuid_code) {
 
 
 function copyLinkToClipboard(id, uuid) {
-    navigator.permissions.query({ name: "write-on-clipboard" }).then((result) => {
-        if (result.state == "granted" || result.state == "prompt") {
+      navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
+        if (result.state === "granted" || result.state === "prompt") {
             let copyText = document.getElementById(id);
 
             //copiar al portapapeles
@@ -34,12 +34,14 @@ function copyLinkToClipboard(id, uuid) {
             copyText.setSelectionRange(0, 99999); // For mobile devices
         
             // Copy the text inside the text field
+            //el link debe ser clickeable
             navigator.clipboard.writeText(
-                'Hola 👋, to codigo de seguimiento de la tarea es: ' + uuid + ' y puedes ver el estado en: ' +
+                'Hola 👋, to codigo de seguimiento de la tarea es: ' + uuid + '.\n Puedes ver el estado en: \n' +
                 copyText.value 
             );
         
             //alerta de copiado
+           
             alert('Link copiado al portapapeles 😁');
         }
       });
