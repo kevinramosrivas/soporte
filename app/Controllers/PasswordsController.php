@@ -215,8 +215,6 @@ class PasswordsController extends BaseController{
     }
     //UserController::deletePassword/$1
     public function deletePassword($id_password){
-        var_dump($id_password);
-        exit();
         $session = session();
         $uniquePassword = $session->getTempdata('uniquePassword');
         $token = $session->getTempdata('token');
