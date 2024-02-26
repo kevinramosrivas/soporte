@@ -138,6 +138,10 @@ class TasksController extends BaseController
             //borrar primero de la tabla task_user
             $model = model('TaskUserModel');
             $model->where('id_task', $id_task)->delete();
+            //borrar de la tabla task_comment
+            $model = model('TaskCommentModel');
+            $model->where('id_task', $id_task)->delete();
+            //borrar de la tabla task
             $model = model('TaskModel');
             $model->delete($id_task);
             return redirect()->to(site_url('tasks/tasks'));

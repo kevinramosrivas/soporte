@@ -359,15 +359,15 @@ class TaskModel extends Model
         WHERE YEARWEEK(created_at) = YEARWEEK(NOW())
         GROUP BY status";
         $tasks = $this->query($sql)->getResultArray();
+        //devolver en un array asociativo el numero de tareas por estado
+        $status = ['open' => 0, 'in_progress' => 0, 'closed' => 0];
         if($tasks != null){
-            //devolver en un array asociativo el numero de tareas por estado
-            $status = ['open' => 0, 'in_progress' => 0, 'closed' => 0];
             foreach($tasks as $task){
                 $status[$task['status']] = $task['number'];
             }
             return $status;
         }
-        return null;        
+        return $status;        
     }
 
     public function getTaskAndUsersByUUID($uuid)
