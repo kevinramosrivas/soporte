@@ -84,7 +84,6 @@ Gestión de Manuales
                         <th scope="col"></th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Descripción</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -95,7 +94,6 @@ Gestión de Manuales
                             <td><img src="https://ui-avatars.com/api/?name=<?=$booksArray[rand(0,count($booksArray)-1)]?>&background=random" alt="<?=$document['documentName']?>" class="rounded-circle" width="40" height="40"></td>
                             <td><?=$document['categoryName']?></td>
                             <td><?=$document['documentName']?></td>
-                            <td><?=$document['documentDescription']?></td>
                             <td>
                                 <!-- boton para abrir modal de visualizar documento -->
                                 <!-- Button trigger modal -->
@@ -141,6 +139,7 @@ Gestión de Manuales
                                         <p>ID: <span class="badge text-bg-info"><?=$document['id_document']?></span></p>
                                         <p>Fecha de creación: <span class="badge text-bg-dark"><?=$document['created_at']?></span></p>
                                         <p>Fecha de actualización: <span class="badge text-bg-success"><?=$document['updated_at']?></span></p>
+                                        <p>Descripción: <?=$document['documentDescription']?></p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

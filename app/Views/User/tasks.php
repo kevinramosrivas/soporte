@@ -124,7 +124,21 @@ if($session->type == 'ADMINISTRADOR'): ?>
             <?php endif; ?>
         </div>
         <div class="row mt-4">
-            <!--hacer tres columnas, una para las tareas pendientes, otra para las tareas en proceso y otra para las tareas terminadas-->
+            <!--alert donde se mostrara el mensaje de exito o error al crear, editar o eliminar una tarea-->
+            <div class="col-12">
+                <?php if (isset($session->success)): ?>
+                    <div class="alert alert-success" role="alert">
+                        <?=$session->getFlashdata('success')?>
+                    </div>
+                <?php endif; ?>
+                <?php if (isset($session->error)): ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?=$session->getFlashdata('error')?>
+                    </div>
+                <?php endif; ?>
+            </div>
+    
+            <!--tres columnas, una para las tareas pendientes, otra para las tareas en proceso y otra para las tareas terminadas-->
             <div class="col-12 col-md-4">
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">

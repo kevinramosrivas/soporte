@@ -57,24 +57,35 @@ class TasksController extends BaseController
             if(!$this->validate($rules)){
                 return redirect()->to(site_url('tasks/tasks'));
             }
-            //usar la entidad para guardar los datos
-            $task = new Task($data);
-            $id_task = $model->insert($task);
-            //importar el modelo task_user
-            $model = model('TaskUserModel');
-            if($id_task != null){
-                //descomponer el array de usuarios recibido em assigned_to
-                $assigned_to = $data['assigned_to'];
-                //recorrer el array de usuarios y guardarlos en la tabla task_user
-                foreach ($assigned_to as $id_user) {
-                    $data = [
-                        'id_task' => $id_task,
-                        'id_user' => $id_user,
-                    ];
-                    $model->insert($data);
+
+            try{
+                //usar la entidad para guardar los datos
+                $task = new Task($data);
+                $id_task = $model->insert($task);
+                //importar el modelo task_user
+                $model = model('TaskUserModel');
+                if($id_task != null){
+                    //descomponer el array de usuarios recibido em assigned_to
+                    $assigned_to = $data['assigned_to'];
+                    //recorrer el array de usuarios y guardarlos en la tabla task_user
+                    foreach ($assigned_to as $id_user) {
+                        $data = [
+                            'id_task' => $id_task,
+                            'id_user' => $id_user,
+                        ];
+                        $model->insert($data);
+                    }
                 }
+                //retornar a la pagina de tareas y mostrar un mensaje de exito
+                $session->setFlashdata('success', 'Tarea guardada con éxito');
+                return redirect()->to(site_url('tasks/tasks'));
+
             }
-            return redirect()->to(site_url('tasks/tasks'));
+            catch (\Exception $e){
+                //retornar a la pagina de tareas y mostrar un mensaje de error
+                $session->setFlashdata('error', 'No se pudo guardar la tarea');
+                return redirect()->to(site_url('tasks/tasks'));
+            }
         } else {
             return redirect()->to(site_url('login'));
         }
@@ -106,25 +117,35 @@ class TasksController extends BaseController
                 $model->update($id_task, $data);
                 return redirect()->to(site_url('tasks/tasks'));
             }
-            //si el campo assigned_to se recibe, se actualiza la tarea y la tabla task_user
-            //actualizar la tarea
-            $model = model('TaskModel');
-            $model->update($id_task, $data);
-            //actualizar la tabla task_user
-            $model = model('TaskUserModel');
-            //borrar primero de la tabla task_user
-            $model->where('id_task', $id_task)->delete();
-            //descomponer el array de usuarios recibido em assigned_to
-            $assigned_to = $data['assigned_to'];
-            //recorrer el array de usuarios y guardarlos en la tabla task_user
-            foreach ($assigned_to as $id_user) {
-                $data = [
-                    'id_task' => $id_task,
-                    'id_user' => $id_user,
-                ];
-                $model->insert($data);
+            try{
+                //si el campo assigned_to se recibe, se actualiza la tarea y la tabla task_user
+                //actualizar la tarea
+                $model = model('TaskModel');
+                $model->update($id_task, $data);
+                //actualizar la tabla task_user
+                $model = model('TaskUserModel');
+                //borrar primero de la tabla task_user
+                $model->where('id_task', $id_task)->delete();
+                //descomponer el array de usuarios recibido em assigned_to
+                $assigned_to = $data['assigned_to'];
+                //recorrer el array de usuarios y guardarlos en la tabla task_user
+                foreach ($assigned_to as $id_user) {
+                    $data = [
+                        'id_task' => $id_task,
+                        'id_user' => $id_user,
+                    ];
+                    $model->insert($data);
+                }
+                //retornar a la pagina de tareas y mostrar un mensaje de exito
+                $session->setFlashdata('success', 'Tarea actualizada con éxito');
+                return redirect()->to(site_url('tasks/tasks'));
+
+            }catch (\Exception $e){
+                //retornar a la pagina de tareas y mostrar un mensaje de error
+                $session->setFlashdata('error', 'No se pudo actualizar la tarea');
+                return redirect()->to(site_url('tasks/tasks'));
             }
-            return redirect()->to(site_url('tasks/tasks'));
+
 
         } else {
             return redirect()->to(site_url('login'));
@@ -135,16 +156,24 @@ class TasksController extends BaseController
         $session = session();
         $verify = VerifyAdmin::verifyUser($session);
         if ($verify){
-            //borrar primero de la tabla task_user
-            $model = model('TaskUserModel');
-            $model->where('id_task', $id_task)->delete();
-            //borrar de la tabla task_comment
-            $model = model('TaskCommentModel');
-            $model->where('id_task', $id_task)->delete();
-            //borrar de la tabla task
-            $model = model('TaskModel');
-            $model->delete($id_task);
-            return redirect()->to(site_url('tasks/tasks'));
+            try{            //borrar primero de la tabla task_user
+                $model = model('TaskUserModel');
+                $model->where('id_task', $id_task)->delete();
+                //borrar de la tabla task_comment
+                $model = model('TaskCommentModel');
+                $model->where('id_task', $id_task)->delete();
+                //borrar de la tabla task
+                $model = model('TaskModel');
+                $model->delete($id_task);
+                //retornar a la pagina de tareas y mostrar un mensaje de exito
+                $session->setFlashdata('success', 'Tarea eliminada con éxito');
+                return redirect()->to(site_url('tasks/tasks'));
+
+            }catch (\Exception $e){
+                //retornar a la pagina de tareas y mostrar un mensaje de error
+                $session->setFlashdata('error', 'No se pudo eliminar la tarea');
+                return redirect()->to(site_url('tasks/tasks'));
+            }
         } else {
             return redirect()->to(site_url('login'));
         }
