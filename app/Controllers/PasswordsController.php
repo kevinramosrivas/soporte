@@ -25,7 +25,8 @@ class PasswordsController extends BaseController{
         }
     }
     public function verifyIdentity(){
-        $timeLeft = 3000;
+        //usar la constante de tiempo de sesion del modulo de contraseñas
+        $timeLeft = PASSWORD_EXPIRATION;
         $session = session();
         if ($session->isLoggedIn && ($session->type == 'BOLSISTA' || $session->type == 'ADMINISTRADOR')) {
             $data = [
