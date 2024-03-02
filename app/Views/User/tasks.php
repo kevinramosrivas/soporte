@@ -228,7 +228,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 </button>
                                                                             </div>
                                                                             <div class="col-4 p-3">
-                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger btn-delete"><i class="bi bi-trash-fill"></i></a>
                                                                             </div>
                                                                             <div class="col-4 p-3">
                                                                                 <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
@@ -447,7 +447,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 </button>
                                                                             </div>
                                                                             <div class="col-4 p-3">
-                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger btn-delete"><i class="bi bi-trash-fill"></i></a>
                                                                             </div>
                                                                             <div class="col-4 p-3">
                                                                                 <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>
@@ -664,7 +664,7 @@ if($session->type == 'ADMINISTRADOR'): ?>
                                                                                 </button>
                                                                             </div>
                                                                             <div class="col-4 p-3">
-                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                                                                <a href="<?=base_url('tasks/deleteTask/'.$task['id_task'])?>" class="btn btn-danger btn-delete"><i class="bi bi-trash-fill"></i></a>
                                                                             </div>
                                                                             <div class="col-4 p-3">
                                                                                 <a href="<?=base_url('tasks/comments/'.$task['id_task']).'/'.$task['followup_uuid_code']?>" class="btn btn-primary"><i class="bi bi-chat-left-text-fill"></i></a>

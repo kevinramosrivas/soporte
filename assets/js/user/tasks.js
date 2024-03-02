@@ -126,3 +126,33 @@ function validateCreateTaskForm(){
 
     return true;
 }
+
+//buscar todos los botones de eliminar tarea
+let deleteTaskButtons = document.getElementsByClassName('btn-delete');
+//recorrer todos los botones y añadir un evento click ,preventDefault y llamar a la funcion deleteTask
+for(let i = 0; i < deleteTaskButtons.length; i++){
+    deleteTaskButtons[i].addEventListener('click',function(event){
+        event.preventDefault();
+        deleteTask(this);
+    });
+}
+
+deleteTask = (thisObj) => {
+    //obtener el id de la tarea
+    let url = thisObj.href;
+    //usar sweetalert para mostrar un mensaje de confirmacion
+    Swal.fire({
+        title: '¿Estas seguro de eliminar esta tarea?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Si, eliminar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            //ir a la url de eliminar
+            window.location.href = url;
+        }
+    });
+}

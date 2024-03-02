@@ -19,7 +19,7 @@ class Encryptor
     /**
      * @var string
      */
-    private $key = '/5+(Jk$M&D8,wA0c3';
+    private $key = 'Ds2:S\1xDsH6v{8';
 
     /**
      * @var string
