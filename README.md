@@ -1,6 +1,9 @@
 # Sistema gestor de soporte técnico
 Un sistema integral para la oficina de soporte de la Facultad de Ingeniería e Informática
 
+<img src="fisi.png"
+     alt="fisi_system"
+     style="float: left; margin-right: 10px;" />
 ## Módulos:
 
 - Autentificación de usuarios: Inicio de sesión seguro para usuarios y administradores.
