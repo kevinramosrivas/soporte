@@ -1,59 +1,23 @@
-# CodeIgniter 4 Framework
+# Sistema gestor de soporte técnico
+Un sistema integral para la oficina de soporte de la Facultad de Ingeniería e Informática
 
-## What is CodeIgniter?
+## Módulos:
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+- Autentificación de usuarios: Inicio de sesión seguro para usuarios y administradores.
+- Gestión de contraseñas: Almacenamiento seguro de contraseñas con encriptación SSL.
+- Gestión de documentación: Creación, edición y visualización de documentos internos.
+- Préstamo de laboratorios: Registro y control de préstamos de laboratorios mediante código de barras del carnet universitario.
+- Gestión de tareas: Creación, seguimiento y actualización de tareas con códigos UUID.
+## Tecnologías:
 
-This repository holds the distributable version of the framework.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- Backend: PHP con CodeIgniter 4
+- Base de datos: MySQL
+- Interfaz: HTML, CSS, JS
+- Diseño: Bootstrap
+## Beneficios:
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
-
-The user guide corresponding to the latest version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
-
-## Important Change with index.php
-
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
-
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
-
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Contributing
-
-We welcome contributions from the community.
-
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/CONTRIBUTING.md) section in the development repository.
-
-## Server Requirements
-
-PHP version 7.4 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> **Warning**
-> The end of life date for PHP 7.4 was November 28, 2022. If you are
-> still using PHP 7.4, you should upgrade immediately. The end of life date
-> for PHP 8.0 will be November 26, 2023.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+- Mejora la eficiencia en la gestión de solicitudes de soporte.
+- Agiliza el proceso de préstamo de laboratorios.
+- Facilita la comunicación entre el equipo de soporte y los usuarios.
+- Optimiza la gestión de tareas y proyectos.
+- Mayor seguridad en el almacenamiento de información.
